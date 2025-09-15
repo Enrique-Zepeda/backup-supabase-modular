@@ -7,7 +7,7 @@ on:
     branches: [main, dev]
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *" # Runs every day at midnight
+    - cron: "0 0 * * *"
 
 env:
   BACKUP_ENABLED: true
@@ -19,7 +19,7 @@ jobs:
       contents: write
     env:
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-      BACKUP_ENABLED: ${{ vars.BACKUP_ENABLED }} # Repository variable (true or false)
+      BACKUP_ENABLED: ${{ vars.BACKUP_ENABLED }}
     steps:
       - name: Check if backups are enabled
         run: |
