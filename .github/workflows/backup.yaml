@@ -38,21 +38,37 @@ jobs:
         with:
           version: latest
 
-      - name: Create timestamp folder
+      # --- Forzar IPv4 resolviendo la A del host y agregando hostaddr ---
+      - name: Resolve Supabase host IPv4 and build URL
+        if: env.BACKUP_ENABLED == 'true'
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y dnsutils
+          DB_HOST=$(echo "$SUPABASE_DB_URL" | sed -E 's|.*@([^:/?]+).*|\1|')
+          DB_IPV4=$(dig +short A "$DB_HOST" | head -n1)
+          if [ -z "$DB_IPV4" ]; then
+            echo "No IPv4 address found for $DB_HOST"
+            exit 1
+          fi
+          echo "Resolved $DB_HOST to $DB_IPV4"
+          # Si la URL ya trae ?, usar &; si no, usar ?
+          if [[ "$SUPABASE_DB_URL" == *\?* ]]; then SEP="&"; else SEP="?"; fi
+          echo "DB_URL_IPV4=${SUPABASE_DB_URL}${SEP}hostaddr=${DB_IPV4}" >> $GITHUB_ENV
+
+      - name: Create backups folder
         if: env.BACKUP_ENABLED == 'true'
         run: mkdir -p prisma/backups
 
       - name: Backup roles
         if: env.BACKUP_ENABLED == 'true'
-        run: supabase db dump --db-url "$SUPABASE_DB_URL" -f prisma/backups/roles.sql --role-only
+        run: supabase db dump --db-url "$DB_URL_IPV4" -f prisma/backups/roles.sql --role-only
 
       - name: Backup schema
         if: env.BACKUP_ENABLED == 'true'
-        run: supabase db dump --db-url "$SUPABASE_DB_URL" -f prisma/backups/schema.sql
+        run: supabase db dump --db-url "$DB_URL_IPV4" -f prisma/backups/schema.sql
 
       - name: Backup data
         if: env.BACKUP_ENABLED == 'true'
-        run: supabase db dump --db-url "$SUPABASE_DB_URL" -f prisma/backups/data.sql --data-only --use-copy
+        run: supabase db dump --db-url "$DB_URL_IPV4" -f prisma/backups/data.sql --data-only --use-copy
 
       - name: Commit backups
         if: env.BACKUP_ENABLED == 'true'
