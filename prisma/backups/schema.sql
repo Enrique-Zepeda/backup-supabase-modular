@@ -1,5 +1,5 @@
 
-\restrict mb4hi2Dpc8crnOb7f2uw8v4hGmHSrfR5Pgh2ICZq9whxRnDdEFySlaxlGeqHVmP
+\restrict nrz9keh7y3fV9Be5JYVnC7CETr5mLrZEJPx92wFNRxUA7Z77o4N6lsf7BKrsSAf
 
 
 SET statement_timeout = 0;
@@ -213,6 +213,56 @@ $$;
 ALTER FUNCTION "public"."link_rutina_to_current_user"() OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") RETURNS "void"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  _owner_ok boolean;
+BEGIN
+  -- Verifica propiedad por RLS equivalente
+  SELECT EXISTS (
+    SELECT 1 FROM public."Rutinas" r
+    WHERE r.id_rutina = p_id_rutina AND r.owner_uid = auth.uid()
+  ) INTO _owner_ok;
+
+  IF NOT _owner_ok THEN
+    RAISE EXCEPTION 'not owner or routine not found' USING errcode='42501';
+  END IF;
+
+  -- Normaliza a ordenes densos en una sola transacción
+  -- Limpia posibles duplicados de keys en JSON y asegura enteros
+  UPDATE public."EjerciciosRutinas" er
+  SET orden = (elem->>'orden')::int
+  FROM jsonb_array_elements(p_pairs) elem
+  WHERE er.id_rutina = p_id_rutina
+    AND er.id_ejercicio = (elem->>'id_ejercicio')::int;
+
+END;
+$$;
+
+
+ALTER FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."set_er_orden"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  IF NEW.orden IS NULL THEN
+    SELECT COALESCE(MAX(orden), 0) + 1
+    INTO NEW.orden
+    FROM public."EjerciciosRutinas"
+    WHERE id_rutina = NEW.id_rutina;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."set_er_orden"() OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."set_rutinas_owner"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -262,7 +312,8 @@ CREATE TABLE IF NOT EXISTS "public"."EjerciciosRutinas" (
     "id_ejercicio" integer NOT NULL,
     "series" integer,
     "repeticiones" integer,
-    "peso_sugerido" numeric(5,2)
+    "peso_sugerido" numeric(5,2),
+    "orden" integer NOT NULL
 );
 
 
@@ -354,7 +405,7 @@ CREATE TABLE IF NOT EXISTS "public"."ProgresoDeUsuario" (
     "repeticiones" integer,
     "peso_usado" numeric(5,2),
     "sensacion" character varying(10),
-    CONSTRAINT "progresousuario_sensacion_check" CHECK ((("sensacion")::"text" = ANY ((ARRAY['fácil'::character varying, 'normal'::character varying, 'difícil'::character varying])::"text"[])))
+    CONSTRAINT "progresousuario_sensacion_check" CHECK ((("sensacion")::"text" = ANY (ARRAY[('fácil'::character varying)::"text", ('normal'::character varying)::"text", ('difícil'::character varying)::"text"])))
 );
 
 
@@ -369,8 +420,8 @@ CREATE TABLE IF NOT EXISTS "public"."Rutinas" (
     "objetivo" character varying(20),
     "duracion_estimada" integer,
     "owner_uid" "uuid" DEFAULT "auth"."uid"(),
-    CONSTRAINT "rutinas_nivel_recomendado_check" CHECK ((("nivel_recomendado")::"text" = ANY ((ARRAY['principiante'::character varying, 'intermedio'::character varying, 'avanzado'::character varying])::"text"[]))),
-    CONSTRAINT "rutinas_objetivo_check" CHECK ((("objetivo")::"text" = ANY ((ARRAY['fuerza'::character varying, 'hipertrofia'::character varying, 'resistencia'::character varying])::"text"[])))
+    CONSTRAINT "rutinas_nivel_recomendado_check" CHECK ((("nivel_recomendado")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
+    CONSTRAINT "rutinas_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"])))
 );
 
 
@@ -418,8 +469,8 @@ CREATE TABLE IF NOT EXISTS "public"."Usuarios" (
     "objetivo" character varying(20),
     "fecha_registro" "date" DEFAULT CURRENT_DATE,
     "auth_uid" "uuid",
-    CONSTRAINT "usuarios_nivel_experiencia_check" CHECK ((("nivel_experiencia")::"text" = ANY ((ARRAY['principiante'::character varying, 'intermedio'::character varying, 'avanzado'::character varying])::"text"[]))),
-    CONSTRAINT "usuarios_objetivo_check" CHECK ((("objetivo")::"text" = ANY ((ARRAY['fuerza'::character varying, 'hipertrofia'::character varying, 'resistencia'::character varying])::"text"[])))
+    CONSTRAINT "usuarios_nivel_experiencia_check" CHECK ((("nivel_experiencia")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
+    CONSTRAINT "usuarios_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"])))
 );
 
 
@@ -667,6 +718,10 @@ ALTER TABLE ONLY "public"."Usuarios"
 
 
 CREATE UNIQUE INDEX "idx_ur_unique" ON "public"."UsuarioRutina" USING "btree" ("id_usuario", "id_rutina");
+
+
+
+CREATE OR REPLACE TRIGGER "trg_er_set_orden" BEFORE INSERT ON "public"."EjerciciosRutinas" FOR EACH ROW EXECUTE FUNCTION "public"."set_er_orden"();
 
 
 
@@ -1043,6 +1098,18 @@ GRANT ALL ON FUNCTION "public"."link_rutina_to_current_user"() TO "service_role"
 
 
 
+GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") TO "anon";
+GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "anon";
+GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "service_role";
@@ -1262,6 +1329,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 
-\unrestrict mb4hi2Dpc8crnOb7f2uw8v4hGmHSrfR5Pgh2ICZq9whxRnDdEFySlaxlGeqHVmP
+\unrestrict nrz9keh7y3fV9Be5JYVnC7CETr5mLrZEJPx92wFNRxUA7Z77o4N6lsf7BKrsSAf
 
 RESET ALL;
