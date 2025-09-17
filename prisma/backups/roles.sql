@@ -1,5 +1,5 @@
 
-\restrict bH0O14e5E4hHplclt51fSxn4x7gFg7xyVeflWkbEhULSDFWVpDOwkHxApqiD2zU
+\restrict 0mLrNa3aInnMnpSqFvs4CErX8uRPfJK6nBLUURv67FHRaBspeqYThAvjaRjqXi2
 
 SET default_transaction_read_only = off;
 
@@ -17,6 +17,6 @@ ALTER ROLE "authenticator" SET "statement_timeout" TO '8s';
 
 GRANT "postgres" TO "cli_login_postgres" WITH INHERIT FALSE GRANTED BY "supabase_admin";
 
-\unrestrict bH0O14e5E4hHplclt51fSxn4x7gFg7xyVeflWkbEhULSDFWVpDOwkHxApqiD2zU
+\unrestrict 0mLrNa3aInnMnpSqFvs4CErX8uRPfJK6nBLUURv67FHRaBspeqYThAvjaRjqXi2
 
 RESET ALL;
