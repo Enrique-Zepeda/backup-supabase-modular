@@ -1,5 +1,5 @@
 
-\restrict nrz9keh7y3fV9Be5JYVnC7CETr5mLrZEJPx92wFNRxUA7Z77o4N6lsf7BKrsSAf
+\restrict b35UFY0ydeLfJ8jwFdtB8dAeD9xBeFslhEGNXkn9t3pUK2JigrL8UYtwslN1Ygb
 
 
 SET statement_timeout = 0;
@@ -245,6 +245,53 @@ $$;
 ALTER FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") RETURNS "void"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  _owner_ok boolean;
+BEGIN
+  -- dueño de la rutina
+  SELECT EXISTS (
+    SELECT 1 FROM public."Rutinas" r
+    WHERE r.id_rutina = p_id_rutina AND r.owner_uid = auth.uid()
+  ) INTO _owner_ok;
+
+  IF NOT _owner_ok THEN
+    RAISE EXCEPTION 'not owner or routine not found' USING errcode='42501';
+  END IF;
+
+  -- Reemplazo total
+  DELETE FROM public."EjerciciosRutinaSets"
+   WHERE id_rutina = p_id_rutina AND id_ejercicio = p_id_ejercicio;
+
+  INSERT INTO public."EjerciciosRutinaSets"(id_rutina, id_ejercicio, idx, kg, reps)
+  SELECT
+    p_id_rutina,
+    p_id_ejercicio,
+    COALESCE((e->>'idx')::int, rn)          AS idx,
+    NULLIF(e->>'kg','')::numeric,
+    NULLIF(e->>'reps','')::int
+  FROM (
+    SELECT e, ROW_NUMBER() OVER () AS rn
+    FROM jsonb_array_elements(COALESCE(p_sets, '[]'::jsonb)) AS e
+  ) t;
+
+  -- Sincroniza 'series' con la cantidad de sets
+  UPDATE public."EjerciciosRutinas" er
+  SET series = (SELECT COUNT(*)
+                FROM public."EjerciciosRutinaSets" s
+                WHERE s.id_rutina = p_id_rutina AND s.id_ejercicio = p_id_ejercicio)
+  WHERE er.id_rutina = p_id_rutina AND er.id_ejercicio = p_id_ejercicio;
+
+END;
+$$;
+
+
+ALTER FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."set_er_orden"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
@@ -305,6 +352,18 @@ CREATE TABLE IF NOT EXISTS "public"."Ejercicios" (
 
 
 ALTER TABLE "public"."Ejercicios" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."EjerciciosRutinaSets" (
+    "id_rutina" integer NOT NULL,
+    "id_ejercicio" integer NOT NULL,
+    "idx" integer NOT NULL,
+    "kg" numeric(5,2),
+    "reps" integer
+);
+
+
+ALTER TABLE "public"."EjerciciosRutinaSets" OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."EjerciciosRutinas" (
@@ -642,6 +701,11 @@ ALTER TABLE ONLY "public"."recomendacionesia" ALTER COLUMN "id_recomendacion" SE
 
 
 
+ALTER TABLE ONLY "public"."EjerciciosRutinaSets"
+    ADD CONSTRAINT "EjerciciosRutinaSets_pkey" PRIMARY KEY ("id_rutina", "id_ejercicio", "idx");
+
+
+
 ALTER TABLE ONLY "public"."ProgramasRutinas"
     ADD CONSTRAINT "ProgramasRutinas_pkey" PRIMARY KEY ("id");
 
@@ -714,6 +778,10 @@ ALTER TABLE ONLY "public"."Usuarios"
 
 ALTER TABLE ONLY "public"."Usuarios"
     ADD CONSTRAINT "usuarios_pkey" PRIMARY KEY ("id_usuario");
+
+
+
+CREATE INDEX "er_sets_by_pair" ON "public"."EjerciciosRutinaSets" USING "btree" ("id_rutina", "id_ejercicio");
 
 
 
@@ -797,6 +865,11 @@ ALTER TABLE ONLY "public"."feedbackusuario"
 
 
 
+ALTER TABLE ONLY "public"."EjerciciosRutinaSets"
+    ADD CONSTRAINT "fk_er_pair" FOREIGN KEY ("id_rutina", "id_ejercicio") REFERENCES "public"."EjerciciosRutinas"("id_rutina", "id_ejercicio") ON DELETE CASCADE;
+
+
+
 ALTER TABLE ONLY "public"."MedallasUsuario"
     ADD CONSTRAINT "medallasporusuario_id_medalla_fkey" FOREIGN KEY ("id_medalla") REFERENCES "public"."Medallas"("id_medalla");
 
@@ -827,6 +900,9 @@ ALTER TABLE ONLY "public"."Usuarios"
 
 
 
+ALTER TABLE "public"."EjerciciosRutinaSets" ENABLE ROW LEVEL SECURITY;
+
+
 ALTER TABLE "public"."EjerciciosRutinas" ENABLE ROW LEVEL SECURITY;
 
 
@@ -854,6 +930,20 @@ CREATE POLICY "er_select_owner_or_friends" ON "public"."EjerciciosRutinas" FOR S
    FROM ("public"."Rutinas" "r"
      JOIN "public"."Usuarios" "u_owner" ON (("u_owner"."auth_uid" = "r"."owner_uid")))
   WHERE (("r"."id_rutina" = "EjerciciosRutinas"."id_rutina") AND (("r"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u_owner"."id_usuario", "public"."current_usuario_id"()))))));
+
+
+
+CREATE POLICY "ers_cud_owner" ON "public"."EjerciciosRutinaSets" TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM "public"."Rutinas" "r"
+  WHERE (("r"."id_rutina" = "EjerciciosRutinaSets"."id_rutina") AND ("r"."owner_uid" = "auth"."uid"()))))) WITH CHECK ((EXISTS ( SELECT 1
+   FROM "public"."Rutinas" "r"
+  WHERE (("r"."id_rutina" = "EjerciciosRutinaSets"."id_rutina") AND ("r"."owner_uid" = "auth"."uid"())))));
+
+
+
+CREATE POLICY "ers_select_owner" ON "public"."EjerciciosRutinaSets" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM "public"."Rutinas" "r"
+  WHERE (("r"."id_rutina" = "EjerciciosRutinaSets"."id_rutina") AND ("r"."owner_uid" = "auth"."uid"())))));
 
 
 
@@ -1104,6 +1194,12 @@ GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pai
 
 
 
+GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") TO "anon";
+GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
@@ -1140,6 +1236,12 @@ GRANT ALL ON TABLE "public"."Amigos" TO "service_role";
 GRANT ALL ON TABLE "public"."Ejercicios" TO "anon";
 GRANT ALL ON TABLE "public"."Ejercicios" TO "authenticated";
 GRANT ALL ON TABLE "public"."Ejercicios" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."EjerciciosRutinaSets" TO "anon";
+GRANT ALL ON TABLE "public"."EjerciciosRutinaSets" TO "authenticated";
+GRANT ALL ON TABLE "public"."EjerciciosRutinaSets" TO "service_role";
 
 
 
@@ -1329,6 +1431,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 
-\unrestrict nrz9keh7y3fV9Be5JYVnC7CETr5mLrZEJPx92wFNRxUA7Z77o4N6lsf7BKrsSAf
+\unrestrict b35UFY0ydeLfJ8jwFdtB8dAeD9xBeFslhEGNXkn9t3pUK2JigrL8UYtwslN1Ygb
 
 RESET ALL;
