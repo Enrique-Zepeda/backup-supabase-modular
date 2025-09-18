@@ -1,5 +1,5 @@
 
-\restrict gxJGXyctAD9OgyhHtEt0vSTgtArHVH5UmnpJaZ2juUsFgylmRHDC2p7lRuim02h
+\restrict WybUW64yjXu8MXl8daRbASYvC8JtowHnvkJhcYATuHPmA8fKTd8fh6aG2CcbYq8
 
 
 SET statement_timeout = 0;
@@ -199,6 +199,28 @@ $$;
 
 
 ALTER FUNCTION "public"."delete_rutina_owned"("p_id_rutina" integer) OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) RETURNS "void"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$
+begin
+  -- borrar sets que pertenecen a la sesión del owner
+  delete from public."EntrenamientoSets" s
+  using public."Entrenamientos" e
+  where s.id_sesion = p_id_sesion
+    and e.id_sesion = s.id_sesion
+    and e.owner_uid = auth.uid();
+
+  -- borrar la sesión
+  delete from public."Entrenamientos" e
+  where e.id_sesion = p_id_sesion
+    and e.owner_uid = auth.uid();
+end;
+$$;
+
+
+ALTER FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."handle_new_auth_user"() RETURNS "trigger"
@@ -1331,6 +1353,13 @@ GRANT ALL ON FUNCTION "public"."delete_rutina_owned"("p_id_rutina" integer) TO "
 
 
 
+REVOKE ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO "anon";
+GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."handle_new_auth_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_auth_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_auth_user"() TO "service_role";
@@ -1612,6 +1641,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 
-\unrestrict gxJGXyctAD9OgyhHtEt0vSTgtArHVH5UmnpJaZ2juUsFgylmRHDC2p7lRuim02h
+\unrestrict WybUW64yjXu8MXl8daRbASYvC8JtowHnvkJhcYATuHPmA8fKTd8fh6aG2CcbYq8
 
 RESET ALL;
