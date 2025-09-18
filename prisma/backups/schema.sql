@@ -1,5 +1,5 @@
 
-\restrict lq5xmo66Ym5wUdLUyGeK0VhHY9nWNsX3nEEqWWUJuRYmETmBTpScdBt7qVSXIqL
+\restrict LssX2Z4dQ8YEncfDMIwBw3DhJv6v7cHiV9owiC85oWhe7CA48wtM1w57qQmnfXo
 
 
 SET statement_timeout = 0;
@@ -102,6 +102,49 @@ $$;
 
 
 ALTER FUNCTION "public"."create_rutina_with_user_link"("p_nombre" "text", "p_descripcion" "text", "p_nivel_recomendado" "text", "p_objetivo" "text", "p_duracion_estimada" integer) OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."create_workout_session"("p_id_rutina" integer, "p_started_at" timestamp with time zone, "p_ended_at" timestamp with time zone, "p_duracion_seg" integer, "p_total_volumen" numeric, "p_sensacion_global" "text", "p_notas" "text", "p_sets" "jsonb") RETURNS bigint
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+declare
+  v_id_sesion bigint;
+  v_owner uuid := auth.uid();
+  v_row jsonb;
+begin
+  -- Cabecera
+  insert into "Entrenamientos"
+    (id_rutina, owner_uid, started_at, ended_at, duracion_seg, total_volumen, sensacion_global, notas)
+  values
+    (p_id_rutina, v_owner, p_started_at, p_ended_at, p_duracion_seg, p_total_volumen, p_sensacion_global, p_notas)
+  returning id_sesion into v_id_sesion;
+
+  -- Detalle por set
+  for v_row in
+    select * from jsonb_array_elements(coalesce(p_sets, '[]'::jsonb))
+  loop
+    insert into "EntrenamientoSets"
+      (id_sesion, id_ejercicio, idx, kg, reps, rpe, done, done_at)
+    values
+      (
+        v_id_sesion,
+        (v_row->>'id_ejercicio')::int,
+        (v_row->>'idx')::int,
+        (v_row->>'kg')::numeric,
+        (v_row->>'reps')::int,
+        nullif(v_row->>'rpe',''),
+        coalesce((v_row->>'done')::boolean, true),
+        case when (v_row ? 'done_at') then (v_row->>'done_at')::timestamptz else null end
+      );
+  end loop;
+
+  return v_id_sesion;
+end;
+$$;
+
+
+ALTER FUNCTION "public"."create_workout_session"("p_id_rutina" integer, "p_started_at" timestamp with time zone, "p_ended_at" timestamp with time zone, "p_duracion_seg" integer, "p_total_volumen" numeric, "p_sensacion_global" "text", "p_notas" "text", "p_sets" "jsonb") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."current_usuario_id"() RETURNS integer
@@ -377,6 +420,53 @@ CREATE TABLE IF NOT EXISTS "public"."EjerciciosRutinas" (
 
 
 ALTER TABLE "public"."EjerciciosRutinas" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."EntrenamientoSets" (
+    "id_sesion" bigint NOT NULL,
+    "id_ejercicio" integer NOT NULL,
+    "idx" integer NOT NULL,
+    "kg" numeric NOT NULL,
+    "reps" integer NOT NULL,
+    "rpe" "text",
+    "done" boolean DEFAULT true NOT NULL,
+    "done_at" timestamp with time zone
+);
+
+
+ALTER TABLE "public"."EntrenamientoSets" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."Entrenamientos" (
+    "id_sesion" bigint NOT NULL,
+    "id_rutina" integer,
+    "owner_uid" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "started_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "ended_at" timestamp with time zone,
+    "duracion_seg" integer,
+    "total_volumen" numeric,
+    "sensacion_global" "text",
+    "notas" "text",
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+);
+
+
+ALTER TABLE "public"."Entrenamientos" OWNER TO "postgres";
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."Entrenamientos_id_sesion_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE "public"."Entrenamientos_id_sesion_seq" OWNER TO "postgres";
+
+
+ALTER SEQUENCE "public"."Entrenamientos_id_sesion_seq" OWNED BY "public"."Entrenamientos"."id_sesion";
+
 
 
 CREATE TABLE IF NOT EXISTS "public"."Medallas" (
@@ -677,6 +767,10 @@ ALTER TABLE ONLY "public"."Ejercicios" ALTER COLUMN "id" SET DEFAULT "nextval"('
 
 
 
+ALTER TABLE ONLY "public"."Entrenamientos" ALTER COLUMN "id_sesion" SET DEFAULT "nextval"('"public"."Entrenamientos_id_sesion_seq"'::"regclass");
+
+
+
 ALTER TABLE ONLY "public"."Medallas" ALTER COLUMN "id_medalla" SET DEFAULT "nextval"('"public"."medallas_id_medalla_seq"'::"regclass");
 
 
@@ -703,6 +797,16 @@ ALTER TABLE ONLY "public"."recomendacionesia" ALTER COLUMN "id_recomendacion" SE
 
 ALTER TABLE ONLY "public"."EjerciciosRutinaSets"
     ADD CONSTRAINT "EjerciciosRutinaSets_pkey" PRIMARY KEY ("id_rutina", "id_ejercicio", "idx");
+
+
+
+ALTER TABLE ONLY "public"."EntrenamientoSets"
+    ADD CONSTRAINT "EntrenamientoSets_pkey" PRIMARY KEY ("id_sesion", "id_ejercicio", "idx");
+
+
+
+ALTER TABLE ONLY "public"."Entrenamientos"
+    ADD CONSTRAINT "Entrenamientos_pkey" PRIMARY KEY ("id_sesion");
 
 
 
@@ -785,6 +889,14 @@ CREATE INDEX "er_sets_by_pair" ON "public"."EjerciciosRutinaSets" USING "btree" 
 
 
 
+CREATE INDEX "idx_entrenamientos_owner_started" ON "public"."Entrenamientos" USING "btree" ("owner_uid", "started_at" DESC);
+
+
+
+CREATE INDEX "idx_esets_sesion" ON "public"."EntrenamientoSets" USING "btree" ("id_sesion");
+
+
+
 CREATE UNIQUE INDEX "idx_ur_unique" ON "public"."UsuarioRutina" USING "btree" ("id_usuario", "id_rutina");
 
 
@@ -802,6 +914,21 @@ CREATE OR REPLACE TRIGGER "trg_rutinas_after_insert" AFTER INSERT ON "public"."R
 
 
 CREATE OR REPLACE TRIGGER "trg_rutinas_set_owner" BEFORE INSERT ON "public"."Rutinas" FOR EACH ROW EXECUTE FUNCTION "public"."set_rutinas_owner"();
+
+
+
+ALTER TABLE ONLY "public"."EntrenamientoSets"
+    ADD CONSTRAINT "EntrenamientoSets_id_ejercicio_fkey" FOREIGN KEY ("id_ejercicio") REFERENCES "public"."Ejercicios"("id");
+
+
+
+ALTER TABLE ONLY "public"."EntrenamientoSets"
+    ADD CONSTRAINT "EntrenamientoSets_id_sesion_fkey" FOREIGN KEY ("id_sesion") REFERENCES "public"."Entrenamientos"("id_sesion") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."Entrenamientos"
+    ADD CONSTRAINT "Entrenamientos_id_rutina_fkey" FOREIGN KEY ("id_rutina") REFERENCES "public"."Rutinas"("id_rutina") ON DELETE SET NULL;
 
 
 
@@ -906,6 +1033,12 @@ ALTER TABLE "public"."EjerciciosRutinaSets" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."EjerciciosRutinas" ENABLE ROW LEVEL SECURITY;
 
 
+ALTER TABLE "public"."EntrenamientoSets" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."Entrenamientos" ENABLE ROW LEVEL SECURITY;
+
+
 ALTER TABLE "public"."Programas" ENABLE ROW LEVEL SECURITY;
 
 
@@ -916,6 +1049,22 @@ ALTER TABLE "public"."Rutinas" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."UsuarioRutina" ENABLE ROW LEVEL SECURITY;
+
+
+CREATE POLICY "ent_delete_owner" ON "public"."Entrenamientos" FOR DELETE USING (("owner_uid" = "auth"."uid"()));
+
+
+
+CREATE POLICY "ent_insert_owner" ON "public"."Entrenamientos" FOR INSERT WITH CHECK (("owner_uid" = "auth"."uid"()));
+
+
+
+CREATE POLICY "ent_select_owner" ON "public"."Entrenamientos" FOR SELECT USING (("owner_uid" = "auth"."uid"()));
+
+
+
+CREATE POLICY "ent_update_owner" ON "public"."Entrenamientos" FOR UPDATE USING (("owner_uid" = "auth"."uid"()));
+
 
 
 CREATE POLICY "er_cud_owner" ON "public"."EjerciciosRutinas" TO "authenticated" USING ((EXISTS ( SELECT 1
@@ -944,6 +1093,14 @@ CREATE POLICY "ers_cud_owner" ON "public"."EjerciciosRutinaSets" TO "authenticat
 CREATE POLICY "ers_select_owner" ON "public"."EjerciciosRutinaSets" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
    FROM "public"."Rutinas" "r"
   WHERE (("r"."id_rutina" = "EjerciciosRutinaSets"."id_rutina") AND ("r"."owner_uid" = "auth"."uid"())))));
+
+
+
+CREATE POLICY "esets_owner" ON "public"."EntrenamientoSets" USING ((EXISTS ( SELECT 1
+   FROM "public"."Entrenamientos" "e"
+  WHERE (("e"."id_sesion" = "EntrenamientoSets"."id_sesion") AND ("e"."owner_uid" = "auth"."uid"()))))) WITH CHECK ((EXISTS ( SELECT 1
+   FROM "public"."Entrenamientos" "e"
+  WHERE (("e"."id_sesion" = "EntrenamientoSets"."id_sesion") AND ("e"."owner_uid" = "auth"."uid"())))));
 
 
 
@@ -1149,6 +1306,12 @@ GRANT ALL ON FUNCTION "public"."create_rutina_with_user_link"("p_nombre" "text",
 
 
 
+GRANT ALL ON FUNCTION "public"."create_workout_session"("p_id_rutina" integer, "p_started_at" timestamp with time zone, "p_ended_at" timestamp with time zone, "p_duracion_seg" integer, "p_total_volumen" numeric, "p_sensacion_global" "text", "p_notas" "text", "p_sets" "jsonb") TO "anon";
+GRANT ALL ON FUNCTION "public"."create_workout_session"("p_id_rutina" integer, "p_started_at" timestamp with time zone, "p_ended_at" timestamp with time zone, "p_duracion_seg" integer, "p_total_volumen" numeric, "p_sensacion_global" "text", "p_notas" "text", "p_sets" "jsonb") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."create_workout_session"("p_id_rutina" integer, "p_started_at" timestamp with time zone, "p_ended_at" timestamp with time zone, "p_duracion_seg" integer, "p_total_volumen" numeric, "p_sensacion_global" "text", "p_notas" "text", "p_sets" "jsonb") TO "service_role";
+
+
+
 REVOKE ALL ON FUNCTION "public"."current_usuario_id"() FROM PUBLIC;
 GRANT ALL ON FUNCTION "public"."current_usuario_id"() TO "anon";
 GRANT ALL ON FUNCTION "public"."current_usuario_id"() TO "authenticated";
@@ -1248,6 +1411,24 @@ GRANT ALL ON TABLE "public"."EjerciciosRutinaSets" TO "service_role";
 GRANT ALL ON TABLE "public"."EjerciciosRutinas" TO "anon";
 GRANT ALL ON TABLE "public"."EjerciciosRutinas" TO "authenticated";
 GRANT ALL ON TABLE "public"."EjerciciosRutinas" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."EntrenamientoSets" TO "anon";
+GRANT ALL ON TABLE "public"."EntrenamientoSets" TO "authenticated";
+GRANT ALL ON TABLE "public"."EntrenamientoSets" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."Entrenamientos" TO "anon";
+GRANT ALL ON TABLE "public"."Entrenamientos" TO "authenticated";
+GRANT ALL ON TABLE "public"."Entrenamientos" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "public"."Entrenamientos_id_sesion_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."Entrenamientos_id_sesion_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."Entrenamientos_id_sesion_seq" TO "service_role";
 
 
 
@@ -1431,6 +1612,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 
-\unrestrict lq5xmo66Ym5wUdLUyGeK0VhHY9nWNsX3nEEqWWUJuRYmETmBTpScdBt7qVSXIqL
+\unrestrict LssX2Z4dQ8YEncfDMIwBw3DhJv6v7cHiV9owiC85oWhe7CA48wtM1w57qQmnfXo
 
 RESET ALL;
