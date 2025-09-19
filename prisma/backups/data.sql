@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
-\restrict rhaXdVcEioYzXhl5AJQW3TY65sw6H6OYnDHMd88pTYo4Nx4CHQXHTfG0WV6jHeP
+\restrict 93PFDq5vbLy56VyyZs4HghaejhPtU838Z5KHtChHWIYJDgcaI1b7fMU4tHryqU0
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -528,6 +528,12 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	15f1f3e1-dd98-4b8d-8880-5114cd5351e1	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-18 16:57:06.186366+00	
 00000000-0000-0000-0000-000000000000	716090d3-2712-4424-9bf8-45bdab955d3e	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-18 22:12:10.091056+00	
 00000000-0000-0000-0000-000000000000	481c9f11-6496-4223-844c-78590a940dd1	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-18 22:12:10.10171+00	
+00000000-0000-0000-0000-000000000000	11562da9-bdce-4c56-be4f-a088d89cdbf3	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-18 23:10:51.309632+00	
+00000000-0000-0000-0000-000000000000	54dda2e7-519b-4f73-9a5d-bd71dda3e79f	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-18 23:10:51.313537+00	
+00000000-0000-0000-0000-000000000000	4400c990-f258-4a64-824f-701bada64241	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-19 00:49:35.259545+00	
+00000000-0000-0000-0000-000000000000	9df04750-bf9c-453d-b1ec-ff5bc5665394	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-19 00:49:35.267162+00	
+00000000-0000-0000-0000-000000000000	e7aa863f-2096-45d7-b8fe-d4b89fd5818c	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-19 01:49:03.722691+00	
+00000000-0000-0000-0000-000000000000	2a4189ca-c152-4349-8e37-33188a8f1e17	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-19 01:49:03.727139+00	
 \.
 
 
@@ -560,7 +566,7 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	09ff1a6d-48d3-4dbf-814e-5229c6549e86	authenticated	authenticated	trajafigosso-7741@yopmail.com	$2a$10$Gr3RD471gD7zR/zmrOzFm.8QKeZm8Hekfbr4Ko.3VCcR2zY1GtIum	2025-08-07 00:59:35.342403+00	\N		\N		\N			\N	2025-08-07 01:34:54.371507+00	{"provider": "email", "providers": ["email"]}	{"sub": "09ff1a6d-48d3-4dbf-814e-5229c6549e86", "email": "trajafigosso-7741@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-07 00:59:14.282387+00	2025-08-10 22:52:21.972445+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	e1ed77f6-f4ee-4ab0-8755-66c0a763dc62	authenticated	authenticated	naucrefafeddi-5710@yopmail.com	$2a$10$nCk4jU/gR1kQktaaF7m4peKO46SvZ7InfbN4mzYbwAiuAItRCldSO	2025-08-22 18:33:05.969481+00	\N		2025-08-22 18:32:46.349064+00		\N			\N	2025-08-22 18:33:05.974442+00	{"provider": "email", "providers": ["email"]}	{"sub": "e1ed77f6-f4ee-4ab0-8755-66c0a763dc62", "email": "naucrefafeddi-5710@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-22 18:32:46.317801+00	2025-08-22 18:33:05.980766+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	ef794a04-7430-4bda-8604-b6324ea88cde	authenticated	authenticated	pepepecas@yopmail.com	$2a$10$geOHeWasF894J9vF7YQKu.scNb7cSjHlavM2AStfQmIY9zUP0lkIC	2025-09-08 15:42:13.339992+00	\N		2025-09-08 15:42:01.303396+00		\N			\N	2025-09-08 15:42:13.344504+00	{"provider": "email", "providers": ["email"]}	{"sub": "ef794a04-7430-4bda-8604-b6324ea88cde", "email": "pepepecas@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-08 15:42:01.222539+00	2025-09-18 16:57:06.191109+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-09-16 20:19:12.23774+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-09-18 22:12:10.121284+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-09-16 20:19:12.23774+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-09-19 01:49:03.734601+00	\N	\N			\N		0	\N		\N	f	\N	f
 \.
 
 
@@ -610,7 +616,7 @@ ada04295-a71d-4f3e-82d3-b88c9967147f	ccf47ff3-abec-4672-8208-e78e1b90258f	2025-0
 b1312ba6-15a8-46b3-b70e-7253c951cbde	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-14 02:51:25.664441+00	2025-09-14 02:51:25.664441+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	177.245.193.186	\N
 91f16347-6c11-4829-abb2-89a66880b619	1166241f-43ab-44b4-8b44-94394e4a197a	2025-08-28 19:43:28.472415+00	2025-09-15 18:27:10.432222+00	\N	aal1	\N	2025-09-15 18:27:10.432149	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.183.56	\N
 125caab4-c213-4231-8971-20985f557a58	ef794a04-7430-4bda-8604-b6324ea88cde	2025-09-08 15:42:13.345284+00	2025-09-18 16:57:06.192318+00	\N	aal1	\N	2025-09-18 16:57:06.192249	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	148.202.136.216	\N
-bd5e53f8-f6ad-4c66-894f-fdb61dca1952	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-16 20:19:12.237834+00	2025-09-18 22:12:10.123323+00	\N	aal1	\N	2025-09-18 22:12:10.123257	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.211.49.11	\N
+bd5e53f8-f6ad-4c66-894f-fdb61dca1952	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-16 20:19:12.237834+00	2025-09-19 01:49:03.736564+00	\N	aal1	\N	2025-09-19 01:49:03.736482	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.211.49.11	\N
 \.
 
 
@@ -703,7 +709,10 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	228	guubn4tqmiqu	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-18 15:43:02.492314+00	2025-09-18 16:57:06.18692+00	zedeqotegs6k	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	230	3lrmdfqpyw7y	ef794a04-7430-4bda-8604-b6324ea88cde	f	2025-09-18 16:57:06.189382+00	2025-09-18 16:57:06.189382+00	guubn4tqmiqu	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	229	dkjbocqkzx3u	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-09-18 16:15:40.153854+00	2025-09-18 22:12:10.104142+00	znqnwmdlq3ht	bd5e53f8-f6ad-4c66-894f-fdb61dca1952
-00000000-0000-0000-0000-000000000000	231	k7iq5lwtfv45	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f	2025-09-18 22:12:10.118538+00	2025-09-18 22:12:10.118538+00	dkjbocqkzx3u	bd5e53f8-f6ad-4c66-894f-fdb61dca1952
+00000000-0000-0000-0000-000000000000	231	k7iq5lwtfv45	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-09-18 22:12:10.118538+00	2025-09-18 23:10:51.314098+00	dkjbocqkzx3u	bd5e53f8-f6ad-4c66-894f-fdb61dca1952
+00000000-0000-0000-0000-000000000000	232	gftzrezta525	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-09-18 23:10:51.319144+00	2025-09-19 00:49:35.268313+00	k7iq5lwtfv45	bd5e53f8-f6ad-4c66-894f-fdb61dca1952
+00000000-0000-0000-0000-000000000000	233	okmonrc3efyi	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-09-19 00:49:35.271944+00	2025-09-19 01:49:03.728885+00	gftzrezta525	bd5e53f8-f6ad-4c66-894f-fdb61dca1952
+00000000-0000-0000-0000-000000000000	234	42lomupjc7h5	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f	2025-09-19 01:49:03.73284+00	2025-09-19 01:49:03.73284+00	okmonrc3efyi	bd5e53f8-f6ad-4c66-894f-fdb61dca1952
 \.
 
 
@@ -816,8 +825,8 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 114	Fuerza	aaaaa	principiante	fuerza	80	1166241f-43ab-44b4-8b44-94394e4a197a
 87	ADSA	tODAS	intermedio	hipertrofia	30	ef794a04-7430-4bda-8604-b6324ea88cde
 115	Se pudo?	aaaaaaaa	principiante	fuerza	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7
-116	LegDay	fuerzaa	principiante	hipertrofia	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7
 117	kadja	sakdnjajbds	principiante	hipertrofia	38	ef794a04-7430-4bda-8604-b6324ea88cde
+119	prueba configuracion	siu	principiante	fuerza	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7
 \.
 
 
@@ -837,15 +846,14 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 113	1	4	10	0.00	1
 114	1	4	10	90.00	1
 114	8	3	10	0.00	2
-116	11	5	10	0.00	1
-116	12	3	10	0.00	2
-116	10	3	10	0.00	3
 115	1	1	10	0.00	1
 115	7	1	10	0.00	2
 117	2	2	12	121.00	1
 117	1	2	10	0.00	2
 117	6	2	10	12.00	3
 117	20	0	10	0.00	4
+119	1	3	10	100.00	1
+119	7	2	10	100.00	2
 \.
 
 
@@ -854,17 +862,9 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 --
 
 COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", "reps") FROM stdin;
-116	11	1	10.00	12
-116	11	2	20.00	10
-116	11	3	40.00	20
-116	11	4	10.00	6
-116	11	5	\N	\N
-116	12	1	20.00	10
-116	12	2	20.00	10
-116	12	3	30.00	10
-116	10	1	10.00	11
-116	10	2	20.00	12
-116	10	3	50.00	1
+119	1	1	100.00	10
+119	1	2	100.00	10
+119	1	3	100.00	10
 117	2	1	44.00	31
 117	2	2	24.00	11
 117	1	1	12.00	15
@@ -873,6 +873,8 @@ COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", 
 117	6	2	132.00	31
 115	1	1	110.00	10
 115	7	1	60.00	10
+119	7	1	100.00	10
+119	7	2	100.00	10
 \.
 
 
@@ -956,8 +958,8 @@ COPY "public"."UsuarioRutina" ("id", "created_at", "id_usuario", "id_rutina", "i
 26	2025-09-02 21:11:54.101288+00	10	72	\N	t	t
 57	2025-09-08 15:42:49.098565+00	20	87	\N	t	f
 113	2025-09-16 19:41:17.472519+00	19	115	\N	t	f
-115	2025-09-16 23:10:30.754354+00	19	116	\N	t	f
 117	2025-09-18 14:13:05.403873+00	20	117	\N	t	f
+121	2025-09-19 00:50:16.759213+00	19	119	\N	t	f
 \.
 
 
@@ -1029,14 +1031,14 @@ COPY "storage"."s3_multipart_uploads_parts" ("id", "upload_id", "size", "part_nu
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 231, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 234, true);
 
 
 --
 -- Name: Entrenamientos_id_sesion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 7, true);
+SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 8, true);
 
 
 --
@@ -1057,7 +1059,7 @@ SELECT pg_catalog.setval('"public"."Programas_id_seq"', 1, false);
 -- Name: UsuarioRutina_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."UsuarioRutina_id_seq"', 120, true);
+SELECT pg_catalog.setval('"public"."UsuarioRutina_id_seq"', 122, true);
 
 
 --
@@ -1099,7 +1101,7 @@ SELECT pg_catalog.setval('"public"."recomendacionesia_id_recomendacion_seq"', 1,
 -- Name: rutinas_id_rutina_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 118, true);
+SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 119, true);
 
 
 --
@@ -1113,6 +1115,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 20, true);
 -- PostgreSQL database dump complete
 --
 
-\unrestrict rhaXdVcEioYzXhl5AJQW3TY65sw6H6OYnDHMd88pTYo4Nx4CHQXHTfG0WV6jHeP
+\unrestrict 93PFDq5vbLy56VyyZs4HghaejhPtU838Z5KHtChHWIYJDgcaI1b7fMU4tHryqU0
 
 RESET ALL;
