@@ -1,5 +1,5 @@
 
-\restrict WXlh00M8iqFoxfAyfVyJZAk288bdPIzfvZhvvXo05moYiltjt1Chdt74BMtKQKr
+\restrict ZYCkd8tvtEvgjWjM0DNj6AeX0em5bBKTaeiXLX6IU8c9Lq5Q1lmPAZ3JYvH5HB1
 
 
 SET statement_timeout = 0;
@@ -278,6 +278,27 @@ $$;
 ALTER FUNCTION "public"."link_rutina_to_current_user"() OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."normalize_username"("p_username" "text") RETURNS "text"
+    LANGUAGE "sql" IMMUTABLE
+    AS $$
+  SELECT
+    CASE
+      WHEN p_username IS NULL THEN NULL
+      ELSE lower(
+        regexp_replace(
+          trim(p_username),
+          '[^a-z0-9_]+',
+          '_',
+          'gi'
+        )
+      )
+    END;
+$$;
+
+
+ALTER FUNCTION "public"."normalize_username"("p_username" "text") OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") RETURNS "void"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -356,6 +377,127 @@ $$;
 
 ALTER FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") OWNER TO "postgres";
 
+SET default_tablespace = '';
+
+SET default_table_access_method = "heap";
+
+
+CREATE TABLE IF NOT EXISTS "public"."Usuarios" (
+    "id_usuario" integer NOT NULL,
+    "nombre" character varying(100),
+    "correo" character varying(100) NOT NULL,
+    "contraseña" character varying(255) DEFAULT 'auth_managed'::character varying NOT NULL,
+    "edad" integer,
+    "peso" numeric(5,2),
+    "altura" numeric(5,2),
+    "nivel_experiencia" character varying(20),
+    "objetivo" character varying(20),
+    "fecha_registro" "date" DEFAULT CURRENT_DATE,
+    "auth_uid" "uuid",
+    "username" "text",
+    "sexo" "text",
+    CONSTRAINT "usuarios_nivel_experiencia_check" CHECK ((("nivel_experiencia")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
+    CONSTRAINT "usuarios_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"]))),
+    CONSTRAINT "usuarios_sexo_check" CHECK ((("sexo" IS NULL) OR ("sexo" = ANY (ARRAY['masculino'::"text", 'femenino'::"text"])))),
+    CONSTRAINT "usuarios_username_format_chk" CHECK ((("username" IS NULL) OR ("username" ~ '^[a-z0-9_]{3,20}$'::"text")))
+);
+
+
+ALTER TABLE "public"."Usuarios" OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text") RETURNS "public"."Usuarios"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_email text;
+  v_row public."Usuarios";
+BEGIN
+  -- Email de la sesión
+  SELECT email INTO v_email FROM auth.users WHERE id = auth.uid();
+
+  -- 1) Intentar UPDATE sin tocar correo/auth_uid
+  UPDATE public."Usuarios"
+  SET
+    username = p_username,
+    nombre = p_nombre,
+    edad = p_edad,
+    peso = p_peso,
+    altura = p_altura,
+    nivel_experiencia = p_nivel,
+    objetivo = p_objetivo
+  WHERE auth_uid = auth.uid()
+  RETURNING * INTO v_row;
+
+  IF NOT FOUND THEN
+    -- 2) INSERT si no existe. correo es NOT NULL → exigir email real.
+    IF v_email IS NULL THEN
+      RAISE EXCEPTION 'No hay email en la sesión; no se puede crear la fila de "Usuarios"'
+      USING HINT = 'Inicia sesión con email o crea la fila manualmente.';
+    END IF;
+
+    INSERT INTO public."Usuarios" (
+      auth_uid, correo, username, nombre, edad, peso, altura, nivel_experiencia, objetivo
+    ) VALUES (
+      auth.uid(), v_email, p_username, p_nombre, p_edad, p_peso, p_altura, p_nivel, p_objetivo
+    )
+    RETURNING * INTO v_row;
+  END IF;
+
+  RETURN v_row;
+END
+$$;
+
+
+ALTER FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text") RETURNS "public"."Usuarios"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_email text;
+  v_row public."Usuarios";
+BEGIN
+  SELECT email INTO v_email FROM auth.users WHERE id = auth.uid();
+
+  -- Update sin tocar correo/auth_uid
+  UPDATE public."Usuarios"
+  SET
+    username = p_username,
+    nombre = p_nombre,
+    edad = p_edad,
+    peso = p_peso,
+    altura = p_altura,
+    nivel_experiencia = p_nivel,
+    objetivo = p_objetivo,
+    sexo = p_sexo
+  WHERE auth_uid = auth.uid()
+  RETURNING * INTO v_row;
+
+  IF NOT FOUND THEN
+    IF v_email IS NULL THEN
+      RAISE EXCEPTION 'No hay email en la sesión; no se puede crear la fila de "Usuarios"'
+      USING HINT = 'Inicia sesión con email o crea la fila manualmente.';
+    END IF;
+
+    INSERT INTO public."Usuarios"(
+      auth_uid, correo, username, nombre, edad, peso, altura, nivel_experiencia, objetivo, sexo
+    ) VALUES (
+      auth.uid(), v_email, p_username, p_nombre, p_edad, p_peso, p_altura, p_nivel, p_objetivo, p_sexo
+    )
+    RETURNING * INTO v_row;
+  END IF;
+
+  RETURN v_row;
+END
+$$;
+
+
+ALTER FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text") OWNER TO "postgres";
+
 
 CREATE OR REPLACE FUNCTION "public"."set_er_orden"() RETURNS "trigger"
     LANGUAGE "plpgsql"
@@ -390,9 +532,34 @@ $$;
 
 ALTER FUNCTION "public"."set_rutinas_owner"() OWNER TO "postgres";
 
-SET default_tablespace = '';
 
-SET default_table_access_method = "heap";
+CREATE OR REPLACE FUNCTION "public"."trg_normalize_username"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    NEW.username := public.normalize_username(NEW.username);
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."trg_normalize_username"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."username_is_available"("p_username" "text") RETURNS boolean
+    LANGUAGE "sql" STABLE
+    AS $$
+  SELECT NOT EXISTS (
+    SELECT 1
+    FROM public."Usuarios" u
+    WHERE lower(u.username) = lower(public.normalize_username(p_username))
+  );
+$$;
+
+
+ALTER FUNCTION "public"."username_is_available"("p_username" "text") OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."Amigos" (
@@ -626,26 +793,6 @@ ALTER TABLE "public"."UsuarioRutina" ALTER COLUMN "id" ADD GENERATED BY DEFAULT 
     CACHE 1
 );
 
-
-
-CREATE TABLE IF NOT EXISTS "public"."Usuarios" (
-    "id_usuario" integer NOT NULL,
-    "nombre" character varying(100),
-    "correo" character varying(100) NOT NULL,
-    "contraseña" character varying(255) DEFAULT 'auth_managed'::character varying NOT NULL,
-    "edad" integer,
-    "peso" numeric(5,2),
-    "altura" numeric(5,2),
-    "nivel_experiencia" character varying(20),
-    "objetivo" character varying(20),
-    "fecha_registro" "date" DEFAULT CURRENT_DATE,
-    "auth_uid" "uuid",
-    CONSTRAINT "usuarios_nivel_experiencia_check" CHECK ((("nivel_experiencia")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
-    CONSTRAINT "usuarios_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"])))
-);
-
-
-ALTER TABLE "public"."Usuarios" OWNER TO "postgres";
 
 
 CREATE SEQUENCE IF NOT EXISTS "public"."ejercicios_id_ejercicio_seq"
@@ -920,6 +1067,22 @@ CREATE INDEX "idx_esets_sesion" ON "public"."EntrenamientoSets" USING "btree" ("
 
 
 CREATE UNIQUE INDEX "idx_ur_unique" ON "public"."UsuarioRutina" USING "btree" ("id_usuario", "id_rutina");
+
+
+
+CREATE UNIQUE INDEX "usuarios_auth_uid_uniq" ON "public"."Usuarios" USING "btree" ("auth_uid");
+
+
+
+CREATE INDEX "usuarios_username_lower_idx" ON "public"."Usuarios" USING "btree" ("lower"("username"));
+
+
+
+CREATE UNIQUE INDEX "usuarios_username_lower_uniq" ON "public"."Usuarios" USING "btree" ("lower"("username")) WHERE ("username" IS NOT NULL);
+
+
+
+CREATE OR REPLACE TRIGGER "before_normalize_username" BEFORE INSERT OR UPDATE OF "username" ON "public"."Usuarios" FOR EACH ROW EXECUTE FUNCTION "public"."trg_normalize_username"();
 
 
 
@@ -1380,6 +1543,12 @@ GRANT ALL ON FUNCTION "public"."link_rutina_to_current_user"() TO "service_role"
 
 
 
+GRANT ALL ON FUNCTION "public"."normalize_username"("p_username" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."normalize_username"("p_username" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."normalize_username"("p_username" "text") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") TO "anon";
 GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pairs" "jsonb") TO "service_role";
@@ -1392,6 +1561,24 @@ GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p
 
 
 
+GRANT ALL ON TABLE "public"."Usuarios" TO "anon";
+GRANT ALL ON TABLE "public"."Usuarios" TO "authenticated";
+GRANT ALL ON TABLE "public"."Usuarios" TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
@@ -1401,6 +1588,18 @@ GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."trg_normalize_username"() TO "anon";
+GRANT ALL ON FUNCTION "public"."trg_normalize_username"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."trg_normalize_username"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."username_is_available"("p_username" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."username_is_available"("p_username" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."username_is_available"("p_username" "text") TO "service_role";
 
 
 
@@ -1521,12 +1720,6 @@ GRANT ALL ON SEQUENCE "public"."UsuarioRutina_id_seq" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."Usuarios" TO "anon";
-GRANT ALL ON TABLE "public"."Usuarios" TO "authenticated";
-GRANT ALL ON TABLE "public"."Usuarios" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."ejercicios_id_ejercicio_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."ejercicios_id_ejercicio_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."ejercicios_id_ejercicio_seq" TO "service_role";
@@ -1641,6 +1834,6 @@ ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TAB
 
 
 
-\unrestrict WXlh00M8iqFoxfAyfVyJZAk288bdPIzfvZhvvXo05moYiltjt1Chdt74BMtKQKr
+\unrestrict ZYCkd8tvtEvgjWjM0DNj6AeX0em5bBKTaeiXLX6IU8c9Lq5Q1lmPAZ3JYvH5HB1
 
 RESET ALL;
