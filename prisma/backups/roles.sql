@@ -1,6 +1,4 @@
 
-\restrict lyCW6M46JG5OoKgHRwmEo8v1i2WH2Dpdvc4y7KWvE81ccgRhmPRpgRjvDcf4D82
-
 SET default_transaction_read_only = off;
 
 SET client_encoding = 'UTF8';
@@ -16,7 +14,5 @@ ALTER ROLE "authenticated" SET "statement_timeout" TO '8s';
 ALTER ROLE "authenticator" SET "statement_timeout" TO '8s';
 
 GRANT "postgres" TO "cli_login_postgres" WITH INHERIT FALSE GRANTED BY "supabase_admin";
-
-\unrestrict lyCW6M46JG5OoKgHRwmEo8v1i2WH2Dpdvc4y7KWvE81ccgRhmPRpgRjvDcf4D82
 
 RESET ALL;
