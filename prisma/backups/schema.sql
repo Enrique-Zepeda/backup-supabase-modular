@@ -395,6 +395,8 @@ CREATE TABLE IF NOT EXISTS "public"."Usuarios" (
     "auth_uid" "uuid",
     "username" "text",
     "sexo" "text",
+    "url_avatar" "text",
+    "updated_at" timestamp with time zone DEFAULT "now"(),
     CONSTRAINT "usuarios_nivel_experiencia_check" CHECK ((("nivel_experiencia")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
     CONSTRAINT "usuarios_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"]))),
     CONSTRAINT "usuarios_sexo_check" CHECK ((("sexo" IS NULL) OR ("sexo" = ANY (ARRAY['masculino'::"text", 'femenino'::"text"])))),
@@ -545,6 +547,36 @@ $$;
 
 
 ALTER FUNCTION "public"."trg_normalize_username"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."update_current_user_avatar"("p_url" "text") RETURNS "public"."Usuarios"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_auth_uid uuid := auth.uid();
+  v_row public."Usuarios";
+BEGIN
+  IF v_auth_uid IS NULL THEN
+    RAISE EXCEPTION 'No authenticated user';
+  END IF;
+
+  UPDATE public."Usuarios"
+  SET url_avatar = p_url,
+      updated_at = NOW()
+  WHERE auth_uid = v_auth_uid
+  RETURNING * INTO v_row;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'User profile not found for auth uid: %', v_auth_uid;
+  END IF;
+
+  RETURN v_row;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."update_current_user_avatar"("p_url" "text") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."username_is_available"("p_username" "text") RETURNS boolean
@@ -1593,6 +1625,12 @@ GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."trg_normalize_username"() TO "anon";
 GRANT ALL ON FUNCTION "public"."trg_normalize_username"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."trg_normalize_username"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."update_current_user_avatar"("p_url" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."update_current_user_avatar"("p_url" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."update_current_user_avatar"("p_url" "text") TO "service_role";
 
 
 
