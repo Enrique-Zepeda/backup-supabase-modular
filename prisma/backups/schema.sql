@@ -963,6 +963,44 @@ ALTER SEQUENCE "public"."usuarios_id_usuario_seq" OWNED BY "public"."Usuarios"."
 
 
 
+CREATE OR REPLACE VIEW "public"."v_finished_workouts" AS
+ SELECT "e"."id_sesion",
+    "e"."id_rutina",
+    "e"."owner_uid",
+    "e"."started_at",
+    "e"."ended_at",
+    ( SELECT ("count"(*))::integer AS "count"
+           FROM "public"."EntrenamientoSets" "s"
+          WHERE ("s"."id_sesion" = "e"."id_sesion")) AS "total_sets",
+    "e"."total_volumen" AS "total_volume",
+    COALESCE("r"."nombre", 'Entrenamiento'::character varying) AS "titulo",
+    "u"."username",
+    "u"."url_avatar",
+    COALESCE(( SELECT "jsonb_agg"("jsonb_build_object"('id', "x"."id_ejercicio", 'nombre', "x"."nombre", 'grupo_muscular', "x"."grupo_muscular", 'equipamento', "x"."equipamento", 'ejemplo', "x"."ejemplo", 'sets_done', "x"."sets_done", 'volume', "x"."volume") ORDER BY "x"."sets_done" DESC, "x"."nombre") AS "jsonb_agg"
+           FROM ( SELECT "s"."id_ejercicio",
+                    "ej"."nombre",
+                    "ej"."grupo_muscular",
+                    "ej"."equipamento",
+                    "ej"."ejemplo",
+                    ("count"(*))::integer AS "sets_done",
+                    COALESCE("sum"(("s"."kg" * ("s"."reps")::numeric)), NULL::numeric) AS "volume"
+                   FROM ("public"."EntrenamientoSets" "s"
+                     JOIN "public"."Ejercicios" "ej" ON (("ej"."id" = "s"."id_ejercicio")))
+                  WHERE ("s"."id_sesion" = "e"."id_sesion")
+                  GROUP BY "s"."id_ejercicio", "ej"."nombre", "ej"."grupo_muscular", "ej"."equipamento", "ej"."ejemplo") "x"), '[]'::"jsonb") AS "ejercicios"
+   FROM (("public"."Entrenamientos" "e"
+     LEFT JOIN "public"."Rutinas" "r" ON (("r"."id_rutina" = "e"."id_rutina")))
+     JOIN "public"."Usuarios" "u" ON (("u"."auth_uid" = "e"."owner_uid")))
+  WHERE (("e"."ended_at" IS NOT NULL) AND ("e"."owner_uid" = "auth"."uid"()));
+
+
+ALTER VIEW "public"."v_finished_workouts" OWNER TO "postgres";
+
+
+COMMENT ON VIEW "public"."v_finished_workouts" IS 'Entrenamientos finalizados del usuario actual con username/avatar y ejercicios (incluye ejemplo=URL de imagen).';
+
+
+
 ALTER TABLE ONLY "public"."Ejercicios" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."ejercicios_id_ejercicio_seq"'::"regclass");
 
 
@@ -1808,6 +1846,12 @@ GRANT ALL ON SEQUENCE "public"."rutinas_id_rutina_seq" TO "service_role";
 GRANT ALL ON SEQUENCE "public"."usuarios_id_usuario_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."usuarios_id_usuario_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."usuarios_id_usuario_seq" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."v_finished_workouts" TO "anon";
+GRANT ALL ON TABLE "public"."v_finished_workouts" TO "authenticated";
+GRANT ALL ON TABLE "public"."v_finished_workouts" TO "service_role";
 
 
 
