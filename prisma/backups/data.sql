@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict NIrpWDvtXge1YhT5hoQt2ZLCBr8LKKaw9f3f3IZiPxMgpoZihUewP77hkkcSX7M
+-- \restrict EVO12dZ08cgIMVlLVzYtLVoAeUfkOMKjlPTbreS3XKZxSgqSU7IYEG8Pd8GZlx5
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1047,10 +1047,8 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 87	ADSA	tODAS	intermedio	hipertrofia	30	ef794a04-7430-4bda-8604-b6324ea88cde
 115	Se pudo?	aaaaaaaa	principiante	fuerza	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7
 117	kadja	sakdnjajbds	principiante	hipertrofia	38	ef794a04-7430-4bda-8604-b6324ea88cde
-119	prueba configuracion	siu	principiante	fuerza	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7
 120	CHESTERDAAAAAAAY	pecho hombro tricep	avanzado	hipertrofia	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7
 121	Pierna	ddddd	principiante	fuerza	30	bf9f3a06-afbe-4031-b3ed-86d08af7f87b
-122	Prueba	siiiu	intermedio	hipertrofia	100	82eb2899-4641-4dfe-97dc-665ccb66cdf7
 124	Pechoooo	dadasda	principiante	fuerza	30	d028ed7d-a831-42ed-acbf-582084cf6b7a
 125	proutippoipeuji	fsdfsd	principiante	fuerza	30	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9
 126	dfsd	fdsfsd	principiante	fuerza	30	09ff1a6d-48d3-4dbf-814e-5229c6549e86
@@ -1062,8 +1060,6 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 --
 
 COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repeticiones", "peso_sugerido", "orden") FROM stdin;
-122	2	3	10	10.00	3
-122	1	3	10	100.00	1
 1	16	3	10	0.50	1
 1	17	3	10	1.00	2
 3	2	4	8	100.00	1
@@ -1072,17 +1068,12 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 4	1	3	10	0.00	1
 87	1	3	10	0.00	1
 87	9	3	10	0.00	2
-122	8	4	10	60.00	2
 124	1	3	10	20.00	1
 113	1	4	10	0.00	1
 114	1	4	10	90.00	1
 114	8	3	10	0.00	2
 125	1	3	10	100.00	1
 126	1	3	10	100.00	1
-119	6	3	10	0.00	6
-119	2	3	10	0.00	3
-119	9	3	10	0.00	4
-119	20	3	10	0.00	5
 115	1	1	10	0.00	1
 115	7	1	10	0.00	2
 120	1	4	10	100.00	1
@@ -1102,18 +1093,6 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 --
 
 COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", "reps") FROM stdin;
-119	6	1	1.00	10
-119	6	2	0.00	10
-119	6	3	0.00	10
-119	2	1	0.00	10
-119	2	2	0.00	10
-119	2	3	0.00	10
-119	9	1	0.00	10
-119	9	2	0.00	10
-119	9	3	0.00	10
-119	20	1	0.00	10
-119	20	2	0.00	10
-119	20	3	0.00	10
 120	1	1	100.00	10
 120	1	2	100.00	10
 120	1	3	100.00	10
@@ -1141,16 +1120,6 @@ COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", 
 121	7	3	100.00	10
 115	1	1	110.00	10
 115	7	1	60.00	10
-122	2	1	10.00	10
-122	2	2	10.00	10
-122	2	3	10.00	10
-122	1	1	100.00	10
-122	1	2	100.00	10
-122	1	3	100.00	10
-122	8	1	60.00	10
-122	8	2	60.00	10
-122	8	3	60.00	10
-122	8	4	60.00	10
 124	1	1	20.00	10
 124	1	2	20.00	10
 124	1	3	20.00	10
@@ -1168,19 +1137,18 @@ COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", 
 --
 
 COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_at", "ended_at", "duracion_seg", "total_volumen", "sensacion_global", "notas", "created_at") FROM stdin;
-10	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:48:01.358+00	2025-09-19 02:48:56.256+00	582	7200	\N	\N	2025-09-19 02:48:58.24384+00
-11	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:49:10.656+00	2025-09-19 02:49:30.097+00	19	1000	\N	\N	2025-09-19 02:49:32.063738+00
-12	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:49:42.159+00	2025-09-19 02:50:12.927+00	31	6000	\N	\N	2025-09-19 02:50:15.017318+00
+25	\N	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:03:05.726+00	2025-09-20 23:03:09.867+00	4	3000	\N	\N	2025-09-20 23:03:10.990798+00
 20	121	bf9f3a06-afbe-4031-b3ed-86d08af7f87b	2025-09-19 22:44:30.003+00	2025-09-19 22:44:41.612+00	12	6000	\N	\N	2025-09-19 22:44:41.711364+00
-25	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:03:05.726+00	2025-09-20 23:03:09.867+00	4	3000	\N	\N	2025-09-20 23:03:10.990798+00
 26	120	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:08:02.07+00	2025-09-20 23:08:12.2+00	10	6800	\N	\N	2025-09-20 23:08:13.270186+00
 27	120	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:08:20.691+00	2025-09-20 23:09:03.72+00	43	4470	\N	\N	2025-09-20 23:09:04.8153+00
 46	113	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-22 17:41:43.683+00	2025-09-22 17:59:30.945+00	1067	3000	\N	\N	2025-09-22 17:59:31.416612+00
 47	124	d028ed7d-a831-42ed-acbf-582084cf6b7a	2025-09-23 02:14:10.576+00	2025-09-23 02:14:23.85+00	13	1200	\N	\N	2025-09-23 02:14:24.423196+00
 48	125	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9	2025-09-23 14:24:48.823+00	2025-09-23 14:24:52.87+00	4	3000	\N	\N	2025-09-23 14:24:54.327227+00
 49	126	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-24 02:39:13.26+00	2025-09-24 02:39:23.114+00	10	3000	\N	\N	2025-09-24 02:39:23.805188+00
-52	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-25 15:01:55.806+00	2025-09-25 15:02:22.785+00	27	5700	\N	\N	2025-09-25 15:02:22.632096+00
-54	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-26 01:19:54.871+00	2025-09-26 01:20:00.641+00	6	3000	\N	\N	2025-09-26 01:20:00.843981+00
+60	120	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-26 02:27:36.485+00	2025-09-26 02:28:11.404+00	35	7500	\N	\N	2025-09-26 02:28:11.66814+00
+10	\N	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:48:01.358+00	2025-09-19 02:48:56.256+00	582	7200	\N	\N	2025-09-19 02:48:58.24384+00
+11	\N	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:49:10.656+00	2025-09-19 02:49:30.097+00	19	1000	\N	\N	2025-09-19 02:49:32.063738+00
+12	\N	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:49:42.159+00	2025-09-19 02:50:12.927+00	31	6000	\N	\N	2025-09-19 02:50:15.017318+00
 \.
 
 
@@ -1189,12 +1157,18 @@ COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_
 --
 
 COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "reps", "rpe", "done", "done_at") FROM stdin;
-54	1	1	100	10	\N	t	2025-09-26 01:19:56.334+00
-54	1	2	100	10	\N	t	2025-09-26 01:19:56.646+00
-54	1	3	100	10	\N	t	2025-09-26 01:19:57.214+00
-54	2	1	10	10	\N	f	\N
-54	2	2	10	10	\N	f	\N
-54	2	3	10	10	\N	f	\N
+60	1	1	100	10	Muy difícil	t	2025-09-26 02:27:43.782+00
+60	1	2	100	10	Moderado	t	2025-09-26 02:27:44.264+00
+60	1	3	100	10	Muy difícil	t	2025-09-26 02:27:44.849+00
+60	1	4	100	10	Fácil	t	2025-09-26 02:27:45.309+00
+60	15	1	20	15	Muy difícil	t	2025-09-26 02:27:56.283+00
+60	15	2	20	15	Difícil	t	2025-09-26 02:27:55.893+00
+60	15	3	20	15	Muy difícil	t	2025-09-26 02:27:55.51+00
+60	15	4	20	15	Difícil	t	2025-09-26 02:27:55.197+00
+60	15	5	20	15	Al fallo	t	2025-09-26 02:27:54.564+00
+60	2	1	100	10	\N	t	2025-09-26 02:28:07.264+00
+60	2	2	100	10	\N	t	2025-09-26 02:28:07.631+00
+60	2	3	100	10	\N	f	\N
 47	6	1	20	10	\N	t	2025-09-23 02:14:18.198+00
 47	6	2	20	10	\N	t	2025-09-23 02:14:19.313+00
 47	6	3	20	10	\N	t	2025-09-23 02:14:19.872+00
@@ -1253,19 +1227,9 @@ COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "re
 20	7	1	100	10	\N	t	2025-09-19 22:44:35.356+00
 20	7	2	100	10	\N	t	2025-09-19 22:44:37.077+00
 20	7	3	100	10	\N	t	2025-09-19 22:44:36.518+00
-52	2	1	10	10	Fácil	t	2025-09-25 15:02:12.66+00
-52	2	2	10	10	Al fallo	t	2025-09-25 15:02:13.198+00
-52	2	3	10	10	Al fallo	t	2025-09-25 15:02:13.546+00
-52	1	1	100	10	Al fallo	t	2025-09-25 15:01:57.773+00
-52	1	2	100	10	Al fallo	t	2025-09-25 15:01:58.239+00
-52	1	3	100	10	Muy difícil	t	2025-09-25 15:01:58.742+00
-52	8	1	60	10	Muy difícil	t	2025-09-25 15:02:04.17+00
-52	8	2	60	10	Muy difícil	t	2025-09-25 15:02:04.568+00
 46	2	1	100	10	\N	t	2025-09-22 17:59:24.457+00
 46	2	2	100	10	\N	t	2025-09-22 17:59:24.825+00
 46	2	3	100	10	\N	t	2025-09-22 17:59:25.438+00
-52	8	3	60	10	Al fallo	t	2025-09-25 15:02:05.936+00
-52	8	4	60	10	Al fallo	t	2025-09-25 15:02:05.627+00
 48	1	1	100	10	\N	t	2025-09-23 14:24:49.971+00
 48	1	2	100	10	\N	t	2025-09-23 14:24:50.349+00
 48	1	3	100	10	\N	t	2025-09-23 14:24:51.129+00
@@ -1326,10 +1290,8 @@ COPY "public"."UsuarioRutina" ("id", "created_at", "id_usuario", "id_rutina", "i
 57	2025-09-08 15:42:49.098565+00	20	87	\N	t	f
 113	2025-09-16 19:41:17.472519+00	19	115	\N	t	f
 117	2025-09-18 14:13:05.403873+00	20	117	\N	t	f
-121	2025-09-19 00:50:16.759213+00	19	119	\N	t	f
 123	2025-09-19 21:20:14.135393+00	19	120	\N	t	f
 125	2025-09-19 22:44:26.623454+00	3	121	\N	t	f
-127	2025-09-20 14:27:48.820814+00	19	122	\N	t	f
 131	2025-09-23 02:14:08.388553+00	29	124	\N	t	f
 133	2025-09-23 14:24:47.84428+00	31	125	\N	t	f
 135	2025-09-24 02:39:09.985484+00	9	126	\N	t	f
@@ -1422,7 +1384,7 @@ SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 347, true);
 -- Name: Entrenamientos_id_sesion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 55, true);
+SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 60, true);
 
 
 --
@@ -1499,6 +1461,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 31, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict NIrpWDvtXge1YhT5hoQt2ZLCBr8LKKaw9f3f3IZiPxMgpoZihUewP77hkkcSX7M
+-- \unrestrict EVO12dZ08cgIMVlLVzYtLVoAeUfkOMKjlPTbreS3XKZxSgqSU7IYEG8Pd8GZlx5
 
 RESET ALL;
