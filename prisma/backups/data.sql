@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict UTw49uVQE99guu0uvtgFzrWbh9t5PAYcZdPbO1vcOfiJMcdsgsXRsozWsjsYjEC
+-- \restrict nWEQQ2FyaQa4CpoxFrg6eyt7M09HRIO2g7EX8MXbbirOWHZZUAGwTw4vP6pBbHW
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -777,6 +777,11 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	1fc38a15-a1a3-41a3-83f5-7e2e1225e99a	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-25 01:35:25.12009+00	
 00000000-0000-0000-0000-000000000000	c721bb17-7491-46e6-a36d-75cf979e8f32	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-25 01:35:26.565553+00	
 00000000-0000-0000-0000-000000000000	38f7fe4e-e808-470d-ad20-f9e4b54d5f8b	{"action":"logout","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"account"}	2025-09-25 01:35:50.027231+00	
+00000000-0000-0000-0000-000000000000	aa75c6ed-1517-4209-9470-171ddf05cf78	{"action":"login","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-09-25 14:16:55.557597+00	
+00000000-0000-0000-0000-000000000000	2bd29420-f2c1-4644-a797-70cead36c507	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-25 15:38:44.505186+00	
+00000000-0000-0000-0000-000000000000	c2d2af4a-b69b-4634-ba4b-5f88ae328782	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-25 15:38:44.512905+00	
+00000000-0000-0000-0000-000000000000	1b05788f-3761-47d0-9c33-83f41bad265f	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-26 00:51:50.018671+00	
+00000000-0000-0000-0000-000000000000	c58c171c-bc34-40a2-b2b1-138697abde4b	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-09-26 00:51:50.026394+00	
 \.
 
 
@@ -810,7 +815,7 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	3c23b75b-4db9-487d-a148-6b30523ce237	authenticated	authenticated	lemmakaxebre-8624@yopmail.com	$2a$10$Uu42mzba9sqqfD9.LnRZ0eoKbL0nWGgQ/Ejfk8.3QEx40QToDQyZa	2025-08-02 17:02:10.863286+00	\N		\N		2025-08-02 18:54:20.458516+00			\N	2025-09-23 01:27:31.174394+00	{"provider": "email", "providers": ["email"]}	{"sub": "3c23b75b-4db9-487d-a148-6b30523ce237", "email": "lemmakaxebre-8624@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-02 17:02:02.566997+00	2025-09-23 01:27:31.177828+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	bf9f3a06-afbe-4031-b3ed-86d08af7f87b	authenticated	authenticated	meyibaprallou-7095@yopmail.com	$2a$10$wGHRhU7vKL7VoteHeHskpeNeqeKCkO7rQbaMd8/uJ4xaY7mt30Mmq	2025-08-02 01:32:20.624467+00	\N		2025-08-02 01:32:12.09326+00		\N			\N	2025-09-24 03:25:46.905606+00	{"provider": "email", "providers": ["email"]}	{"sub": "bf9f3a06-afbe-4031-b3ed-86d08af7f87b", "email": "meyibaprallou-7095@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-02 01:32:12.080915+00	2025-09-24 03:25:46.911626+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9	authenticated	authenticated	proutippoipeuji-3523@yopmail.com	$2a$10$w3af4.s4EnRqxnflIA.Whu3t3RJcUPtlPl3LDlHiGGPMT2HCb4nYK	2025-09-23 14:23:49.254545+00	\N		\N		\N			\N	2025-09-23 14:47:35.494167+00	{"provider": "email", "providers": ["email"]}	{"sub": "c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9", "email": "proutippoipeuji-3523@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 14:23:29.168681+00	2025-09-23 14:47:35.496532+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-09-24 03:25:59.064193+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-09-25 01:35:25.132827+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-09-25 14:16:55.576404+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-09-26 00:51:50.035405+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	d028ed7d-a831-42ed-acbf-582084cf6b7a	authenticated	authenticated	cosegepunu-2914@yopmail.com	$2a$10$RkNdxM4VdUL.rKezTo1/L.ySteHa42ifaoLks.b6zOm6a9iWffdQK	2025-09-23 02:12:57.897146+00	\N		\N		\N			\N	2025-09-23 13:50:30.908504+00	{"provider": "email", "providers": ["email"]}	{"sub": "d028ed7d-a831-42ed-acbf-582084cf6b7a", "email": "cosegepunu-2914@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 02:12:34.6173+00	2025-09-23 13:50:30.909915+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	e334d918-2367-4b34-bf66-83a9c0b8a4aa	authenticated	authenticated	treitteubeigrizei-6265@yopmail.com	$2a$10$gfBTXVFCd3VuncqEmHWgkebFFqmUN/GfRrLt5hgAyreVy5Osq4wRe	2025-09-23 13:52:15.111632+00	\N		\N		\N			\N	2025-09-23 14:23:07.884217+00	{"provider": "email", "providers": ["email"]}	{"sub": "e334d918-2367-4b34-bf66-83a9c0b8a4aa", "email": "treitteubeigrizei-6265@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 13:52:02.543747+00	2025-09-23 14:23:07.885825+00	\N	\N			\N		0	\N		\N	f	\N	f
 \.
@@ -861,6 +866,7 @@ b4457a70-0d50-4114-a3fe-d4d34627eb0f	c78066b4-db29-4251-9b8b-3962ad36594f	2025-0
 3909d172-8c98-4cb4-847f-ac26e609227f	c78066b4-db29-4251-9b8b-3962ad36594f	2025-07-30 00:50:44.966242+00	2025-07-30 00:50:44.966242+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36	177.245.200.254	\N
 1b4cbc20-24cd-47a1-9fd2-7a43518625cf	ed716103-7c30-47f8-9d88-0a3188b9b43d	2025-09-02 21:04:41.761866+00	2025-09-02 21:04:41.761866+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36	177.245.200.254	\N
 125caab4-c213-4231-8971-20985f557a58	ef794a04-7430-4bda-8604-b6324ea88cde	2025-09-08 15:42:13.345284+00	2025-09-18 16:57:06.192318+00	\N	aal1	\N	2025-09-18 16:57:06.192249	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	148.202.136.216	\N
+5e5e0247-e859-408b-badf-0c645a820621	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-25 14:16:55.577087+00	2025-09-26 00:51:50.037936+00	\N	aal1	\N	2025-09-26 00:51:50.037868	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.211.49.11	\N
 35c53a73-5a8c-41cf-95bf-f8e1338c5892	3c278e9e-7ca6-4d16-bf51-1343d7347f81	2025-09-23 00:39:57.572961+00	2025-09-23 00:39:57.572961+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.211.49.11	\N
 \.
 
@@ -875,6 +881,7 @@ b4457a70-0d50-4114-a3fe-d4d34627eb0f	2025-07-30 00:50:39.182177+00	2025-07-30 00
 1b4cbc20-24cd-47a1-9fd2-7a43518625cf	2025-09-02 21:04:41.764336+00	2025-09-02 21:04:41.764336+00	password	1a1bde2e-a7ed-45b7-b2f0-64caa9ef9aad
 125caab4-c213-4231-8971-20985f557a58	2025-09-08 15:42:13.381388+00	2025-09-08 15:42:13.381388+00	otp	ee158fec-1f93-4fba-b9ef-08beb582d9d6
 35c53a73-5a8c-41cf-95bf-f8e1338c5892	2025-09-23 00:39:57.59047+00	2025-09-23 00:39:57.59047+00	password	66b4470e-dbd5-400a-957a-dc8b81574478
+5e5e0247-e859-408b-badf-0c645a820621	2025-09-25 14:16:55.611545+00	2025-09-25 14:16:55.611545+00	password	31459c4a-34e0-418c-9687-850c52d71189
 \.
 
 
@@ -914,6 +921,9 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	185	c64mxgkzsvdh	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-08 15:42:13.362283+00	2025-09-09 16:08:20.670538+00	\N	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	165	mpqtkbmdzcs5	ed716103-7c30-47f8-9d88-0a3188b9b43d	f	2025-09-02 21:04:41.762621+00	2025-09-02 21:04:41.762621+00	\N	1b4cbc20-24cd-47a1-9fd2-7a43518625cf
 00000000-0000-0000-0000-000000000000	277	rpmzz2obt4ck	3c278e9e-7ca6-4d16-bf51-1343d7347f81	f	2025-09-23 00:39:57.578986+00	2025-09-23 00:39:57.578986+00	\N	35c53a73-5a8c-41cf-95bf-f8e1338c5892
+00000000-0000-0000-0000-000000000000	344	2ci7xozxawcy	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-09-25 14:16:55.593216+00	2025-09-25 15:38:44.514301+00	\N	5e5e0247-e859-408b-badf-0c645a820621
+00000000-0000-0000-0000-000000000000	345	k6f2vuasp4ww	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-09-25 15:38:44.51872+00	2025-09-26 00:51:50.027597+00	2ci7xozxawcy	5e5e0247-e859-408b-badf-0c645a820621
+00000000-0000-0000-0000-000000000000	346	ymrmizbqg3ya	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f	2025-09-26 00:51:50.033583+00	2025-09-26 00:51:50.033583+00	k6f2vuasp4ww	5e5e0247-e859-408b-badf-0c645a820621
 00000000-0000-0000-0000-000000000000	189	dsjbitfc2nbq	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-09 16:08:20.679452+00	2025-09-18 14:09:28.487653+00	c64mxgkzsvdh	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	226	zedeqotegs6k	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-18 14:09:28.488997+00	2025-09-18 15:43:02.489399+00	dsjbitfc2nbq	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	228	guubn4tqmiqu	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-18 15:43:02.492314+00	2025-09-18 16:57:06.18692+00	zedeqotegs6k	125caab4-c213-4231-8971-20985f557a58
@@ -1155,8 +1165,6 @@ COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", 
 --
 
 COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_at", "ended_at", "duracion_seg", "total_volumen", "sensacion_global", "notas", "created_at") FROM stdin;
-5	115	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-18 15:13:18.754+00	2025-09-18 15:13:43.162+00	24	3900	\N	\N	2025-09-18 15:13:43.894419+00
-9	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:38:10.937+00	2025-09-19 02:38:25.88+00	15	5000	\N	\N	2025-09-19 02:38:27.83795+00
 10	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:48:01.358+00	2025-09-19 02:48:56.256+00	582	7200	\N	\N	2025-09-19 02:48:58.24384+00
 11	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:49:10.656+00	2025-09-19 02:49:30.097+00	19	1000	\N	\N	2025-09-19 02:49:32.063738+00
 12	119	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-19 02:49:42.159+00	2025-09-19 02:50:12.927+00	31	6000	\N	\N	2025-09-19 02:50:15.017318+00
@@ -1164,12 +1172,13 @@ COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_
 25	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:03:05.726+00	2025-09-20 23:03:09.867+00	4	3000	\N	\N	2025-09-20 23:03:10.990798+00
 26	120	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:08:02.07+00	2025-09-20 23:08:12.2+00	10	6800	\N	\N	2025-09-20 23:08:13.270186+00
 27	120	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-20 23:08:20.691+00	2025-09-20 23:09:03.72+00	43	4470	\N	\N	2025-09-20 23:09:04.8153+00
-29	115	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-21 00:24:03.806+00	2025-09-21 00:24:23.251+00	1	0	\N	\N	2025-09-21 00:24:24.293497+00
-30	115	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-21 00:24:34.271+00	2025-09-21 00:25:24.739+00	1	5400	\N	\N	2025-09-21 00:25:26.011359+00
 46	113	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-22 17:41:43.683+00	2025-09-22 17:59:30.945+00	1067	3000	\N	\N	2025-09-22 17:59:31.416612+00
 47	124	d028ed7d-a831-42ed-acbf-582084cf6b7a	2025-09-23 02:14:10.576+00	2025-09-23 02:14:23.85+00	13	1200	\N	\N	2025-09-23 02:14:24.423196+00
 48	125	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9	2025-09-23 14:24:48.823+00	2025-09-23 14:24:52.87+00	4	3000	\N	\N	2025-09-23 14:24:54.327227+00
 49	126	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-24 02:39:13.26+00	2025-09-24 02:39:23.114+00	10	3000	\N	\N	2025-09-24 02:39:23.805188+00
+52	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-25 15:01:55.806+00	2025-09-25 15:02:22.785+00	27	5700	\N	\N	2025-09-25 15:02:22.632096+00
+54	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-26 01:19:54.871+00	2025-09-26 01:20:00.641+00	6	3000	\N	\N	2025-09-26 01:20:00.843981+00
+55	122	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-26 01:20:12.155+00	2025-09-26 01:20:15.759+00	4	3000	\N	\N	2025-09-26 01:20:15.914848+00
 \.
 
 
@@ -1178,6 +1187,14 @@ COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_
 --
 
 COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "reps", "rpe", "done", "done_at") FROM stdin;
+54	1	1	100	10	\N	t	2025-09-26 01:19:56.334+00
+54	1	2	100	10	\N	t	2025-09-26 01:19:56.646+00
+54	1	3	100	10	\N	t	2025-09-26 01:19:57.214+00
+54	2	1	10	10	\N	f	\N
+54	2	2	10	10	\N	f	\N
+54	2	3	10	10	\N	f	\N
+55	1	1	100	10	\N	t	2025-09-26 01:20:13.673+00
+55	1	2	100	10	\N	t	2025-09-26 01:20:13.423+00
 47	6	1	20	10	\N	t	2025-09-23 02:14:18.198+00
 47	6	2	20	10	\N	t	2025-09-23 02:14:19.313+00
 47	6	3	20	10	\N	t	2025-09-23 02:14:19.872+00
@@ -1187,10 +1204,6 @@ COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "re
 25	1	2	100	10	\N	t	2025-09-20 23:03:07.432+00
 25	1	3	100	10	\N	t	2025-09-20 23:03:08.079+00
 25	8	1	60	10	\N	f	\N
-5	1	1	110	10	Difícil	t	2025-09-18 15:13:36.227+00
-5	1	2	110	10	Difícil	t	2025-09-18 15:13:35.824+00
-5	1	3	110	10	Difícil	t	2025-09-18 15:13:35.54+00
-5	7	1	60	10	Fácil	t	2025-09-18 15:13:38.264+00
 25	8	2	60	10	\N	f	\N
 25	8	3	60	10	\N	f	\N
 25	8	4	60	10	\N	f	\N
@@ -1205,14 +1218,10 @@ COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "re
 49	1	1	100	10	\N	t	2025-09-24 02:39:16.799+00
 49	1	2	100	10	\N	t	2025-09-24 02:39:17.358+00
 49	1	3	100	10	\N	t	2025-09-24 02:39:17.844+00
+55	1	3	100	10	\N	t	2025-09-26 01:20:13.139+00
 26	15	4	20	15	\N	t	2025-09-20 23:08:08.17+00
 26	6	1	80	10	\N	t	2025-09-20 23:08:09.342+00
 26	6	2	80	10	\N	t	2025-09-20 23:08:09.816+00
-9	7	1	100	10	\N	t	2025-09-19 02:38:19.378+00
-9	7	2	100	10	\N	t	2025-09-19 02:38:20.606+00
-9	1	1	100	10	\N	t	2025-09-19 02:38:22.197+00
-9	1	2	100	10	\N	t	2025-09-19 02:38:23.533+00
-9	1	3	100	10	\N	t	2025-09-19 02:38:24.111+00
 10	7	1	100	10	\N	t	2025-09-19 02:48:27.76+00
 10	7	2	100	10	\N	t	2025-09-19 02:48:27.102+00
 10	1	1	100	10	\N	t	2025-09-19 02:48:29.286+00
@@ -1239,27 +1248,32 @@ COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "re
 27	6	2	80	10	\N	t	2025-09-20 23:08:27.016+00
 27	21	1	19	20	\N	t	2025-09-20 23:08:50.745+00
 27	21	2	19	20	\N	t	2025-09-20 23:08:51.087+00
-29	2	1	100	10	\N	f	\N
-29	2	2	100	10	\N	f	\N
-29	2	3	100	10	\N	f	\N
-29	1	1	110	10	\N	f	\N
-29	7	1	60	10	\N	f	\N
-30	2	1	100	10	\N	t	2025-09-21 00:24:50.022+00
-30	2	2	100	10	\N	t	2025-09-21 00:24:50.422+00
-30	2	3	100	10	\N	t	2025-09-21 00:24:50.93+00
-30	1	1	110	10	\N	t	2025-09-21 00:24:52.068+00
-30	1	2	110	10	\N	t	2025-09-21 00:24:53.183+00
-30	6	1	10	10	\N	t	2025-09-21 00:25:17.718+00
-30	6	2	10	10	\N	t	2025-09-21 00:25:18.869+00
+55	8	1	60	10	\N	f	\N
+55	8	2	60	10	\N	f	\N
+55	8	3	60	10	\N	f	\N
+55	8	4	60	10	\N	f	\N
+55	2	1	10	10	\N	f	\N
+55	2	2	10	10	\N	f	\N
+55	2	3	10	10	\N	f	\N
 20	12	1	100	10	\N	t	2025-09-19 22:44:31.871+00
 20	12	2	100	10	\N	t	2025-09-19 22:44:32.429+00
 20	12	3	100	10	\N	t	2025-09-19 22:44:33.941+00
 20	7	1	100	10	\N	t	2025-09-19 22:44:35.356+00
 20	7	2	100	10	\N	t	2025-09-19 22:44:37.077+00
 20	7	3	100	10	\N	t	2025-09-19 22:44:36.518+00
+52	2	1	10	10	Fácil	t	2025-09-25 15:02:12.66+00
+52	2	2	10	10	Al fallo	t	2025-09-25 15:02:13.198+00
+52	2	3	10	10	Al fallo	t	2025-09-25 15:02:13.546+00
+52	1	1	100	10	Al fallo	t	2025-09-25 15:01:57.773+00
+52	1	2	100	10	Al fallo	t	2025-09-25 15:01:58.239+00
+52	1	3	100	10	Muy difícil	t	2025-09-25 15:01:58.742+00
+52	8	1	60	10	Muy difícil	t	2025-09-25 15:02:04.17+00
+52	8	2	60	10	Muy difícil	t	2025-09-25 15:02:04.568+00
 46	2	1	100	10	\N	t	2025-09-22 17:59:24.457+00
 46	2	2	100	10	\N	t	2025-09-22 17:59:24.825+00
 46	2	3	100	10	\N	t	2025-09-22 17:59:25.438+00
+52	8	3	60	10	Al fallo	t	2025-09-25 15:02:05.936+00
+52	8	4	60	10	Al fallo	t	2025-09-25 15:02:05.627+00
 48	1	1	100	10	\N	t	2025-09-23 14:24:49.971+00
 48	1	2	100	10	\N	t	2025-09-23 14:24:50.349+00
 48	1	3	100	10	\N	t	2025-09-23 14:24:51.129+00
@@ -1409,14 +1423,14 @@ COPY "storage"."s3_multipart_uploads_parts" ("id", "upload_id", "size", "part_nu
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 343, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 346, true);
 
 
 --
 -- Name: Entrenamientos_id_sesion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 50, true);
+SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 55, true);
 
 
 --
@@ -1493,6 +1507,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 31, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict UTw49uVQE99guu0uvtgFzrWbh9t5PAYcZdPbO1vcOfiJMcdsgsXRsozWsjsYjEC
+-- \unrestrict nWEQQ2FyaQa4CpoxFrg6eyt7M09HRIO2g7EX8MXbbirOWHZZUAGwTw4vP6pBbHW
 
 RESET ALL;

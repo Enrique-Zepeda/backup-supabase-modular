@@ -52,6 +52,16 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 
 
+CREATE OR REPLACE FUNCTION "public"."_normalize_label"("p" "text") RETURNS "text"
+    LANGUAGE "sql" IMMUTABLE
+    AS $$
+  SELECT translate(lower(trim(p)), 'áéíóúÁÉÍÓÚ', 'aeiouaeiou');
+$$;
+
+
+ALTER FUNCTION "public"."_normalize_label"("p" "text") OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."attach_owner_after_rutina_insert"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     SET "search_path" TO 'public'
@@ -66,6 +76,34 @@ $$;
 
 
 ALTER FUNCTION "public"."attach_owner_after_rutina_insert"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) RETURNS "text"
+    LANGUAGE "sql" STABLE
+    AS $$
+  WITH scores AS (
+    SELECT rpe_label_to_score(es.rpe) AS s
+    FROM "public"."EntrenamientoSets" es
+    WHERE es.id_sesion = p_id_sesion
+  ),
+  agg AS (
+    SELECT AVG(s)::numeric AS avg_s
+    FROM scores
+    WHERE s IS NOT NULL
+  )
+  SELECT COALESCE(
+    rpe_score_to_label(avg_s),
+    'Sin sensaciones'
+  )
+  FROM agg;
+$$;
+
+
+ALTER FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) IS 'Devuelve la sensación final del entrenamiento a partir del promedio de rpe (texto) de los sets.';
+
 
 
 CREATE OR REPLACE FUNCTION "public"."create_rutina_with_user_link"("p_nombre" "text", "p_descripcion" "text" DEFAULT NULL::"text", "p_nivel_recomendado" "text" DEFAULT NULL::"text", "p_objetivo" "text" DEFAULT NULL::"text", "p_duracion_estimada" integer DEFAULT NULL::integer) RETURNS TABLE("id_rutina" integer, "nombre" "text", "descripcion" "text", "nivel_recomendado" "text", "objetivo" "text", "duracion_estimada" integer)
@@ -375,6 +413,45 @@ $$;
 
 
 ALTER FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."rpe_label_to_score"("p" "text") RETURNS integer
+    LANGUAGE "sql" IMMUTABLE
+    AS $$
+  SELECT CASE _normalize_label(p)
+    WHEN 'facil'       THEN 1
+    WHEN 'moderado'    THEN 2
+    WHEN 'dificil'     THEN 3
+    WHEN 'muy dificil' THEN 4
+    WHEN 'al fallo'    THEN 5
+    ELSE NULL
+  END;
+$$;
+
+
+ALTER FUNCTION "public"."rpe_label_to_score"("p" "text") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."rpe_score_to_label"("p" numeric) RETURNS "text"
+    LANGUAGE "sql" IMMUTABLE
+    AS $$
+  -- redondeo al más cercano
+  WITH s AS (
+    SELECT ROUND(p)::int AS n
+  )
+  SELECT CASE n
+    WHEN 1 THEN 'Fácil'
+    WHEN 2 THEN 'Moderado'
+    WHEN 3 THEN 'Difícil'
+    WHEN 4 THEN 'Muy difícil'
+    WHEN 5 THEN 'Al fallo'
+    ELSE NULL
+  END
+  FROM s;
+$$;
+
+
+ALTER FUNCTION "public"."rpe_score_to_label"("p" numeric) OWNER TO "postgres";
 
 SET default_tablespace = '';
 
@@ -1001,6 +1078,30 @@ COMMENT ON VIEW "public"."v_finished_workouts" IS 'Entrenamientos finalizados de
 
 
 
+CREATE OR REPLACE VIEW "public"."v_finished_workouts_with_label" AS
+ SELECT "v"."id_sesion",
+    "v"."id_rutina",
+    "v"."owner_uid",
+    "v"."started_at",
+    "v"."ended_at",
+    "v"."total_sets",
+    "v"."total_volume",
+    "v"."titulo",
+    "v"."username",
+    "v"."url_avatar",
+    "v"."ejercicios",
+    COALESCE("e"."sensacion_global", "public"."compute_sensacion_final"("e"."id_sesion")) AS "sensacion_final"
+   FROM ("public"."v_finished_workouts" "v"
+     JOIN "public"."Entrenamientos" "e" ON (("e"."id_sesion" = "v"."id_sesion")));
+
+
+ALTER VIEW "public"."v_finished_workouts_with_label" OWNER TO "postgres";
+
+
+COMMENT ON VIEW "public"."v_finished_workouts_with_label" IS 'v_finished_workouts + columna sensacion_final (texto): Fácil/Moderado/... o "Sin sensaciones".';
+
+
+
 ALTER TABLE ONLY "public"."Ejercicios" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."ejercicios_id_ejercicio_seq"'::"regclass");
 
 
@@ -1548,9 +1649,21 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 
 
 
+GRANT ALL ON FUNCTION "public"."_normalize_label"("p" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."_normalize_label"("p" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."_normalize_label"("p" "text") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."attach_owner_after_rutina_insert"() TO "anon";
 GRANT ALL ON FUNCTION "public"."attach_owner_after_rutina_insert"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."attach_owner_after_rutina_insert"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) TO "anon";
+GRANT ALL ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) TO "service_role";
 
 
 
@@ -1627,6 +1740,18 @@ GRANT ALL ON FUNCTION "public"."reorder_exercises"("p_id_rutina" integer, "p_pai
 GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") TO "anon";
 GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."rpe_label_to_score"("p" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."rpe_label_to_score"("p" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."rpe_label_to_score"("p" "text") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."rpe_score_to_label"("p" numeric) TO "anon";
+GRANT ALL ON FUNCTION "public"."rpe_score_to_label"("p" numeric) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."rpe_score_to_label"("p" numeric) TO "service_role";
 
 
 
@@ -1852,6 +1977,12 @@ GRANT ALL ON SEQUENCE "public"."usuarios_id_usuario_seq" TO "service_role";
 GRANT ALL ON TABLE "public"."v_finished_workouts" TO "anon";
 GRANT ALL ON TABLE "public"."v_finished_workouts" TO "authenticated";
 GRANT ALL ON TABLE "public"."v_finished_workouts" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."v_finished_workouts_with_label" TO "anon";
+GRANT ALL ON TABLE "public"."v_finished_workouts_with_label" TO "authenticated";
+GRANT ALL ON TABLE "public"."v_finished_workouts_with_label" TO "service_role";
 
 
 
