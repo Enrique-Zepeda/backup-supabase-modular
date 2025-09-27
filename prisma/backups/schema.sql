@@ -271,6 +271,68 @@ $$;
 ALTER FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."feed_friends_workouts"("p_limit" integer DEFAULT 20, "p_before" timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS TABLE("id_workout" bigint, "id_usuario" integer, "fecha" timestamp with time zone, "sensacion" "text", "nota" "text", "username" "text", "nombre" "text", "url_avatar" "text", "total_series" integer, "total_kg" numeric)
+    LANGUAGE "sql" STABLE
+    AS $$
+  WITH base AS (
+    SELECT
+      e.id_sesion                                  AS id_workout,
+      u.id_usuario                                  AS id_usuario,
+      e.ended_at                                    AS fecha,
+      COALESCE(e.sensacion_global, public.compute_sensacion_final(e.id_sesion)) AS sensacion,
+      e.notas                                       AS nota,
+      u.username                                    AS username,
+      u.nombre                                      AS nombre,
+      u.url_avatar                                  AS url_avatar
+    FROM public."Entrenamientos" e
+    JOIN public."Usuarios" u
+      ON u.auth_uid = e.owner_uid
+    WHERE e.ended_at IS NOT NULL
+      AND (
+        e.owner_uid = auth.uid()
+        OR public.is_friend(u.id_usuario, public.current_usuario_id())
+      )
+      AND (p_before IS NULL OR e.ended_at < p_before)
+    ORDER BY e.ended_at DESC NULLS LAST
+    LIMIT COALESCE(p_limit, 20)
+  )
+  SELECT
+    b.id_workout,
+    b.id_usuario,
+    b.fecha,
+    b.sensacion,
+    b.nota,
+    b.username,
+    b.nombre,
+    b.url_avatar,
+    (SELECT COUNT(*)::int
+       FROM public."EntrenamientoSets" s
+      WHERE s.id_sesion = b.id_workout) AS total_series,
+    (SELECT COALESCE(SUM(s.kg * s.reps), 0)::numeric
+       FROM public."EntrenamientoSets" s
+      WHERE s.id_sesion = b.id_workout) AS total_kg
+  FROM base b;
+$$;
+
+
+ALTER FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."friend_ids_for"("me" integer) RETURNS TABLE("friend_id" integer)
+    LANGUAGE "sql" STABLE
+    AS $$
+  select case
+           when a.id_usuario1 = me then a.id_usuario2
+           else a.id_usuario1
+         end as friend_id
+  from public."Amigos" a
+  where me in (a.id_usuario1, a.id_usuario2)
+$$;
+
+
+ALTER FUNCTION "public"."friend_ids_for"("me" integer) OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."handle_new_auth_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -1371,6 +1433,10 @@ CREATE INDEX "er_sets_by_pair" ON "public"."EjerciciosRutinaSets" USING "btree" 
 
 
 
+CREATE INDEX "idx_ent_owner_ended" ON "public"."Entrenamientos" USING "btree" ("owner_uid", "ended_at" DESC);
+
+
+
 CREATE INDEX "idx_entrenamientos_owner_started" ON "public"."Entrenamientos" USING "btree" ("owner_uid", "started_at" DESC);
 
 
@@ -1598,6 +1664,12 @@ CREATE POLICY "ent_select_owner" ON "public"."Entrenamientos" FOR SELECT USING (
 
 
 
+CREATE POLICY "ent_select_owner_or_friend" ON "public"."Entrenamientos" FOR SELECT TO "authenticated" USING ((("owner_uid" = "auth"."uid"()) OR (EXISTS ( SELECT 1
+   FROM "public"."Usuarios" "u"
+  WHERE (("u"."auth_uid" = "Entrenamientos"."owner_uid") AND "public"."is_friend"("u"."id_usuario", "public"."current_usuario_id"()))))));
+
+
+
 CREATE POLICY "ent_update_owner" ON "public"."Entrenamientos" FOR UPDATE USING (("owner_uid" = "auth"."uid"()));
 
 
@@ -1636,6 +1708,13 @@ CREATE POLICY "esets_owner" ON "public"."EntrenamientoSets" USING ((EXISTS ( SEL
   WHERE (("e"."id_sesion" = "EntrenamientoSets"."id_sesion") AND ("e"."owner_uid" = "auth"."uid"()))))) WITH CHECK ((EXISTS ( SELECT 1
    FROM "public"."Entrenamientos" "e"
   WHERE (("e"."id_sesion" = "EntrenamientoSets"."id_sesion") AND ("e"."owner_uid" = "auth"."uid"())))));
+
+
+
+CREATE POLICY "esets_select_owner_or_friend" ON "public"."EntrenamientoSets" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM ("public"."Entrenamientos" "e"
+     JOIN "public"."Usuarios" "u" ON (("u"."auth_uid" = "e"."owner_uid")))
+  WHERE (("e"."id_sesion" = "EntrenamientoSets"."id_sesion") AND (("e"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u"."id_usuario", "public"."current_usuario_id"()))))));
 
 
 
@@ -1898,6 +1977,18 @@ REVOKE ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) F
 GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO "anon";
 GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) TO "anon";
+GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "anon";
+GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "service_role";
 
 
 
