@@ -52,6 +52,17 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
 
 
+CREATE TYPE "public"."friend_request_state" AS ENUM (
+    'pendiente',
+    'aceptada',
+    'rechazada',
+    'cancelada'
+);
+
+
+ALTER TYPE "public"."friend_request_state" OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."_normalize_label"("p" "text") RETURNS "text"
     LANGUAGE "sql" IMMUTABLE
     AS $$
@@ -414,6 +425,125 @@ $$;
 
 ALTER FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p_id_ejercicio" integer, "p_sets" "jsonb") OWNER TO "postgres";
 
+SET default_tablespace = '';
+
+SET default_table_access_method = "heap";
+
+
+CREATE TABLE IF NOT EXISTS "public"."SolicitudesAmistad" (
+    "id_solicitud" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "solicitante_id" integer NOT NULL,
+    "destinatario_id" integer NOT NULL,
+    "estado" "public"."friend_request_state" DEFAULT 'pendiente'::"public"."friend_request_state" NOT NULL,
+    "mensaje" "text",
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    CONSTRAINT "chk_sa_not_self" CHECK (("solicitante_id" <> "destinatario_id"))
+);
+
+
+ALTER TABLE "public"."SolicitudesAmistad" OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."request_friend"("destinatario" integer, "p_mensaje" "text" DEFAULT NULL::"text") RETURNS "public"."SolicitudesAmistad"
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+  me integer := public.current_usuario_id();
+  result public."SolicitudesAmistad";
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'not authenticated';
+  END IF;
+
+  IF destinatario = me THEN
+    RAISE EXCEPTION 'no puedes enviarte solicitud a ti mismo';
+  END IF;
+
+  -- ya son amigos? (usa is_friend(int,int) si existe)
+  BEGIN
+    IF public.is_friend(me, destinatario) THEN
+      RAISE EXCEPTION 'ya sois amigos';
+    END IF;
+  EXCEPTION WHEN undefined_function THEN
+    NULL;
+  END;
+
+  INSERT INTO public."SolicitudesAmistad"(solicitante_id, destinatario_id, mensaje)
+  VALUES (me, destinatario, p_mensaje)
+  RETURNING * INTO result;
+
+  RETURN result;
+END$$;
+
+
+ALTER FUNCTION "public"."request_friend"("destinatario" integer, "p_mensaje" "text") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."respond_friend_request"("p_id" "uuid", "accion" "text") RETURNS "public"."SolicitudesAmistad"
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+  me integer := public.current_usuario_id();
+  row_sa public."SolicitudesAmistad";
+  a integer; b integer;
+  a_min integer; a_max integer;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'not authenticated';
+  END IF;
+
+  SELECT * INTO row_sa FROM public."SolicitudesAmistad"
+  WHERE id_solicitud = p_id FOR UPDATE;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'solicitud no encontrada';
+  END IF;
+
+  IF row_sa.estado <> 'pendiente' THEN
+    RAISE EXCEPTION 'solicitud ya procesada';
+  END IF;
+
+  IF row_sa.destinatario_id <> me THEN
+    RAISE EXCEPTION 'solo el destinatario puede responder';
+  END IF;
+
+  IF accion = 'rechazar' THEN
+    UPDATE public."SolicitudesAmistad"
+    SET estado = 'rechazada'
+    WHERE id_solicitud = p_id
+    RETURNING * INTO row_sa;
+    RETURN row_sa;
+
+  ELSIF accion = 'aceptar' THEN
+    UPDATE public."SolicitudesAmistad"
+    SET estado = 'aceptada'
+    WHERE id_solicitud = p_id
+    RETURNING * INTO row_sa;
+
+    a := row_sa.solicitante_id;
+    b := row_sa.destinatario_id;
+    a_min := LEAST(a,b);
+    a_max := GREATEST(a,b);
+
+    -- Inserta la pareja ordenada; evita duplicados incluso invertidos
+    INSERT INTO public."Amigos"(id_usuario1, id_usuario2)
+    SELECT a_min, a_max
+    WHERE NOT EXISTS (
+      SELECT 1 FROM public."Amigos"
+      WHERE (id_usuario1 = a_min AND id_usuario2 = a_max)
+         OR (id_usuario1 = a_max AND id_usuario2 = a_min)
+    );
+
+    RETURN row_sa;
+  ELSE
+    RAISE EXCEPTION 'accion inválida: %', accion;
+  END IF;
+END$$;
+
+
+ALTER FUNCTION "public"."respond_friend_request"("p_id" "uuid", "accion" "text") OWNER TO "postgres";
+
 
 CREATE OR REPLACE FUNCTION "public"."rpe_label_to_score"("p" "text") RETURNS integer
     LANGUAGE "sql" IMMUTABLE
@@ -452,10 +582,6 @@ $$;
 
 
 ALTER FUNCTION "public"."rpe_score_to_label"("p" numeric) OWNER TO "postgres";
-
-SET default_tablespace = '';
-
-SET default_table_access_method = "heap";
 
 
 CREATE TABLE IF NOT EXISTS "public"."Usuarios" (
@@ -609,6 +735,18 @@ $$;
 
 
 ALTER FUNCTION "public"."set_rutinas_owner"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."tg_set_updated_at"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  NEW.updated_at := now();
+  RETURN NEW;
+END$$;
+
+
+ALTER FUNCTION "public"."tg_set_updated_at"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."trg_normalize_username"() RETURNS "trigger"
@@ -1159,6 +1297,11 @@ ALTER TABLE ONLY "public"."Programas"
 
 
 
+ALTER TABLE ONLY "public"."SolicitudesAmistad"
+    ADD CONSTRAINT "SolicitudesAmistad_pkey" PRIMARY KEY ("id_solicitud");
+
+
+
 ALTER TABLE ONLY "public"."UsuarioRutina"
     ADD CONSTRAINT "UsuarioRutina_pkey" PRIMARY KEY ("id");
 
@@ -1236,7 +1379,27 @@ CREATE INDEX "idx_esets_sesion" ON "public"."EntrenamientoSets" USING "btree" ("
 
 
 
+CREATE INDEX "idx_sa_created_at" ON "public"."SolicitudesAmistad" USING "btree" ("created_at" DESC);
+
+
+
+CREATE INDEX "idx_sa_dest_estado" ON "public"."SolicitudesAmistad" USING "btree" ("destinatario_id", "estado");
+
+
+
+CREATE INDEX "idx_sa_sol_estado" ON "public"."SolicitudesAmistad" USING "btree" ("solicitante_id", "estado");
+
+
+
 CREATE UNIQUE INDEX "idx_ur_unique" ON "public"."UsuarioRutina" USING "btree" ("id_usuario", "id_rutina");
+
+
+
+CREATE UNIQUE INDEX "uniq_amigos_pair" ON "public"."Amigos" USING "btree" (LEAST("id_usuario1", "id_usuario2"), GREATEST("id_usuario1", "id_usuario2"));
+
+
+
+CREATE UNIQUE INDEX "uniq_sa_pair_pending" ON "public"."SolicitudesAmistad" USING "btree" (LEAST("solicitante_id", "destinatario_id"), GREATEST("solicitante_id", "destinatario_id")) WHERE ("estado" = 'pendiente'::"public"."friend_request_state");
 
 
 
@@ -1272,6 +1435,10 @@ CREATE OR REPLACE TRIGGER "trg_rutinas_set_owner" BEFORE INSERT ON "public"."Rut
 
 
 
+CREATE OR REPLACE TRIGGER "trg_sa_set_updated" BEFORE UPDATE ON "public"."SolicitudesAmistad" FOR EACH ROW EXECUTE FUNCTION "public"."tg_set_updated_at"();
+
+
+
 ALTER TABLE ONLY "public"."EntrenamientoSets"
     ADD CONSTRAINT "EntrenamientoSets_id_ejercicio_fkey" FOREIGN KEY ("id_ejercicio") REFERENCES "public"."Ejercicios"("id");
 
@@ -1299,6 +1466,16 @@ ALTER TABLE ONLY "public"."ProgramasRutinas"
 
 ALTER TABLE ONLY "public"."ProgresoDeUsuario"
     ADD CONSTRAINT "ProgresoDeUsuario_id_ejercicio_fkey" FOREIGN KEY ("id_ejercicio") REFERENCES "public"."Ejercicios"("id");
+
+
+
+ALTER TABLE ONLY "public"."SolicitudesAmistad"
+    ADD CONSTRAINT "SolicitudesAmistad_destinatario_id_fkey" FOREIGN KEY ("destinatario_id") REFERENCES "public"."Usuarios"("id_usuario") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."SolicitudesAmistad"
+    ADD CONSTRAINT "SolicitudesAmistad_solicitante_id_fkey" FOREIGN KEY ("solicitante_id") REFERENCES "public"."Usuarios"("id_usuario") ON DELETE CASCADE;
 
 
 
@@ -1403,6 +1580,9 @@ ALTER TABLE "public"."ProgramasRutinas" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."Rutinas" ENABLE ROW LEVEL SECURITY;
 
 
+ALTER TABLE "public"."SolicitudesAmistad" ENABLE ROW LEVEL SECURITY;
+
+
 ALTER TABLE "public"."UsuarioRutina" ENABLE ROW LEVEL SECURITY;
 
 
@@ -1472,6 +1652,22 @@ CREATE POLICY "rutinas_select_owner" ON "public"."Rutinas" FOR SELECT TO "authen
 
 
 CREATE POLICY "rutinas_update_owner" ON "public"."Rutinas" FOR UPDATE TO "authenticated" USING (("owner_uid" = "auth"."uid"())) WITH CHECK (("owner_uid" = "auth"."uid"()));
+
+
+
+CREATE POLICY "sa_insert_solicitante" ON "public"."SolicitudesAmistad" FOR INSERT WITH CHECK ((("auth"."uid"() IS NOT NULL) AND ("solicitante_id" = "public"."current_usuario_id"()) AND ("destinatario_id" <> "public"."current_usuario_id"())));
+
+
+
+CREATE POLICY "sa_select_participants" ON "public"."SolicitudesAmistad" FOR SELECT USING ((("auth"."uid"() IS NOT NULL) AND (("solicitante_id" = "public"."current_usuario_id"()) OR ("destinatario_id" = "public"."current_usuario_id"()))));
+
+
+
+CREATE POLICY "sa_update_cancel_by_solicitante" ON "public"."SolicitudesAmistad" FOR UPDATE USING ((("auth"."uid"() IS NOT NULL) AND ("solicitante_id" = "public"."current_usuario_id"()) AND ("estado" = 'pendiente'::"public"."friend_request_state"))) WITH CHECK (("estado" = 'cancelada'::"public"."friend_request_state"));
+
+
+
+CREATE POLICY "sa_update_respond_by_destinatario" ON "public"."SolicitudesAmistad" FOR UPDATE USING ((("auth"."uid"() IS NOT NULL) AND ("destinatario_id" = "public"."current_usuario_id"()) AND ("estado" = 'pendiente'::"public"."friend_request_state"))) WITH CHECK (("estado" = ANY (ARRAY['aceptada'::"public"."friend_request_state", 'rechazada'::"public"."friend_request_state"])));
 
 
 
@@ -1743,6 +1939,24 @@ GRANT ALL ON FUNCTION "public"."replace_exercise_sets"("p_id_rutina" integer, "p
 
 
 
+GRANT ALL ON TABLE "public"."SolicitudesAmistad" TO "anon";
+GRANT ALL ON TABLE "public"."SolicitudesAmistad" TO "authenticated";
+GRANT ALL ON TABLE "public"."SolicitudesAmistad" TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."request_friend"("destinatario" integer, "p_mensaje" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."request_friend"("destinatario" integer, "p_mensaje" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."request_friend"("destinatario" integer, "p_mensaje" "text") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."respond_friend_request"("p_id" "uuid", "accion" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."respond_friend_request"("p_id" "uuid", "accion" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."respond_friend_request"("p_id" "uuid", "accion" "text") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."rpe_label_to_score"("p" "text") TO "anon";
 GRANT ALL ON FUNCTION "public"."rpe_label_to_score"("p" "text") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."rpe_label_to_score"("p" "text") TO "service_role";
@@ -1782,6 +1996,12 @@ GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."tg_set_updated_at"() TO "anon";
+GRANT ALL ON FUNCTION "public"."tg_set_updated_at"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."tg_set_updated_at"() TO "service_role";
 
 
 
