@@ -271,47 +271,68 @@ $$;
 ALTER FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) OWNER TO "postgres";
 
 
-CREATE OR REPLACE FUNCTION "public"."feed_friends_workouts"("p_limit" integer DEFAULT 20, "p_before" timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS TABLE("id_workout" bigint, "id_usuario" integer, "fecha" timestamp with time zone, "sensacion" "text", "nota" "text", "username" "text", "nombre" "text", "url_avatar" "text", "total_series" integer, "total_kg" numeric)
-    LANGUAGE "sql" STABLE
+CREATE OR REPLACE FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS TABLE("id_workout" bigint, "id_usuario" integer, "fecha" timestamp with time zone, "sensacion" "text", "nota" "text", "username" "text", "nombre" "text", "url_avatar" "text", "total_series" integer, "total_kg" numeric, "id_rutina" integer, "rutina_nombre" "text")
+    LANGUAGE "sql" STABLE SECURITY DEFINER
     AS $$
-  WITH base AS (
-    SELECT
-      e.id_sesion                                  AS id_workout,
-      u.id_usuario                                  AS id_usuario,
-      e.ended_at                                    AS fecha,
-      COALESCE(e.sensacion_global, public.compute_sensacion_final(e.id_sesion)) AS sensacion,
-      e.notas                                       AS nota,
-      u.username                                    AS username,
-      u.nombre                                      AS nombre,
-      u.url_avatar                                  AS url_avatar
+  WITH me AS (
+    SELECT public.current_usuario_id() AS id_usuario
+  ),
+  -- Entrenamientos visibles: míos o de amigos
+  visibles AS (
+    SELECT e.id_sesion,
+           u.id_usuario,
+           e.ended_at      AS fecha,
+           e.sensacion_global AS sensacion,
+           e.notas         AS nota,
+           u.username,
+           u.nombre,
+           u.url_avatar,
+           e.id_rutina
     FROM public."Entrenamientos" e
     JOIN public."Usuarios" u
       ON u.auth_uid = e.owner_uid
+    JOIN me ON TRUE
     WHERE e.ended_at IS NOT NULL
       AND (
-        e.owner_uid = auth.uid()
-        OR public.is_friend(u.id_usuario, public.current_usuario_id())
+        -- Propios
+        u.id_usuario = me.id_usuario
+        -- Amigos (modelo B simétrico)
+        OR EXISTS (
+          SELECT 1
+          FROM public."Amigos" a
+          WHERE (a.id_usuario1 = me.id_usuario AND a.id_usuario2 = u.id_usuario)
+             OR (a.id_usuario2 = me.id_usuario AND a.id_usuario1 = u.id_usuario)
+        )
       )
       AND (p_before IS NULL OR e.ended_at < p_before)
-    ORDER BY e.ended_at DESC NULLS LAST
-    LIMIT COALESCE(p_limit, 20)
+  ),
+  -- Agregados de sets "done"
+  sets_done AS (
+    SELECT s.id_sesion,
+           COUNT(*)::int                 AS total_series,
+           COALESCE(SUM(s.kg * s.reps),0)::numeric AS total_kg
+    FROM public."EntrenamientoSets" s
+    WHERE COALESCE(s.done, false) = true
+    GROUP BY s.id_sesion
   )
   SELECT
-    b.id_workout,
-    b.id_usuario,
-    b.fecha,
-    b.sensacion,
-    b.nota,
-    b.username,
-    b.nombre,
-    b.url_avatar,
-    (SELECT COUNT(*)::int
-       FROM public."EntrenamientoSets" s
-      WHERE s.id_sesion = b.id_workout) AS total_series,
-    (SELECT COALESCE(SUM(s.kg * s.reps), 0)::numeric
-       FROM public."EntrenamientoSets" s
-      WHERE s.id_sesion = b.id_workout) AS total_kg
-  FROM base b;
+    v.id_sesion                    AS id_workout,
+    v.id_usuario,
+    v.fecha,
+    v.sensacion,
+    v.nota,
+    v.username,
+    v.nombre,
+    v.url_avatar,
+    COALESCE(sd.total_series,0)    AS total_series,
+    COALESCE(sd.total_kg,0)        AS total_kg,
+    v.id_rutina,
+    r.nombre                       AS rutina_nombre
+  FROM visibles v
+  LEFT JOIN sets_done sd ON sd.id_sesion = v.id_sesion
+  LEFT JOIN public."Rutinas" r ON r.id_rutina = v.id_rutina
+  ORDER BY v.fecha DESC
+  LIMIT GREATEST(p_limit, 1)
 $$;
 
 
