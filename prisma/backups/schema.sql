@@ -354,6 +354,29 @@ $$;
 ALTER FUNCTION "public"."friend_ids_for"("me" integer) OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) RETURNS "text"
+    LANGUAGE "sql" STABLE
+    AS $$
+  with base as (
+    select e.sensacion_global
+    from public."Entrenamientos" e
+    where e.id_sesion = p_id_sesion
+  )
+  select
+    coalesce(
+      (select sensacion_global from base),
+      public.compute_sensacion_final(p_id_sesion)  -- fallback por RPE -> puede retornar 'Sin sensaciones'
+    );
+$$;
+
+
+ALTER FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) IS 'Devuelve la sensacion_global cuando exista; en caso contrario calcula por RPE.';
+
+
+
 CREATE OR REPLACE FUNCTION "public"."handle_new_auth_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -2010,6 +2033,12 @@ GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_bef
 GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "anon";
 GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) TO "service_role";
 
 
 
