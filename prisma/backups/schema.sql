@@ -408,11 +408,12 @@ COMMENT ON FUNCTION "public"."feed_friends_workouts_v2"("p_limit" integer, "p_be
 CREATE OR REPLACE FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") RETURNS "void"
     LANGUAGE "sql"
     AS $$
-  UPDATE public."Entrenamientos"
+  UPDATE public."Entrenamientos" e
   SET
-    ended_at = now(),               -- timestamptz en servidor
-    sensacion_global = p_sensacion
-  WHERE id_sesion = p_id_sesion;
+    ended_at     = now(),                                -- cierre en servidor
+    sensacion_global = p_sensacion,
+    duracion_seg = GREATEST(ROUND(EXTRACT(EPOCH FROM (now() - e.started_at)))::int, 0)
+  WHERE e.id_sesion = p_id_sesion;
 $$;
 
 
