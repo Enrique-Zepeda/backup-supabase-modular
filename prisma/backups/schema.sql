@@ -274,69 +274,78 @@ ALTER FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) OWNER TO 
 CREATE OR REPLACE FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS TABLE("id_workout" bigint, "id_usuario" integer, "fecha" timestamp with time zone, "sensacion" "text", "nota" "text", "username" "text", "nombre" "text", "url_avatar" "text", "total_series" integer, "total_kg" numeric, "id_rutina" integer, "rutina_nombre" "text")
     LANGUAGE "sql" STABLE SECURITY DEFINER
     AS $$
-  WITH me AS (
-    SELECT public.current_usuario_id() AS id_usuario
+  with me as (
+    select public.current_usuario_id() as id_usuario
   ),
-  -- Entrenamientos visibles: míos o de amigos
-  visibles AS (
-    SELECT e.id_sesion,
+  visibles as (
+    select e.id_sesion,
            u.id_usuario,
-           e.ended_at      AS fecha,
-           e.sensacion_global AS sensacion,
-           e.notas         AS nota,
+           e.ended_at                                as fecha,
+           public.get_sensacion_or_compute(e.id_sesion) as sensacion, -- ← clave
+           e.notas                                   as nota,
            u.username,
            u.nombre,
            u.url_avatar,
            e.id_rutina
-    FROM public."Entrenamientos" e
-    JOIN public."Usuarios" u
-      ON u.auth_uid = e.owner_uid
-    JOIN me ON TRUE
-    WHERE e.ended_at IS NOT NULL
-      AND (
-        -- Propios
+    from public."Entrenamientos" e
+    join public."Usuarios" u on u.auth_uid = e.owner_uid
+    join me on true
+    where e.ended_at is not null
+      and (
         u.id_usuario = me.id_usuario
-        -- Amigos (modelo B simétrico)
-        OR EXISTS (
-          SELECT 1
-          FROM public."Amigos" a
-          WHERE (a.id_usuario1 = me.id_usuario AND a.id_usuario2 = u.id_usuario)
-             OR (a.id_usuario2 = me.id_usuario AND a.id_usuario1 = u.id_usuario)
+        or exists (
+          select 1
+          from public."Amigos" a
+          where (a.id_usuario1 = me.id_usuario and a.id_usuario2 = u.id_usuario)
+             or (a.id_usuario2 = me.id_usuario and a.id_usuario1 = u.id_usuario)
         )
       )
-      AND (p_before IS NULL OR e.ended_at < p_before)
+      and (p_before is null or e.ended_at < p_before)
   ),
-  -- Agregados de sets "done"
-  sets_done AS (
-    SELECT s.id_sesion,
-           COUNT(*)::int                 AS total_series,
-           COALESCE(SUM(s.kg * s.reps),0)::numeric AS total_kg
-    FROM public."EntrenamientoSets" s
-    WHERE COALESCE(s.done, false) = true
-    GROUP BY s.id_sesion
+  sets_done as (
+    select s.id_sesion,
+           count(*)::int                                as total_series,
+           coalesce(sum(s.kg * s.reps),0)::numeric      as total_kg
+    from public."EntrenamientoSets" s
+    where coalesce(s.done,false) = true
+    group by s.id_sesion
   )
-  SELECT
-    v.id_sesion                    AS id_workout,
+  select
+    v.id_sesion                 as id_workout,
     v.id_usuario,
     v.fecha,
-    v.sensacion,
+    v.sensacion,                -- ← ya no es NULL
     v.nota,
     v.username,
     v.nombre,
     v.url_avatar,
-    COALESCE(sd.total_series,0)    AS total_series,
-    COALESCE(sd.total_kg,0)        AS total_kg,
+    coalesce(sd.total_series,0) as total_series,
+    coalesce(sd.total_kg,0)     as total_kg,
     v.id_rutina,
-    r.nombre                       AS rutina_nombre
-  FROM visibles v
-  LEFT JOIN sets_done sd ON sd.id_sesion = v.id_sesion
-  LEFT JOIN public."Rutinas" r ON r.id_rutina = v.id_rutina
-  ORDER BY v.fecha DESC
-  LIMIT GREATEST(p_limit, 1)
+    r.nombre                    as rutina_nombre
+  from visibles v
+  left join sets_done sd on sd.id_sesion = v.id_sesion
+  left join public."Rutinas" r on r.id_rutina = v.id_rutina
+  order by v.fecha desc
+  limit greatest(p_limit,1)
 $$;
 
 
 ALTER FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") RETURNS "void"
+    LANGUAGE "sql"
+    AS $$
+  UPDATE public."Entrenamientos"
+  SET
+    ended_at = now(),               -- timestamptz en servidor
+    sensacion_global = p_sensacion
+  WHERE id_sesion = p_id_sesion;
+$$;
+
+
+ALTER FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."friend_ids_for"("me" integer) RETURNS TABLE("friend_id" integer)
@@ -362,18 +371,17 @@ CREATE OR REPLACE FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" big
     from public."Entrenamientos" e
     where e.id_sesion = p_id_sesion
   )
-  select
-    coalesce(
-      (select sensacion_global from base),
-      public.compute_sensacion_final(p_id_sesion)  -- fallback por RPE -> puede retornar 'Sin sensaciones'
-    );
+  select coalesce(
+           (select sensacion_global from base),
+           public.compute_sensacion_final(p_id_sesion)  -- ← devuelve “Fácil/Moderado/.../Sin sensaciones”
+         );
 $$;
 
 
 ALTER FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) OWNER TO "postgres";
 
 
-COMMENT ON FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) IS 'Devuelve la sensacion_global cuando exista; en caso contrario calcula por RPE.';
+COMMENT ON FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) IS 'Devuelve la sensacion_global si existe; si no, la calcula por RPE.';
 
 
 
@@ -2027,6 +2035,12 @@ GRANT ALL ON FUNCTION "public"."delete_workout_session"("p_id_sesion" bigint) TO
 GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) TO "anon";
 GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_before" timestamp with time zone) TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") TO "service_role";
 
 
 
