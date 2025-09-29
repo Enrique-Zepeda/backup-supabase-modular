@@ -475,14 +475,13 @@ ALTER FUNCTION "public"."handle_new_auth_user"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."is_friend"("u1" integer, "u2" integer) RETURNS boolean
-    LANGUAGE "sql" STABLE SECURITY DEFINER
-    SET "search_path" TO 'public'
+    LANGUAGE "sql" STABLE
     AS $$
   SELECT EXISTS (
     SELECT 1
     FROM public."Amigos" am
     WHERE (am.id_usuario1 = u1 AND am.id_usuario2 = u2)
-       OR (am.id_usuario2 = u1 AND am.id_usuario1 = u2)
+       OR (am.id_usuario1 = u2 AND am.id_usuario2 = u1)
   );
 $$;
 
@@ -923,6 +922,19 @@ $$;
 ALTER FUNCTION "public"."set_rutinas_owner"() OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."set_updated_at"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  NEW.updated_at := now();
+  RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."set_updated_at"() OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."tg_set_updated_at"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
@@ -1198,6 +1210,61 @@ CREATE TABLE IF NOT EXISTS "public"."Rutinas" (
 ALTER TABLE "public"."Rutinas" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."SocialComments" (
+    "id_comment" bigint NOT NULL,
+    "id_sesion" bigint NOT NULL,
+    "author_uid" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "texto" "text" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone,
+    CONSTRAINT "SocialComments_texto_check" CHECK ((("length"("btrim"("texto")) > 0) AND ("length"("texto") <= 1000)))
+);
+
+
+ALTER TABLE "public"."SocialComments" OWNER TO "postgres";
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."SocialComments_id_comment_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE "public"."SocialComments_id_comment_seq" OWNER TO "postgres";
+
+
+ALTER SEQUENCE "public"."SocialComments_id_comment_seq" OWNED BY "public"."SocialComments"."id_comment";
+
+
+
+CREATE TABLE IF NOT EXISTS "public"."SocialLikes" (
+    "id_like" bigint NOT NULL,
+    "id_sesion" bigint NOT NULL,
+    "author_uid" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+);
+
+
+ALTER TABLE "public"."SocialLikes" OWNER TO "postgres";
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."SocialLikes_id_like_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE "public"."SocialLikes_id_like_seq" OWNER TO "postgres";
+
+
+ALTER SEQUENCE "public"."SocialLikes_id_like_seq" OWNED BY "public"."SocialLikes"."id_like";
+
+
+
 CREATE TABLE IF NOT EXISTS "public"."UsuarioRutina" (
     "id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -1448,6 +1515,14 @@ ALTER TABLE ONLY "public"."Rutinas" ALTER COLUMN "id_rutina" SET DEFAULT "nextva
 
 
 
+ALTER TABLE ONLY "public"."SocialComments" ALTER COLUMN "id_comment" SET DEFAULT "nextval"('"public"."SocialComments_id_comment_seq"'::"regclass");
+
+
+
+ALTER TABLE ONLY "public"."SocialLikes" ALTER COLUMN "id_like" SET DEFAULT "nextval"('"public"."SocialLikes_id_like_seq"'::"regclass");
+
+
+
 ALTER TABLE ONLY "public"."Usuarios" ALTER COLUMN "id_usuario" SET DEFAULT "nextval"('"public"."usuarios_id_usuario_seq"'::"regclass");
 
 
@@ -1482,6 +1557,21 @@ ALTER TABLE ONLY "public"."ProgramasRutinas"
 
 ALTER TABLE ONLY "public"."Programas"
     ADD CONSTRAINT "Programas_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."SocialComments"
+    ADD CONSTRAINT "SocialComments_pkey" PRIMARY KEY ("id_comment");
+
+
+
+ALTER TABLE ONLY "public"."SocialLikes"
+    ADD CONSTRAINT "SocialLikes_id_sesion_author_uid_key" UNIQUE ("id_sesion", "author_uid");
+
+
+
+ALTER TABLE ONLY "public"."SocialLikes"
+    ADD CONSTRAINT "SocialLikes_pkey" PRIMARY KEY ("id_like");
 
 
 
@@ -1587,6 +1677,22 @@ CREATE UNIQUE INDEX "idx_ur_unique" ON "public"."UsuarioRutina" USING "btree" ("
 
 
 
+CREATE INDEX "socialcomments_by_author" ON "public"."SocialComments" USING "btree" ("author_uid");
+
+
+
+CREATE INDEX "socialcomments_by_sesion_created" ON "public"."SocialComments" USING "btree" ("id_sesion", "created_at" DESC);
+
+
+
+CREATE INDEX "sociallikes_by_author" ON "public"."SocialLikes" USING "btree" ("author_uid");
+
+
+
+CREATE INDEX "sociallikes_by_sesion" ON "public"."SocialLikes" USING "btree" ("id_sesion");
+
+
+
 CREATE UNIQUE INDEX "uniq_amigos_pair" ON "public"."Amigos" USING "btree" (LEAST("id_usuario1", "id_usuario2"), GREATEST("id_usuario1", "id_usuario2"));
 
 
@@ -1608,6 +1714,10 @@ CREATE UNIQUE INDEX "usuarios_username_lower_uniq" ON "public"."Usuarios" USING 
 
 
 CREATE OR REPLACE TRIGGER "before_normalize_username" BEFORE INSERT OR UPDATE OF "username" ON "public"."Usuarios" FOR EACH ROW EXECUTE FUNCTION "public"."trg_normalize_username"();
+
+
+
+CREATE OR REPLACE TRIGGER "set_updated_at_socialcomments" BEFORE UPDATE ON "public"."SocialComments" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
 
 
 
@@ -1658,6 +1768,16 @@ ALTER TABLE ONLY "public"."ProgramasRutinas"
 
 ALTER TABLE ONLY "public"."ProgresoDeUsuario"
     ADD CONSTRAINT "ProgresoDeUsuario_id_ejercicio_fkey" FOREIGN KEY ("id_ejercicio") REFERENCES "public"."Ejercicios"("id");
+
+
+
+ALTER TABLE ONLY "public"."SocialComments"
+    ADD CONSTRAINT "SocialComments_id_sesion_fkey" FOREIGN KEY ("id_sesion") REFERENCES "public"."Entrenamientos"("id_sesion") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."SocialLikes"
+    ADD CONSTRAINT "SocialLikes_id_sesion_fkey" FOREIGN KEY ("id_sesion") REFERENCES "public"."Entrenamientos"("id_sesion") ON DELETE CASCADE;
 
 
 
@@ -1772,6 +1892,12 @@ ALTER TABLE "public"."ProgramasRutinas" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."Rutinas" ENABLE ROW LEVEL SECURITY;
 
 
+ALTER TABLE "public"."SocialComments" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."SocialLikes" ENABLE ROW LEVEL SECURITY;
+
+
 ALTER TABLE "public"."SolicitudesAmistad" ENABLE ROW LEVEL SECURITY;
 
 
@@ -1876,6 +2002,50 @@ CREATE POLICY "sa_update_respond_by_destinatario" ON "public"."SolicitudesAmista
 
 
 
+CREATE POLICY "socialcomments_delete" ON "public"."SocialComments" FOR DELETE USING ((("author_uid" = "auth"."uid"()) OR (EXISTS ( SELECT 1
+   FROM "public"."Entrenamientos" "e"
+  WHERE (("e"."id_sesion" = "SocialComments"."id_sesion") AND ("e"."owner_uid" = "auth"."uid"()))))));
+
+
+
+CREATE POLICY "socialcomments_insert" ON "public"."SocialComments" FOR INSERT TO "authenticated" WITH CHECK ((("author_uid" = "auth"."uid"()) AND (EXISTS ( SELECT 1
+   FROM ("public"."Entrenamientos" "e"
+     JOIN "public"."Usuarios" "u_owner" ON (("u_owner"."auth_uid" = "e"."owner_uid")))
+  WHERE (("e"."id_sesion" = "SocialComments"."id_sesion") AND (("e"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u_owner"."id_usuario", "public"."current_usuario_id"())))))));
+
+
+
+CREATE POLICY "socialcomments_select" ON "public"."SocialComments" FOR SELECT USING ((("author_uid" = "auth"."uid"()) OR (EXISTS ( SELECT 1
+   FROM ("public"."Entrenamientos" "e"
+     JOIN "public"."Usuarios" "u_owner" ON (("u_owner"."auth_uid" = "e"."owner_uid")))
+  WHERE (("e"."id_sesion" = "SocialComments"."id_sesion") AND (("e"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u_owner"."id_usuario", "public"."current_usuario_id"())))))));
+
+
+
+CREATE POLICY "socialcomments_update" ON "public"."SocialComments" FOR UPDATE USING (("author_uid" = "auth"."uid"())) WITH CHECK (("author_uid" = "auth"."uid"()));
+
+
+
+CREATE POLICY "sociallikes_delete" ON "public"."SocialLikes" FOR DELETE USING ((("author_uid" = "auth"."uid"()) OR (EXISTS ( SELECT 1
+   FROM "public"."Entrenamientos" "e"
+  WHERE (("e"."id_sesion" = "SocialLikes"."id_sesion") AND ("e"."owner_uid" = "auth"."uid"()))))));
+
+
+
+CREATE POLICY "sociallikes_insert" ON "public"."SocialLikes" FOR INSERT TO "authenticated" WITH CHECK ((("author_uid" = "auth"."uid"()) AND (EXISTS ( SELECT 1
+   FROM ("public"."Entrenamientos" "e"
+     JOIN "public"."Usuarios" "u_owner" ON (("u_owner"."auth_uid" = "e"."owner_uid")))
+  WHERE (("e"."id_sesion" = "SocialLikes"."id_sesion") AND (("e"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u_owner"."id_usuario", "public"."current_usuario_id"())))))));
+
+
+
+CREATE POLICY "sociallikes_select" ON "public"."SocialLikes" FOR SELECT USING ((EXISTS ( SELECT 1
+   FROM ("public"."Entrenamientos" "e"
+     JOIN "public"."Usuarios" "u_owner" ON (("u_owner"."auth_uid" = "e"."owner_uid")))
+  WHERE (("e"."id_sesion" = "SocialLikes"."id_sesion") AND (("e"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u_owner"."id_usuario", "public"."current_usuario_id"()))))));
+
+
+
 CREATE POLICY "ur_cud_self" ON "public"."UsuarioRutina" TO "authenticated" USING (("id_usuario" = "public"."current_usuario_id"())) WITH CHECK (("id_usuario" = "public"."current_usuario_id"()));
 
 
@@ -1890,6 +2060,14 @@ ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
 
 
 
+
+
+
+ALTER PUBLICATION "supabase_realtime" ADD TABLE ONLY "public"."SocialComments";
+
+
+
+ALTER PUBLICATION "supabase_realtime" ADD TABLE ONLY "public"."SocialLikes";
 
 
 
@@ -2234,6 +2412,12 @@ GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "service_role";
 
 
 
+GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
+GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."tg_set_updated_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."tg_set_updated_at"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."tg_set_updated_at"() TO "service_role";
@@ -2360,6 +2544,30 @@ GRANT ALL ON TABLE "public"."ProgresoDeUsuario" TO "service_role";
 GRANT ALL ON TABLE "public"."Rutinas" TO "anon";
 GRANT ALL ON TABLE "public"."Rutinas" TO "authenticated";
 GRANT ALL ON TABLE "public"."Rutinas" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."SocialComments" TO "anon";
+GRANT ALL ON TABLE "public"."SocialComments" TO "authenticated";
+GRANT ALL ON TABLE "public"."SocialComments" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "public"."SocialComments_id_comment_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."SocialComments_id_comment_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."SocialComments_id_comment_seq" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."SocialLikes" TO "anon";
+GRANT ALL ON TABLE "public"."SocialLikes" TO "authenticated";
+GRANT ALL ON TABLE "public"."SocialLikes" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "public"."SocialLikes_id_like_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."SocialLikes_id_like_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."SocialLikes_id_like_seq" TO "service_role";
 
 
 
