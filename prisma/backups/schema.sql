@@ -405,6 +405,102 @@ COMMENT ON FUNCTION "public"."feed_friends_workouts_v2"("p_limit" integer, "p_be
 
 
 
+CREATE OR REPLACE FUNCTION "public"."feed_friends_workouts_v3"("p_limit" integer DEFAULT 20, "p_before" timestamp with time zone DEFAULT NULL::timestamp with time zone) RETURNS TABLE("id_workout" bigint, "id_usuario" integer, "fecha" timestamp with time zone, "sensacion" "text", "nota" "text", "username" "text", "nombre" "text", "url_avatar" "text", "total_series" integer, "total_kg" numeric, "id_rutina" integer, "rutina_nombre" "text", "duracion_seg" integer, "likes_count" integer, "comments_count" integer, "liked_by_me" boolean)
+    LANGUAGE "sql" STABLE SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+WITH me AS (
+  SELECT public.current_usuario_id() AS id_usuario, auth.uid() AS uid
+),
+visibles AS (
+  SELECT
+    e.id_sesion,
+    u.id_usuario,
+    e.ended_at AS fecha,
+    public.get_sensacion_or_compute(e.id_sesion) AS sensacion,
+    e.notas AS nota,
+    u.username,
+    u.nombre,
+    u.url_avatar,
+    e.id_rutina,
+    e.duracion_seg
+  FROM public."Entrenamientos" e
+  JOIN public."Usuarios" u
+    ON u.auth_uid = e.owner_uid           -- ✅ uuid = uuid (FIX)
+  JOIN me ON TRUE
+  WHERE e.ended_at IS NOT NULL
+    AND (
+      u.id_usuario = me.id_usuario
+      OR EXISTS (
+        SELECT 1
+        FROM public."Amigos" a
+        WHERE (a.id_usuario1 = me.id_usuario AND a.id_usuario2 = u.id_usuario)
+           OR (a.id_usuario2 = me.id_usuario AND a.id_usuario1 = u.id_usuario)
+      )
+    )
+    AND (p_before IS NULL OR e.ended_at < p_before)
+  ORDER BY e.ended_at DESC
+  LIMIT GREATEST(p_limit, 1)
+),
+sets_done AS (
+  SELECT
+    s.id_sesion,
+    COUNT(*)::int AS total_series,
+    COALESCE(SUM(s.kg * s.reps), 0)::numeric AS total_kg
+  FROM public."EntrenamientoSets" s
+  WHERE COALESCE(s.done, false) = true
+    AND s.id_sesion IN (SELECT id_sesion FROM visibles)  -- limitar al set visible
+  GROUP BY s.id_sesion
+),
+likes AS (
+  SELECT id_sesion, COUNT(*)::int AS likes_count
+  FROM public."SocialLikes"
+  WHERE id_sesion IN (SELECT id_sesion FROM visibles)
+  GROUP BY id_sesion
+),
+comments AS (
+  SELECT id_sesion, COUNT(*)::int AS comments_count
+  FROM public."SocialComments"
+  WHERE id_sesion IN (SELECT id_sesion FROM visibles)
+  GROUP BY id_sesion
+),
+liked AS (
+  SELECT sl.id_sesion
+  FROM public."SocialLikes" sl
+  JOIN me ON TRUE
+  WHERE sl.author_uid = me.uid
+    AND sl.id_sesion IN (SELECT id_sesion FROM visibles)
+)
+SELECT
+  v.id_sesion       AS id_workout,
+  v.id_usuario,
+  v.fecha,
+  v.sensacion,
+  v.nota,
+  v.username,
+  v.nombre,
+  v.url_avatar,
+  COALESCE(sd.total_series, 0) AS total_series,
+  COALESCE(sd.total_kg, 0)     AS total_kg,
+  v.id_rutina,
+  r.nombre AS rutina_nombre,
+  v.duracion_seg,
+  COALESCE(l.likes_count, 0)      AS likes_count,
+  COALESCE(c.comments_count, 0)   AS comments_count,
+  (l2.id_sesion IS NOT NULL)      AS liked_by_me
+FROM visibles v
+LEFT JOIN sets_done sd ON sd.id_sesion = v.id_sesion
+LEFT JOIN likes l      ON l.id_sesion  = v.id_sesion
+LEFT JOIN comments c   ON c.id_sesion  = v.id_sesion
+LEFT JOIN liked l2     ON l2.id_sesion = v.id_sesion
+LEFT JOIN public."Rutinas" r ON r.id_rutina = v.id_rutina
+ORDER BY v.fecha DESC;
+$$;
+
+
+ALTER FUNCTION "public"."feed_friends_workouts_v3"("p_limit" integer, "p_before" timestamp with time zone) OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, "p_sensacion" "text") RETURNS "void"
     LANGUAGE "sql"
     AS $$
@@ -1673,6 +1769,22 @@ CREATE INDEX "idx_sa_sol_estado" ON "public"."SolicitudesAmistad" USING "btree" 
 
 
 
+CREATE INDEX "idx_socialcomments_sesion" ON "public"."SocialComments" USING "btree" ("id_sesion");
+
+
+
+CREATE INDEX "idx_socialcomments_sesion_created_desc" ON "public"."SocialComments" USING "btree" ("id_sesion", "created_at" DESC);
+
+
+
+CREATE INDEX "idx_sociallikes_author_sesion" ON "public"."SocialLikes" USING "btree" ("author_uid", "id_sesion");
+
+
+
+CREATE INDEX "idx_sociallikes_sesion" ON "public"."SocialLikes" USING "btree" ("id_sesion");
+
+
+
 CREATE UNIQUE INDEX "idx_ur_unique" ON "public"."UsuarioRutina" USING "btree" ("id_usuario", "id_rutina");
 
 
@@ -2293,6 +2405,12 @@ GRANT ALL ON FUNCTION "public"."feed_friends_workouts"("p_limit" integer, "p_bef
 GRANT ALL ON FUNCTION "public"."feed_friends_workouts_v2"("p_limit" integer, "p_before" timestamp with time zone) TO "anon";
 GRANT ALL ON FUNCTION "public"."feed_friends_workouts_v2"("p_limit" integer, "p_before" timestamp with time zone) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."feed_friends_workouts_v2"("p_limit" integer, "p_before" timestamp with time zone) TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."feed_friends_workouts_v3"("p_limit" integer, "p_before" timestamp with time zone) TO "anon";
+GRANT ALL ON FUNCTION "public"."feed_friends_workouts_v3"("p_limit" integer, "p_before" timestamp with time zone) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."feed_friends_workouts_v3"("p_limit" integer, "p_before" timestamp with time zone) TO "service_role";
 
 
 
