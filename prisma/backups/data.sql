@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict 8Vt0uBHIucWRRIpKtn4saz3hNyGfJUcCOUeiiCS7DTXr7J1048GVEjQteNnBH5y
+-- \restrict ru1j42m3idwS3goYhiVHRBo7ldPA6xSzI76TR6upxrhA5TsceZ1ypVlyRtwSuYT
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1020,6 +1020,69 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	9360640e-6602-4c99-977a-47bb9d4d4c77	{"action":"user_updated_password","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"user"}	2025-10-01 04:49:06.786948+00	
 00000000-0000-0000-0000-000000000000	2e3d4322-631a-466f-b4a0-9eb11d195a3a	{"action":"user_modified","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"user"}	2025-10-01 04:49:06.787611+00	
 00000000-0000-0000-0000-000000000000	7d2489c1-cfdf-4a97-9906-5ba697ca2eaa	{"action":"login","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 04:49:12.170831+00	
+00000000-0000-0000-0000-000000000000	4b6233e5-b009-4688-a9d2-16c7c0124057	{"action":"token_refreshed","actor_id":"3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2","actor_username":"vaubessauttegou-1519@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 05:46:27.273054+00	
+00000000-0000-0000-0000-000000000000	7aa5559b-0c73-4f8a-8259-56cd700384c9	{"action":"token_revoked","actor_id":"3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2","actor_username":"vaubessauttegou-1519@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 05:46:27.283408+00	
+00000000-0000-0000-0000-000000000000	1e259728-3d1b-4144-bac9-a067712628ba	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 13:35:47.029155+00	
+00000000-0000-0000-0000-000000000000	5afeb5a3-4a25-4222-930c-8bf91afd717b	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 13:35:47.039838+00	
+00000000-0000-0000-0000-000000000000	6e1d1b4e-6737-4f65-aac4-fd992146664c	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 14:40:44.827362+00	
+00000000-0000-0000-0000-000000000000	33cc9aa8-6bdd-4f2c-8cf6-a7f3c641a937	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 14:40:44.836171+00	
+00000000-0000-0000-0000-000000000000	a43527fe-1c24-4e2f-a5a7-da48fbd43428	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 14:45:58.987969+00	
+00000000-0000-0000-0000-000000000000	3788000b-785c-40dd-86fd-f66883892e9d	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 14:45:58.991425+00	
+00000000-0000-0000-0000-000000000000	faebdf77-e468-4c4d-a769-67eb379ccc55	{"action":"login","actor_id":"bf9f3a06-afbe-4031-b3ed-86d08af7f87b","actor_username":"meyibaprallou-7095@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 15:10:52.749762+00	
+00000000-0000-0000-0000-000000000000	66920510-f991-42b0-ae92-8993bfa2794a	{"action":"logout","actor_id":"bf9f3a06-afbe-4031-b3ed-86d08af7f87b","actor_username":"meyibaprallou-7095@yopmail.com","actor_via_sso":false,"log_type":"account"}	2025-10-01 15:11:24.937987+00	
+00000000-0000-0000-0000-000000000000	f9f869e9-8c99-4a1a-b4b1-eb8e55368976	{"action":"login","actor_id":"1166241f-43ab-44b4-8b44-94394e4a197a","actor_username":"cibressoyelli-1317@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 15:11:30.287368+00	
+00000000-0000-0000-0000-000000000000	16a77d8c-f4c8-4064-a92a-a5bf08366eba	{"action":"logout","actor_id":"1166241f-43ab-44b4-8b44-94394e4a197a","actor_username":"cibressoyelli-1317@yopmail.com","actor_via_sso":false,"log_type":"account"}	2025-10-01 15:12:18.662471+00	
+00000000-0000-0000-0000-000000000000	77f2fb00-cfd2-4010-96e9-ad120c49878d	{"action":"login","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 15:13:01.219439+00	
+00000000-0000-0000-0000-000000000000	ceffc165-ee1a-488c-b520-27c573dc5ac3	{"action":"login","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 15:13:56.019017+00	
+00000000-0000-0000-0000-000000000000	a25c25fd-f62e-4951-9124-dcaab74e10fc	{"action":"logout","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"account"}	2025-10-01 15:14:08.90109+00	
+00000000-0000-0000-0000-000000000000	f985c948-3cac-4737-a207-3f21c9e94625	{"action":"login","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 15:15:36.050568+00	
+00000000-0000-0000-0000-000000000000	c220192a-8523-4e5f-b435-6c7765157efa	{"action":"login","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-01 15:31:21.800327+00	
+00000000-0000-0000-0000-000000000000	ad12fe93-065b-4f6d-86e8-874410863e13	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:12:04.044773+00	
+00000000-0000-0000-0000-000000000000	a747fbab-cb9c-48ed-a275-d0882b46df85	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:12:04.056853+00	
+00000000-0000-0000-0000-000000000000	f0d54441-4c08-4f8e-b6ad-eb5bc5782216	{"action":"token_refreshed","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:15:03.840243+00	
+00000000-0000-0000-0000-000000000000	5b826a7d-5294-40ee-bd9d-8029f7ed1b0c	{"action":"token_revoked","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:15:03.84176+00	
+00000000-0000-0000-0000-000000000000	4d25fce1-0825-45cb-9066-70cb10d55059	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:18:57.301355+00	
+00000000-0000-0000-0000-000000000000	b9b6f5a2-b239-427a-9fdc-68a7a9df9dfb	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:18:57.309841+00	
+00000000-0000-0000-0000-000000000000	c7eeb231-b341-4e87-a39f-ee98bc361c34	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:29:48.747967+00	
+00000000-0000-0000-0000-000000000000	13a6de41-8997-4c40-b1be-b0318c461bbd	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 16:29:48.758353+00	
+00000000-0000-0000-0000-000000000000	943447fd-485f-49b4-9ec8-b40e67773029	{"action":"token_refreshed","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:13:37.690298+00	
+00000000-0000-0000-0000-000000000000	d864b79a-bff6-4580-8c06-5dbe7554dd22	{"action":"token_revoked","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:13:37.705403+00	
+00000000-0000-0000-0000-000000000000	85d88113-027e-47b9-9fc0-40d24213c0b0	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:17:27.005661+00	
+00000000-0000-0000-0000-000000000000	ddb82a3b-c410-4dcd-b3c9-cd8bec3a036f	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:17:27.010464+00	
+00000000-0000-0000-0000-000000000000	57d682a1-7b37-40d7-8aeb-17c4e265863d	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:29:03.743925+00	
+00000000-0000-0000-0000-000000000000	21f49dba-3699-4e57-b9bc-37cbbca3dbda	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:29:03.753846+00	
+00000000-0000-0000-0000-000000000000	b00e71f4-7593-42ce-97c7-1b95d90aa5ce	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:34:38.291392+00	
+00000000-0000-0000-0000-000000000000	9853e9d1-ad51-40ae-961c-8ff1fe70dc00	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 17:34:38.295358+00	
+00000000-0000-0000-0000-000000000000	7ef61c28-9464-4102-8410-3a3f6758b3db	{"action":"token_refreshed","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:13:03.790391+00	
+00000000-0000-0000-0000-000000000000	0e5d30c6-333e-42e4-b9e6-4963aaaf69b1	{"action":"token_revoked","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:13:03.815307+00	
+00000000-0000-0000-0000-000000000000	fdf3ed59-5848-4638-98f1-338f5832d1b4	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:18:39.178431+00	
+00000000-0000-0000-0000-000000000000	3842d6b0-cc49-4712-9024-f64fe2648a77	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:18:39.186731+00	
+00000000-0000-0000-0000-000000000000	2f876637-31ad-4ddb-9390-61f956ba7e00	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:28:03.784037+00	
+00000000-0000-0000-0000-000000000000	5a0a2434-f1f6-4f62-abd2-49628b202dc7	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:28:03.787714+00	
+00000000-0000-0000-0000-000000000000	1af36555-c614-4b44-bec2-b603aceaf2ce	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:59:34.00398+00	
+00000000-0000-0000-0000-000000000000	8adbd2ca-2420-4642-a690-2d0d4aaa9ec9	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 18:59:34.015295+00	
+00000000-0000-0000-0000-000000000000	eeb99176-7199-4e44-9401-9df40af8561d	{"action":"token_refreshed","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 19:12:03.744961+00	
+00000000-0000-0000-0000-000000000000	f979ddea-36a5-4617-9b9d-c0cd45a8d331	{"action":"token_revoked","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 19:12:03.749141+00	
+00000000-0000-0000-0000-000000000000	5e117194-2897-4ce7-9378-c58d9fba1027	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 19:26:13.360275+00	
+00000000-0000-0000-0000-000000000000	07ad1de7-2c7d-410e-ac76-85c8e04aee82	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 19:26:13.368245+00	
+00000000-0000-0000-0000-000000000000	d8332a97-1afe-4098-b76d-6eb4a7227b53	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 19:59:03.777907+00	
+00000000-0000-0000-0000-000000000000	1ed6dabe-64b3-4233-8194-0ca728c264c3	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 19:59:03.788143+00	
+00000000-0000-0000-0000-000000000000	0bf2da4c-4901-45ba-bfe7-90af8432842d	{"action":"token_refreshed","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:11:03.742837+00	
+00000000-0000-0000-0000-000000000000	2b00645b-f19f-4d98-b11e-b03db8764c5b	{"action":"token_revoked","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:11:03.752482+00	
+00000000-0000-0000-0000-000000000000	5c0c9ed5-6a8b-4d77-96ef-b287f1eab6a9	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:18:30.561381+00	
+00000000-0000-0000-0000-000000000000	872d029e-1e5e-4091-b3bb-ff23ecb22bc3	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:18:30.563751+00	
+00000000-0000-0000-0000-000000000000	b9cf6548-9cf8-4c05-a026-d4942057a732	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:25:41.256546+00	
+00000000-0000-0000-0000-000000000000	a369eab2-43c3-4cb4-8477-e795b8d683a5	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:25:41.265875+00	
+00000000-0000-0000-0000-000000000000	ee10aa92-f36f-47b8-8ea7-cf3bcf220172	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:58:03.865037+00	
+00000000-0000-0000-0000-000000000000	b3ab6ae4-6118-4ee7-8177-68ee600740b7	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 20:58:03.876675+00	
+00000000-0000-0000-0000-000000000000	bd68eb27-ee7b-4cdd-82aa-9bb8f4a7b8fc	{"action":"token_refreshed","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:10:03.896033+00	
+00000000-0000-0000-0000-000000000000	93c187a2-39d6-4e91-81ba-e422844df7a6	{"action":"token_revoked","actor_id":"09ff1a6d-48d3-4dbf-814e-5229c6549e86","actor_username":"trajafigosso-7741@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:10:03.911184+00	
+00000000-0000-0000-0000-000000000000	984a9121-499c-4167-99aa-5ee5dbee40e5	{"action":"token_refreshed","actor_id":"3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2","actor_username":"vaubessauttegou-1519@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:14:42.698288+00	
+00000000-0000-0000-0000-000000000000	25469491-cc17-44ec-aa2d-35dd2d826f91	{"action":"token_revoked","actor_id":"3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2","actor_username":"vaubessauttegou-1519@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:14:42.708537+00	
+00000000-0000-0000-0000-000000000000	c5b38d29-e329-4d3c-a537-45ce197f5f2c	{"action":"token_refreshed","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:16:30.936444+00	
+00000000-0000-0000-0000-000000000000	8b6a7260-6fd6-44ee-9c9e-078571c12517	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:16:30.939679+00	
+00000000-0000-0000-0000-000000000000	11a10362-2e4e-446d-9df7-92afa5e8b689	{"action":"token_refreshed","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:25:03.792193+00	
+00000000-0000-0000-0000-000000000000	bc32a3f0-5c88-4a94-b3ca-9b12856ac8ae	{"action":"token_revoked","actor_id":"3e965a3e-9729-4a41-96e7-724c0763edd0","actor_username":"enrique.zepeda0017@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-10-01 21:25:03.805602+00	
 \.
 
 
@@ -1042,20 +1105,20 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	a37ae595-5ee2-43ae-90bb-fa08a900fa74	authenticated	authenticated	joleullouttuffe-7455@yopmail.com	$2a$10$LNL.AgfmWPx.nsEJorq82eeD7LU2UVzoyNJLpr8bHoQhkw2v.SRKC	\N	\N	6460254af351153789c9e90dde6654d232b5f5362c45afd8c74dede5	2025-08-05 15:42:08.50356+00		\N			\N	\N	{"provider": "email", "providers": ["email"]}	{"sub": "a37ae595-5ee2-43ae-90bb-fa08a900fa74", "email": "joleullouttuffe-7455@yopmail.com", "email_verified": false, "phone_verified": false}	\N	2025-08-05 15:42:08.497866+00	2025-08-05 15:42:08.890585+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	23605b07-3d7c-459e-94b8-1f6a0c7933ed	authenticated	authenticated	joutteleisopre-3760@yopmail.com	$2a$10$JcEwFUewIKbPr/Lltm8t3.me0e4Uv0205zVilIkXxejU9h3FklKbe	2025-08-03 02:12:35.4569+00	\N		\N		\N			\N	2025-08-05 19:57:08.466659+00	{"provider": "email", "providers": ["email"]}	{"sub": "23605b07-3d7c-459e-94b8-1f6a0c7933ed", "email": "joutteleisopre-3760@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-03 02:12:19.086467+00	2025-08-05 19:57:08.468423+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	e1ed77f6-f4ee-4ab0-8755-66c0a763dc62	authenticated	authenticated	naucrefafeddi-5710@yopmail.com	$2a$10$nCk4jU/gR1kQktaaF7m4peKO46SvZ7InfbN4mzYbwAiuAItRCldSO	2025-08-22 18:33:05.969481+00	\N		2025-08-22 18:32:46.349064+00		\N			\N	2025-08-22 18:33:05.974442+00	{"provider": "email", "providers": ["email"]}	{"sub": "e1ed77f6-f4ee-4ab0-8755-66c0a763dc62", "email": "naucrefafeddi-5710@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-22 18:32:46.317801+00	2025-08-22 18:33:05.980766+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	bf9f3a06-afbe-4031-b3ed-86d08af7f87b	authenticated	authenticated	meyibaprallou-7095@yopmail.com	$2a$10$wGHRhU7vKL7VoteHeHskpeNeqeKCkO7rQbaMd8/uJ4xaY7mt30Mmq	2025-08-02 01:32:20.624467+00	\N		2025-08-02 01:32:12.09326+00		\N			\N	2025-10-01 04:41:47.487823+00	{"provider": "email", "providers": ["email"]}	{"sub": "bf9f3a06-afbe-4031-b3ed-86d08af7f87b", "email": "meyibaprallou-7095@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-02 01:32:12.080915+00	2025-10-01 04:41:47.508119+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	ef794a04-7430-4bda-8604-b6324ea88cde	authenticated	authenticated	pepepecas@yopmail.com	$2a$10$geOHeWasF894J9vF7YQKu.scNb7cSjHlavM2AStfQmIY9zUP0lkIC	2025-09-08 15:42:13.339992+00	\N		2025-09-08 15:42:01.303396+00		\N			\N	2025-09-08 15:42:13.344504+00	{"provider": "email", "providers": ["email"]}	{"sub": "ef794a04-7430-4bda-8604-b6324ea88cde", "email": "pepepecas@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-08 15:42:01.222539+00	2025-10-01 21:16:30.94598+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	3c278e9e-7ca6-4d16-bf51-1343d7347f81	authenticated	authenticated	proppekeppoillau-3591@yopmail.com	$2a$10$.oXFZxawNwLE5dfhUHFXk.K.ofzbsNCdGUmeUx8Fyf1W1Wq.b.7pi	2025-07-30 20:24:13.822273+00	\N		\N		\N			\N	2025-09-23 00:39:57.572884+00	{"provider": "email", "providers": ["email"]}	{"sub": "3c278e9e-7ca6-4d16-bf51-1343d7347f81", "email": "proppekeppoillau-3591@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-07-30 20:23:45.471614+00	2025-09-23 00:39:57.589154+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	1166241f-43ab-44b4-8b44-94394e4a197a	authenticated	authenticated	cibressoyelli-1317@yopmail.com	$2a$10$mdU0jVu/6pBKTdYIvycgde9DLjqwtnqyRfJsbLCleWAFsG19t806G	2025-08-26 19:08:38.885891+00	\N		2025-08-26 19:08:30.42265+00		\N			\N	2025-09-23 00:47:42.499742+00	{"provider": "email", "providers": ["email"]}	{"sub": "1166241f-43ab-44b4-8b44-94394e4a197a", "email": "cibressoyelli-1317@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-26 19:08:30.384329+00	2025-09-23 00:47:42.504888+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	ef794a04-7430-4bda-8604-b6324ea88cde	authenticated	authenticated	pepepecas@yopmail.com	$2a$10$geOHeWasF894J9vF7YQKu.scNb7cSjHlavM2AStfQmIY9zUP0lkIC	2025-09-08 15:42:13.339992+00	\N		2025-09-08 15:42:01.303396+00		\N			\N	2025-09-08 15:42:13.344504+00	{"provider": "email", "providers": ["email"]}	{"sub": "ef794a04-7430-4bda-8604-b6324ea88cde", "email": "pepepecas@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-08 15:42:01.222539+00	2025-09-30 19:57:30.921056+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	bf9f3a06-afbe-4031-b3ed-86d08af7f87b	authenticated	authenticated	meyibaprallou-7095@yopmail.com	$2a$10$wGHRhU7vKL7VoteHeHskpeNeqeKCkO7rQbaMd8/uJ4xaY7mt30Mmq	2025-08-02 01:32:20.624467+00	\N		2025-08-02 01:32:12.09326+00		\N			\N	2025-10-01 15:10:52.765829+00	{"provider": "email", "providers": ["email"]}	{"sub": "bf9f3a06-afbe-4031-b3ed-86d08af7f87b", "email": "meyibaprallou-7095@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-02 01:32:12.080915+00	2025-10-01 15:10:52.778752+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	d77e141b-738c-4494-82df-4fc479544e1e	authenticated	authenticated	zeffefrippazo-9670@yopmail.com	$2a$10$/muuu3EHd0z9chw9y9LNTea/LZK8SD0nWbBoFu1nA/O2dCa0ssGke	2025-08-05 15:40:49.076657+00	\N		\N		\N			\N	2025-09-23 01:09:16.135311+00	{"provider": "email", "providers": ["email"]}	{"sub": "d77e141b-738c-4494-82df-4fc479544e1e", "email": "zeffefrippazo-9670@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-05 15:40:39.062274+00	2025-09-23 01:09:16.13861+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	ccf47ff3-abec-4672-8208-e78e1b90258f	authenticated	authenticated	nefeumewauhe-6084@yopmail.com	$2a$10$GY/secTFUTR55HDbzbCZxea9NRjT2ak1YqkA1kMrbP3oI3FFsxBlS	2025-08-02 00:54:43.360233+00	\N		2025-08-02 00:52:59.960173+00		\N			\N	2025-09-23 01:18:24.077042+00	{"provider": "email", "providers": ["email"]}	{"sub": "ccf47ff3-abec-4672-8208-e78e1b90258f", "email": "nefeumewauhe-6084@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-02 00:52:59.943337+00	2025-09-23 01:18:24.080598+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	3c23b75b-4db9-487d-a148-6b30523ce237	authenticated	authenticated	lemmakaxebre-8624@yopmail.com	$2a$10$Uu42mzba9sqqfD9.LnRZ0eoKbL0nWGgQ/Ejfk8.3QEx40QToDQyZa	2025-08-02 17:02:10.863286+00	\N		\N		2025-08-02 18:54:20.458516+00			\N	2025-09-23 01:27:31.174394+00	{"provider": "email", "providers": ["email"]}	{"sub": "3c23b75b-4db9-487d-a148-6b30523ce237", "email": "lemmakaxebre-8624@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-02 17:02:02.566997+00	2025-09-23 01:27:31.177828+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	ed716103-7c30-47f8-9d88-0a3188b9b43d	authenticated	authenticated	libros123@yopmail.com	$2a$10$EVtVyAsyPvyk32S9YPg64.XCrvhXb8srAFFkqh/94byVMWRJ4p.iq	2025-07-30 22:02:33.049972+00	\N		\N		\N			\N	2025-09-02 21:04:41.761784+00	{"provider": "email", "providers": ["email"]}	{"sub": "ed716103-7c30-47f8-9d88-0a3188b9b43d", "email": "libros123@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-07-30 22:02:23.79155+00	2025-10-01 04:43:50.600673+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	1166241f-43ab-44b4-8b44-94394e4a197a	authenticated	authenticated	cibressoyelli-1317@yopmail.com	$2a$10$mdU0jVu/6pBKTdYIvycgde9DLjqwtnqyRfJsbLCleWAFsG19t806G	2025-08-26 19:08:38.885891+00	\N		2025-08-26 19:08:30.42265+00		\N			\N	2025-10-01 15:11:30.289383+00	{"provider": "email", "providers": ["email"]}	{"sub": "1166241f-43ab-44b4-8b44-94394e4a197a", "email": "cibressoyelli-1317@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-26 19:08:30.384329+00	2025-10-01 15:11:30.304572+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9	authenticated	authenticated	proutippoipeuji-3523@yopmail.com	$2a$10$w3af4.s4EnRqxnflIA.Whu3t3RJcUPtlPl3LDlHiGGPMT2HCb4nYK	2025-09-23 14:23:49.254545+00	\N		\N		\N			\N	2025-09-23 14:47:35.494167+00	{"provider": "email", "providers": ["email"]}	{"sub": "c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9", "email": "proutippoipeuji-3523@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 14:23:29.168681+00	2025-09-23 14:47:35.496532+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	09ff1a6d-48d3-4dbf-814e-5229c6549e86	authenticated	authenticated	trajafigosso-7741@yopmail.com	$2a$10$Gr3RD471gD7zR/zmrOzFm.8QKeZm8Hekfbr4Ko.3VCcR2zY1GtIum	2025-08-07 00:59:35.342403+00	\N		\N		\N			\N	2025-09-26 13:42:09.078041+00	{"provider": "email", "providers": ["email"]}	{"sub": "09ff1a6d-48d3-4dbf-814e-5229c6549e86", "email": "trajafigosso-7741@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-07 00:59:14.282387+00	2025-10-01 04:00:12.929001+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-09-26 15:31:44.86378+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-10-01 04:01:05.396929+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	db4793b9-fc50-489f-9e64-c48939606f9c	authenticated	authenticated	ps36516088@gmail.com	$2a$10$6oHpPDzyKhi/PFFvj1372OOfcHC3SSO6W1/y4laFWdTPMwXFSaVW2	2025-09-29 00:25:21.615578+00	\N		2025-09-29 00:25:06.420757+00		\N			\N	2025-09-29 00:25:52.61012+00	{"provider": "email", "providers": ["email"]}	{"sub": "db4793b9-fc50-489f-9e64-c48939606f9c", "email": "ps36516088@gmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-29 00:25:06.378936+00	2025-09-29 00:25:52.613937+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	authenticated	authenticated	vaubessauttegou-1519@yopmail.com	$2a$10$vL8TU8i3kyqPsL2AlYUTDO5rw5vuFAjkMfYAPV7EyWUSk2yM4V8rS	2025-10-01 04:47:48.815113+00	\N		2025-10-01 04:47:41.021644+00		\N			\N	2025-10-01 04:48:01.67407+00	{"provider": "email", "providers": ["email"]}	{"sub": "3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2", "email": "vaubessauttegou-1519@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-01 04:47:40.994229+00	2025-10-01 04:48:01.676304+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	3e965a3e-9729-4a41-96e7-724c0763edd0	authenticated	authenticated	enrique.zepeda0017@alumnos.udg.mx	$2a$10$bsq65dnF7pfbIHWNJ0euH.AHArE3/fnlR5Zzhirx/1/YKKqKLEI2m	2025-08-01 20:35:34.760805+00	\N		\N		\N			\N	2025-10-01 04:49:12.171466+00	{"provider": "email", "providers": ["email"]}	{"sub": "3e965a3e-9729-4a41-96e7-724c0763edd0", "email": "enrique.zepeda0017@alumnos.udg.mx", "email_verified": true, "phone_verified": false}	\N	2025-08-01 20:35:18.909246+00	2025-10-01 04:49:12.173848+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-10-01 15:13:01.220834+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-10-01 20:58:03.890254+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	09ff1a6d-48d3-4dbf-814e-5229c6549e86	authenticated	authenticated	trajafigosso-7741@yopmail.com	$2a$10$Gr3RD471gD7zR/zmrOzFm.8QKeZm8Hekfbr4Ko.3VCcR2zY1GtIum	2025-08-07 00:59:35.342403+00	\N		\N		\N			\N	2025-10-01 15:15:36.051219+00	{"provider": "email", "providers": ["email"]}	{"sub": "09ff1a6d-48d3-4dbf-814e-5229c6549e86", "email": "trajafigosso-7741@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-07 00:59:14.282387+00	2025-10-01 21:10:03.932769+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	authenticated	authenticated	vaubessauttegou-1519@yopmail.com	$2a$10$vL8TU8i3kyqPsL2AlYUTDO5rw5vuFAjkMfYAPV7EyWUSk2yM4V8rS	2025-10-01 04:47:48.815113+00	\N		2025-10-01 04:47:41.021644+00		\N			\N	2025-10-01 04:48:01.67407+00	{"provider": "email", "providers": ["email"]}	{"sub": "3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2", "email": "vaubessauttegou-1519@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-01 04:47:40.994229+00	2025-10-01 21:14:42.723471+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	3e965a3e-9729-4a41-96e7-724c0763edd0	authenticated	authenticated	enrique.zepeda0017@alumnos.udg.mx	$2a$10$bsq65dnF7pfbIHWNJ0euH.AHArE3/fnlR5Zzhirx/1/YKKqKLEI2m	2025-08-01 20:35:34.760805+00	\N		\N		\N			\N	2025-10-01 15:31:21.816889+00	{"provider": "email", "providers": ["email"]}	{"sub": "3e965a3e-9729-4a41-96e7-724c0763edd0", "email": "enrique.zepeda0017@alumnos.udg.mx", "email_verified": true, "phone_verified": false}	\N	2025-08-01 20:35:18.909246+00	2025-10-01 21:25:03.818371+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	d028ed7d-a831-42ed-acbf-582084cf6b7a	authenticated	authenticated	cosegepunu-2914@yopmail.com	$2a$10$RkNdxM4VdUL.rKezTo1/L.ySteHa42ifaoLks.b6zOm6a9iWffdQK	2025-09-23 02:12:57.897146+00	\N		\N		\N			\N	2025-09-23 13:50:30.908504+00	{"provider": "email", "providers": ["email"]}	{"sub": "d028ed7d-a831-42ed-acbf-582084cf6b7a", "email": "cosegepunu-2914@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 02:12:34.6173+00	2025-09-23 13:50:30.909915+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	e334d918-2367-4b34-bf66-83a9c0b8a4aa	authenticated	authenticated	treitteubeigrizei-6265@yopmail.com	$2a$10$gfBTXVFCd3VuncqEmHWgkebFFqmUN/GfRrLt5hgAyreVy5Osq4wRe	2025-09-23 13:52:15.111632+00	\N		\N		\N			\N	2025-09-23 14:23:07.884217+00	{"provider": "email", "providers": ["email"]}	{"sub": "e334d918-2367-4b34-bf66-83a9c0b8a4aa", "email": "treitteubeigrizei-6265@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 13:52:02.543747+00	2025-09-23 14:23:07.885825+00	\N	\N			\N		0	\N		\N	f	\N	f
 \.
@@ -1106,13 +1169,14 @@ COPY "auth"."instances" ("id", "uuid", "raw_base_config", "created_at", "updated
 COPY "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag") FROM stdin;
 b4457a70-0d50-4114-a3fe-d4d34627eb0f	c78066b4-db29-4251-9b8b-3962ad36594f	2025-07-30 00:50:39.155321+00	2025-07-30 00:50:39.155321+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36	177.245.200.254	\N
 3909d172-8c98-4cb4-847f-ac26e609227f	c78066b4-db29-4251-9b8b-3962ad36594f	2025-07-30 00:50:44.966242+00	2025-07-30 00:50:44.966242+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36	177.245.200.254	\N
+7a5fcfd2-2695-494f-b973-f657cf3ba8cd	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-10-01 15:13:01.220925+00	2025-10-01 20:58:03.896161+00	\N	aal1	\N	2025-10-01 20:58:03.896067	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.188.240	\N
+35dc7189-e7b2-4724-8c51-178ac7c98112	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-10-01 15:15:36.05129+00	2025-10-01 21:10:03.939607+00	\N	aal1	\N	2025-10-01 21:10:03.939523	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.188.240	\N
+4a90706d-f14b-4f8d-86d1-b400cf84e0d9	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 04:48:01.67414+00	2025-10-01 21:14:42.728869+00	\N	aal1	\N	2025-10-01 21:14:42.728786	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	177.245.201.134	\N
+125caab4-c213-4231-8971-20985f557a58	ef794a04-7430-4bda-8604-b6324ea88cde	2025-09-08 15:42:13.345284+00	2025-10-01 21:16:30.94872+00	\N	aal1	\N	2025-10-01 21:16:30.948653	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	177.245.201.134	\N
+a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 15:31:21.817986+00	2025-10-01 21:25:03.819828+00	\N	aal1	\N	2025-10-01 21:25:03.819759	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.188.240	\N
 b960fb45-6372-48b6-8038-5d1b164ea55e	db4793b9-fc50-489f-9e64-c48939606f9c	2025-09-29 00:25:21.61997+00	2025-09-29 00:25:21.61997+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	73.215.220.249	\N
 35c53a73-5a8c-41cf-95bf-f8e1338c5892	3c278e9e-7ca6-4d16-bf51-1343d7347f81	2025-09-23 00:39:57.572961+00	2025-09-23 00:39:57.572961+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.211.49.11	\N
 c07eefb6-d212-4c6d-bd77-45eb9262ac69	db4793b9-fc50-489f-9e64-c48939606f9c	2025-09-29 00:25:52.6102+00	2025-09-29 00:25:52.6102+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	73.215.220.249	\N
-125caab4-c213-4231-8971-20985f557a58	ef794a04-7430-4bda-8604-b6324ea88cde	2025-09-08 15:42:13.345284+00	2025-09-30 19:57:30.923592+00	\N	aal1	\N	2025-09-30 19:57:30.923526	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	148.202.136.216	\N
-4a90706d-f14b-4f8d-86d1-b400cf84e0d9	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 04:48:01.67414+00	2025-10-01 04:48:01.67414+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	177.245.201.134	\N
-7d524b59-00aa-4616-bc4f-0cf20605daa2	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 04:48:15.986458+00	2025-10-01 04:48:15.986458+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.188.240	\N
-fea1cd80-1f89-4dcc-9cb2-2d55bf95d512	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 04:49:12.171536+00	2025-10-01 04:49:12.171536+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.188.240	\N
 \.
 
 
@@ -1128,8 +1192,9 @@ b4457a70-0d50-4114-a3fe-d4d34627eb0f	2025-07-30 00:50:39.182177+00	2025-07-30 00
 b960fb45-6372-48b6-8038-5d1b164ea55e	2025-09-29 00:25:21.64166+00	2025-09-29 00:25:21.64166+00	otp	7cf09f3e-5259-48ff-97ed-e50313d09008
 c07eefb6-d212-4c6d-bd77-45eb9262ac69	2025-09-29 00:25:52.614243+00	2025-09-29 00:25:52.614243+00	password	eaffcc96-ce26-4a28-8416-ca59544a888e
 4a90706d-f14b-4f8d-86d1-b400cf84e0d9	2025-10-01 04:48:01.676616+00	2025-10-01 04:48:01.676616+00	password	284698c5-23e4-4c70-99fb-726559052d0e
-7d524b59-00aa-4616-bc4f-0cf20605daa2	2025-10-01 04:48:15.989787+00	2025-10-01 04:48:15.989787+00	otp	40105a98-3946-4789-a986-702ee4389eb1
-fea1cd80-1f89-4dcc-9cb2-2d55bf95d512	2025-10-01 04:49:12.174129+00	2025-10-01 04:49:12.174129+00	password	72461298-4205-4fc6-aab2-6547f6890952
+7a5fcfd2-2695-494f-b973-f657cf3ba8cd	2025-10-01 15:13:01.228653+00	2025-10-01 15:13:01.228653+00	password	4cf5e336-7d79-495c-97c1-13e8a5660d16
+35dc7189-e7b2-4724-8c51-178ac7c98112	2025-10-01 15:15:36.053095+00	2025-10-01 15:15:36.053095+00	password	81daed4f-88c3-4fa9-8912-682eab66b05d
+a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8	2025-10-01 15:31:21.837537+00	2025-10-01 15:31:21.837537+00	password	9c6526b1-024a-4d39-9854-1a0560140f34
 \.
 
 
@@ -1166,8 +1231,19 @@ a0ea6ee6-fb7d-4696-aaee-95f002f39543	a37ae595-5ee2-43ae-90bb-fa08a900fa74	confir
 COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") FROM stdin;
 00000000-0000-0000-0000-000000000000	1	eo3e3ehenlog	c78066b4-db29-4251-9b8b-3962ad36594f	f	2025-07-30 00:50:39.166809+00	2025-07-30 00:50:39.166809+00	\N	b4457a70-0d50-4114-a3fe-d4d34627eb0f
 00000000-0000-0000-0000-000000000000	2	74bfn7xz5s2j	c78066b4-db29-4251-9b8b-3962ad36594f	f	2025-07-30 00:50:44.968143+00	2025-07-30 00:50:44.968143+00	\N	3909d172-8c98-4cb4-847f-ac26e609227f
+00000000-0000-0000-0000-000000000000	466	c3poke7wzco2	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-01 13:35:47.047684+00	2025-10-01 14:40:44.837967+00	avie2zm4xtsg	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	185	c64mxgkzsvdh	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-08 15:42:13.362283+00	2025-09-09 16:08:20.670538+00	\N	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	471	3dyqms3mknno	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-10-01 15:13:01.225463+00	2025-10-01 16:12:04.057505+00	\N	7a5fcfd2-2695-494f-b973-f657cf3ba8cd
+00000000-0000-0000-0000-000000000000	473	xx4ggzo6wa3j	09ff1a6d-48d3-4dbf-814e-5229c6549e86	t	2025-10-01 15:15:36.051949+00	2025-10-01 16:15:03.843001+00	\N	35dc7189-e7b2-4724-8c51-178ac7c98112
 00000000-0000-0000-0000-000000000000	277	rpmzz2obt4ck	3c278e9e-7ca6-4d16-bf51-1343d7347f81	f	2025-09-23 00:39:57.578986+00	2025-09-23 00:39:57.578986+00	\N	35c53a73-5a8c-41cf-95bf-f8e1338c5892
+00000000-0000-0000-0000-000000000000	476	rbe2ugdxuatq	09ff1a6d-48d3-4dbf-814e-5229c6549e86	t	2025-10-01 16:15:03.844363+00	2025-10-01 17:13:37.707933+00	xx4ggzo6wa3j	35dc7189-e7b2-4724-8c51-178ac7c98112
+00000000-0000-0000-0000-000000000000	479	7pvkznzn36uw	09ff1a6d-48d3-4dbf-814e-5229c6549e86	t	2025-10-01 17:13:37.718354+00	2025-10-01 18:13:03.81669+00	rbe2ugdxuatq	35dc7189-e7b2-4724-8c51-178ac7c98112
+00000000-0000-0000-0000-000000000000	482	k73cenwjxn4k	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-10-01 17:34:38.300141+00	2025-10-01 18:59:34.017909+00	3rthdkvyy5v7	7a5fcfd2-2695-494f-b973-f657cf3ba8cd
+00000000-0000-0000-0000-000000000000	485	q3dzr5eenkmr	3e965a3e-9729-4a41-96e7-724c0763edd0	t	2025-10-01 18:28:03.796577+00	2025-10-01 19:26:13.369638+00	w66nnyo2xbew	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
+00000000-0000-0000-0000-000000000000	488	yj5apoyaatr3	3e965a3e-9729-4a41-96e7-724c0763edd0	t	2025-10-01 19:26:13.375253+00	2025-10-01 20:25:41.267192+00	q3dzr5eenkmr	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
+00000000-0000-0000-0000-000000000000	494	7ku2jjyozidh	09ff1a6d-48d3-4dbf-814e-5229c6549e86	f	2025-10-01 21:10:03.919339+00	2025-10-01 21:10:03.919339+00	4axlayloo4pr	35dc7189-e7b2-4724-8c51-178ac7c98112
+00000000-0000-0000-0000-000000000000	465	qpkugqrshggh	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	t	2025-10-01 05:46:27.293813+00	2025-10-01 21:14:42.711912+00	3wmo3udomltz	4a90706d-f14b-4f8d-86d1-b400cf84e0d9
+00000000-0000-0000-0000-000000000000	491	uvww5x7sle3o	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-01 20:18:30.567042+00	2025-10-01 21:16:30.940222+00	h24nbotwmbrz	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	351	6fhwdaaw6cu4	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-26 14:54:08.843057+00	2025-09-28 05:59:03.303997+00	3lrmdfqpyw7y	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	368	pbmfppurh5jj	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-28 05:59:03.306469+00	2025-09-28 06:59:33.095126+00	6fhwdaaw6cu4	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	189	dsjbitfc2nbq	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-09 16:08:20.679452+00	2025-09-18 14:09:28.487653+00	c64mxgkzsvdh	125caab4-c213-4231-8971-20985f557a58
@@ -1179,14 +1255,30 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	369	iu2ffbo6g6us	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-28 06:59:33.106172+00	2025-09-29 14:23:13.029581+00	pbmfppurh5jj	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	385	mntjpt3zz24x	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-29 14:23:13.030986+00	2025-09-29 15:39:31.485457+00	iu2ffbo6g6us	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	387	yrscxku6miae	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-29 15:39:31.493003+00	2025-09-29 17:07:22.110967+00	mntjpt3zz24x	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	437	avie2zm4xtsg	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-30 19:57:30.916198+00	2025-10-01 13:35:47.041805+00	dgyy3rm6skjg	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	467	6ouesso2g4ip	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-01 14:40:44.843681+00	2025-10-01 16:18:57.312374+00	c3poke7wzco2	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	474	uusz4qcutdhb	3e965a3e-9729-4a41-96e7-724c0763edd0	t	2025-10-01 15:31:21.823768+00	2025-10-01 16:29:48.760782+00	\N	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
+00000000-0000-0000-0000-000000000000	477	2ji7phvjjxvp	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-01 16:18:57.31968+00	2025-10-01 17:17:27.011736+00	6ouesso2g4ip	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	480	7zs2gxivtcfi	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-01 17:17:27.013787+00	2025-10-01 18:18:39.18786+00	2ji7phvjjxvp	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	483	zlt4gcjfsfxw	09ff1a6d-48d3-4dbf-814e-5229c6549e86	t	2025-10-01 18:13:03.826197+00	2025-10-01 19:12:03.749682+00	7pvkznzn36uw	35dc7189-e7b2-4724-8c51-178ac7c98112
+00000000-0000-0000-0000-000000000000	486	cuh6sszzxs6p	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-10-01 18:59:34.02637+00	2025-10-01 19:59:03.790598+00	k73cenwjxn4k	7a5fcfd2-2695-494f-b973-f657cf3ba8cd
+00000000-0000-0000-0000-000000000000	489	6ckd43af7z6y	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-10-01 19:59:03.796731+00	2025-10-01 20:58:03.879195+00	cuh6sszzxs6p	7a5fcfd2-2695-494f-b973-f657cf3ba8cd
+00000000-0000-0000-0000-000000000000	495	ju6ygcud6k45	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f	2025-10-01 21:14:42.71808+00	2025-10-01 21:14:42.71808+00	qpkugqrshggh	4a90706d-f14b-4f8d-86d1-b400cf84e0d9
+00000000-0000-0000-0000-000000000000	496	glfs5o7pj5oj	ef794a04-7430-4bda-8604-b6324ea88cde	f	2025-10-01 21:16:30.941253+00	2025-10-01 21:16:30.941253+00	uvww5x7sle3o	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	392	52zjm7twwidj	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-29 17:07:22.115344+00	2025-09-30 16:54:20.500029+00	yrscxku6miae	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	492	xes2lby4sgi4	3e965a3e-9729-4a41-96e7-724c0763edd0	t	2025-10-01 20:25:41.269212+00	2025-10-01 21:25:03.806841+00	yj5apoyaatr3	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
 00000000-0000-0000-0000-000000000000	425	d2ssjnqtdkmc	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-30 16:54:20.501157+00	2025-09-30 17:57:25.300211+00	52zjm7twwidj	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	429	m7kn4h6scjqq	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-30 17:57:25.3022+00	2025-09-30 18:59:21.675289+00	d2ssjnqtdkmc	125caab4-c213-4231-8971-20985f557a58
 00000000-0000-0000-0000-000000000000	433	dgyy3rm6skjg	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-09-30 18:59:21.681534+00	2025-09-30 19:57:30.914749+00	m7kn4h6scjqq	125caab4-c213-4231-8971-20985f557a58
-00000000-0000-0000-0000-000000000000	437	avie2zm4xtsg	ef794a04-7430-4bda-8604-b6324ea88cde	f	2025-09-30 19:57:30.916198+00	2025-09-30 19:57:30.916198+00	dgyy3rm6skjg	125caab4-c213-4231-8971-20985f557a58
-00000000-0000-0000-0000-000000000000	462	3wmo3udomltz	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f	2025-10-01 04:48:01.675475+00	2025-10-01 04:48:01.675475+00	\N	4a90706d-f14b-4f8d-86d1-b400cf84e0d9
-00000000-0000-0000-0000-000000000000	463	a2xdmycrcmsu	3e965a3e-9729-4a41-96e7-724c0763edd0	f	2025-10-01 04:48:15.987109+00	2025-10-01 04:48:15.987109+00	\N	7d524b59-00aa-4616-bc4f-0cf20605daa2
-00000000-0000-0000-0000-000000000000	464	vmx2egntoon6	3e965a3e-9729-4a41-96e7-724c0763edd0	f	2025-10-01 04:49:12.172362+00	2025-10-01 04:49:12.172362+00	\N	fea1cd80-1f89-4dcc-9cb2-2d55bf95d512
+00000000-0000-0000-0000-000000000000	478	6oybkhv3scy6	3e965a3e-9729-4a41-96e7-724c0763edd0	t	2025-10-01 16:29:48.771981+00	2025-10-01 17:29:03.760765+00	uusz4qcutdhb	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
+00000000-0000-0000-0000-000000000000	462	3wmo3udomltz	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	t	2025-10-01 04:48:01.675475+00	2025-10-01 05:46:27.286091+00	\N	4a90706d-f14b-4f8d-86d1-b400cf84e0d9
+00000000-0000-0000-0000-000000000000	475	3rthdkvyy5v7	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-10-01 16:12:04.061958+00	2025-10-01 17:34:38.296691+00	3dyqms3mknno	7a5fcfd2-2695-494f-b973-f657cf3ba8cd
+00000000-0000-0000-0000-000000000000	481	w66nnyo2xbew	3e965a3e-9729-4a41-96e7-724c0763edd0	t	2025-10-01 17:29:03.771945+00	2025-10-01 18:28:03.792006+00	6oybkhv3scy6	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
+00000000-0000-0000-0000-000000000000	487	vtutg3kenycr	09ff1a6d-48d3-4dbf-814e-5229c6549e86	t	2025-10-01 19:12:03.751802+00	2025-10-01 20:11:03.753214+00	zlt4gcjfsfxw	35dc7189-e7b2-4724-8c51-178ac7c98112
+00000000-0000-0000-0000-000000000000	484	h24nbotwmbrz	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-01 18:18:39.191938+00	2025-10-01 20:18:30.56506+00	7zs2gxivtcfi	125caab4-c213-4231-8971-20985f557a58
+00000000-0000-0000-0000-000000000000	493	dbujw3f4dhub	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f	2025-10-01 20:58:03.885344+00	2025-10-01 20:58:03.885344+00	6ckd43af7z6y	7a5fcfd2-2695-494f-b973-f657cf3ba8cd
+00000000-0000-0000-0000-000000000000	490	4axlayloo4pr	09ff1a6d-48d3-4dbf-814e-5229c6549e86	t	2025-10-01 20:11:03.767143+00	2025-10-01 21:10:03.913314+00	vtutg3kenycr	35dc7189-e7b2-4724-8c51-178ac7c98112
+00000000-0000-0000-0000-000000000000	497	bbakl372mge2	3e965a3e-9729-4a41-96e7-724c0763edd0	f	2025-10-01 21:25:03.813134+00	2025-10-01 21:25:03.813134+00	xes2lby4sgi4	a1f5f1d6-cef7-4c8b-8dcd-96f6f57392d8
 \.
 
 
@@ -1234,7 +1326,6 @@ COPY "public"."Usuarios" ("id_usuario", "nombre", "correo", "contraseña", "edad
 2	\N	joutteleisopre-3760@yopmail.com	auth_managed	\N	\N	\N	\N	\N	2025-08-26	23605b07-3d7c-459e-94b8-1f6a0c7933ed	\N	\N	\N	2025-09-24 03:20:33.472641+00
 7	\N	naucrefafeddi-5710@yopmail.com	auth_managed	\N	\N	\N	\N	\N	2025-08-26	e1ed77f6-f4ee-4ab0-8755-66c0a763dc62	\N	\N	\N	2025-09-24 03:20:33.472641+00
 6	Melson	proppekeppoillau-3591@yopmail.com	auth_managed	22	60.00	180.00	intermedio	hipertrofia	2025-08-26	3c278e9e-7ca6-4d16-bf51-1343d7347f81	mel	\N	\N	2025-09-24 03:20:33.472641+00
-15	siuwi	cibressoyelli-1317@yopmail.com	auth_managed	18	80.00	173.00	avanzado	resistencia	2025-08-26	1166241f-43ab-44b4-8b44-94394e4a197a	siu	\N	\N	2025-09-24 03:20:33.472641+00
 14	Julio Sama	zeffefrippazo-9670@yopmail.com	auth_managed	25	89.00	180.00	principiante	hipertrofia	2025-08-26	d77e141b-738c-4494-82df-4fc479544e1e	mel1	\N	\N	2025-09-24 03:20:33.472641+00
 1	fasfas	nefeumewauhe-6084@yopmail.com	auth_managed	78	44.00	234.00	principiante	fuerza	2025-08-26	ccf47ff3-abec-4672-8208-e78e1b90258f	aaa	\N	\N	2025-09-24 03:20:33.472641+00
 4	dasda	lemmakaxebre-8624@yopmail.com	auth_managed	23	55.00	156.00	intermedio	fuerza	2025-08-26	3c23b75b-4db9-487d-a148-6b30523ce237	saaaaa	masculino	\N	2025-09-24 03:20:33.472641+00
@@ -1242,13 +1333,14 @@ COPY "public"."Usuarios" ("id_usuario", "nombre", "correo", "contraseña", "edad
 30	treitteu beigrizei	treitteubeigrizei-6265@yopmail.com	auth_managed	44	90.00	189.00	principiante	hipertrofia	2025-09-23	e334d918-2367-4b34-bf66-83a9c0b8a4aa	treitteubeigrizei	masculino	\N	2025-09-24 03:20:33.472641+00
 31	prouti ppoipeuji	proutippoipeuji-3523@yopmail.com	auth_managed	44	44.00	190.00	intermedio	hipertrofia	2025-09-23	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9	prouti	masculino	\N	2025-09-24 03:20:33.472641+00
 3	Julio Sam	meyibaprallou-7095@yopmail.com	auth_managed	18	56.00	173.00	principiante	fuerza	2025-08-26	bf9f3a06-afbe-4031-b3ed-86d08af7f87b	julione	masculino	\N	2025-09-24 03:20:33.472641+00
+15	siuwi	cibressoyelli-1317@yopmail.com	auth_managed	18	80.00	173.00	avanzado	resistencia	2025-08-26	1166241f-43ab-44b4-8b44-94394e4a197a	siuu	masculino	\N	2025-09-24 03:20:33.472641+00
+13	Enrique Zepeda	enrique.zepeda0017@alumnos.udg.mx	auth_managed	22	80.00	177.00	intermedio	hipertrofia	2025-08-26	3e965a3e-9729-4a41-96e7-724c0763edd0	enrique_zepeda	masculino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/3e965a3e-9729-4a41-96e7-724c0763edd0/avatar_1759072207398.jpg	2025-10-01 19:26:04.588+00
 19	Alondra Tonantzi Villaseñor Garcia	vattatovuwe-6463@yopmail.com	auth_managed	24	55.00	156.00	intermedio	resistencia	2025-09-02	82eb2899-4641-4dfe-97dc-665ccb66cdf7	toni777	femenino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/82eb2899-4641-4dfe-97dc-665ccb66cdf7/avatar_1758685514777.jpg	2025-09-24 13:12:41.022+00
 20	Juana del Arco	pepepecas@yopmail.com	auth_managed	22	85.00	179.00	intermedio	hipertrofia	2025-09-08	ef794a04-7430-4bda-8604-b6324ea88cde	elmono1	masculino	\N	2025-09-24 03:20:33.472641+00
 9	Enrique Zepeda	trajafigosso-7741@yopmail.com	auth_managed	25	70.00	175.00	intermedio	hipertrofia	2025-08-26	09ff1a6d-48d3-4dbf-814e-5229c6549e86	kike	masculino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/09ff1a6d-48d3-4dbf-814e-5229c6549e86/avatar_1758894236053.jpg	2025-09-27 23:50:17.741+00
-13	Enrique Zepeda	enrique.zepeda0017@alumnos.udg.mx	auth_managed	22	1.30	123.00	intermedio	hipertrofia	2025-08-26	3e965a3e-9729-4a41-96e7-724c0763edd0	enrique_zepeda	masculino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/3e965a3e-9729-4a41-96e7-724c0763edd0/avatar_1759072207398.jpg	2025-09-28 15:10:09.544+00
 32	Edgar Jara	ps36516088@gmail.com	auth_managed	23	106.00	172.00	principiante	hipertrofia	2025-09-29	db4793b9-fc50-489f-9e64-c48939606f9c	dronorewa	masculino	\N	2025-09-29 00:26:45.620199+00
 10	Pechamen Alto	libros123@yopmail.com	auth_managed	98	32.00	122.00	avanzado	resistencia	2025-08-26	ed716103-7c30-47f8-9d88-0a3188b9b43d	usuario3	femenino	\N	2025-09-24 03:20:33.472641+00
-33	Pecas Martinez	vaubessauttegou-1519@yopmail.com	auth_managed	26	155.00	123.00	intermedio	resistencia	2025-10-01	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	elpecas1	masculino	\N	2025-10-01 04:49:25.38483+00
+33	Pecas Martinez	vaubessauttegou-1519@yopmail.com	auth_managed	26	155.00	123.00	intermedio	resistencia	2025-10-01	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	elpecas1	masculino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2/avatar_1759297500676.png	2025-10-01 05:45:07.025+00
 \.
 
 
@@ -1262,6 +1354,7 @@ COPY "public"."Amigos" ("id_usuario1", "id_usuario2") FROM stdin;
 9	32
 9	13
 13	33
+20	33
 \.
 
 
@@ -1284,12 +1377,47 @@ COPY "public"."Ejercicios" ("id", "nombre", "grupo_muscular", "descripcion", "eq
 17	Crunch Lateral de pie en Polea Alta	Abdomen	De pie situado al lado de la polea alta, coge el agarre con una mano y ponla a la altura de la cabeza, con el brazo flexionado hacia arriba al lado del cuerpo. Encoge el torso lateralmente hacia el lado de la polea mediante la contracción de los abdominales oblicuos, sin tirar del brazo. Al terminar la serie cambia de lado.	Polea	Principiante	Abdomen, Oblicuos	https://fitcron.com/wp-content/uploads/2021/04/02231301-Cable-Side-Crunch_Waist_720.gif
 14	Encogimientos Delanteros con Barra	Hombro	De pie con las piernas ligeramente separadas y la espalda recta, coge una barra por delante del cuerpo con las manos en pronación (palmas hacia atrás) a una anchura algo superior a la de los hombros. Encoge los hombros sin flexionar los brazos, subiendo y bajando el peso exclusivamente con el trapecio.	Barra Larga	Principiante	Trapecio, Deltoides	https://fitcron.com/wp-content/uploads/2021/04/00951301-Barbell-Shrug_Back_720.gif
 18	Extensión Vertical en Pronación en Polea Alta	Tríceps	De pie con las piernas ligeramente separadas y la espalda recta de cara a la polea, coge la barra en pronación (palmas hacia abajo) y estira los brazos hacia abajo. Sube flexionando los codos de forma controlada sin llegar a relajar y vuelve a estirar.	Polea	Principiante	Tríceps, Antebrazo	https://fitcron.com/wp-content/uploads/2021/04/02411301-Cable-Triceps-Pushdown-V-bar-attachment_Upper-Arms_720.gif
+56	Elevación de rodillas con apoyo	Todos	La forma eficiente de hacer este ejercicio es elevando las rodillas constantemente sobre la altura de la cadera, manteniendo el torso recto con los brazos apoyados en una pared.	Ninguno	Principiante	Todos	https://fitcron.com/wp-content/uploads/2021/03/36361301-High-Knee-against-wall_Cardio_720.gif
 19	Patadas Traseras con Mancuernas	Tríceps	De pie, cogemos una mancuerna con una mano. La palma debe estar enfocada hacia el cuerpo. Inclinamos el cuerpo hacia delante de forma que quede casi paralelo al suelo. Podemos apoyar sobre un banco la rodilla y el brazo opuestos al lado que vamos a trabajar. El brazo debe estar cerca del cuerpo y también paralelo al suelo. Debemos de formar un ángulo recto entre el antebrazo y la parte superior del brazo.\nEmpieza el movimiento inspirando y utilizando el tríceps para levantar la mancuerna hasta que el brazo quede completamente extendido. Céntrate en mover el antebrazo. Luego, párate un poco antes de descender, expulsa el aire y empieza a bajar la mancuerna hacia la posición inicial de forma controlada.	Mancuernas	Principiante	Tríceps, Antebrazo	https://fitcron.com/wp-content/uploads/2021/04/03331301-Dumbbell-Kickback_Upper-Arms_720.gif
 20	Fondos en banco	Tríceps	Coloca las manos encima del banco, plataforma o silla a la anchura de los hombros. Los pies hacia adelante en el suelo y separados a la anchura de la cadera.\nEmpieza el movimiento inspirando y flexionando los codos para descender la parte superior del cuerpo hacia el suelo, intentando llegar con los brazos a un ángulo recto de 90º. La espalda tiene que estar siempre cerca del banco.\nMantén los codos lo más cerca posible del cuerpo y flexionados hacia atrás. De esta manera evitarás que se desplacen y trabajarás solo el tríceps. De lo contrario, también estarías involucrando los hombros en el ejercicio.\nPara regresar a la posición inicial exhala y mientras asciendes coloca los brazos rectos.	Ninguno	Principiante	Tríceps, Antebrazo	https://fitcron.com/wp-content/uploads/2021/03/13991301-Bench-dip-on-floor_Upper-Arms_720.gif
 21	Curl Concentrado en Supinación con Mancuerna	Bíceps	Sentado en un banco o similar, abre las piernas e inclina el cuerpo un poco hacia delante. Coge una mancuerna con la palma hacia arriba (supinación) y apoya la parte de atrás del codo en el interior del muslo. Flexiona el codo hasta llevar la mancuerna a la altura del pecho y desciende nuevamente de forma controlada.	Mancuernas	Principiante	Antebrazo, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/02971301-Dumbbell-Concentration-Curl_Upper-Arms_720.gif
 22	Curl en Martillo en Polea Baja	Bíceps	De pie con las piernas ligeramente separadas y la espalda recta, coge la cuerda con las manos a la anchura de los hombros, flexiona los codos subiendo la cuerda hasta el pecho, con los codos pegados al cuerpo. Desciende de forma controlada.	Polea	Principiante	Antebrazo, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/01651301-Cable-Hammer-Curl-with-rope-m_Forearms_720.gif
 23	Curl en Martillo en Máquina Scott	Bíceps	Sentado en la máquina Scott con el pecho apoyado, coge los agarres con las palmas de las manos enfrentadas (agarre neutro o martillo). Sube las manos flexionando los codos hasta llegar cerca de la cabeza, y desciende de forma controlada, con la parte superior de los brazos siempre bien apoyada en el banco.	Máquina	Principiante	Antebrazo, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/16151301-Lever-Hammer-Grip-Preacher-Curl_Upper-Arms_720.gif
 9	Remo Aislado con Mancuerna	Espalda	Coge una mancuerna con una mano con agarre neutro (palma hacia el interior). Inclina el cuerpo hacia delante casi paralelo al suelo. Puedes hacerlo de pie con las piernas separadas y apoyándote en algún sitio con la otra mano o sobre un banco, con la rodilla y brazo inversos al que sujeta la mancuerna apoyados sobre el banco.\nEstira el brazo hacia abajo y a continuación sube la mancuerna hasta llegar a la altura del abdomen, manteniendo el brazo pegado al cuerpo y sacando pecho al llegar arriba. Desciende lentamente y cambia de brazo al terminar la serie.	Mancuernas	Principiante	Dorsal, Trapecio, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/02921301-Dumbbell-Bent-over-Row_back_Back_720.gif
+24	Aductor Externo Aislado en Máquina	Pierna	De pie en la máquina con la espalda recta, ponte el rodillo en el lateral exterior de una pierna y crúzala por delante de la de apoyo. Abre la pierna hacia fuera lateralmente empujando el peso. Después regresa lentamente a la posición inicial, sin dejar caer el peso bruscamente.	Máquina	Intermedio	Glúteo, Aductor, Cuádriceps, Gemelo	https://fitcron.com/wp-content/uploads/2021/04/10341301-Lever-Side-Hip-Abduction_Hips_720.gif
+25	Apertura Aislada Declinada con Polea	Pecho	Tumbado sobre un banco declinado cercano a una polea baja, el brazo estirado horizontalmente, agarramos la empuñadura de forma natural (palma de la mano hacia arriba). El movimiento consiste en realizar el cierre con el brazo estirado hacia el centro del pecho. La inspiración se hace durante el descenso, la expiración durante el ascenso. La otra mano la podemos colocar bajo el banco o agarrando un lateral del mismo.	Banco Inclinable, Polea	Intermedio	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/12621301-Cable-One-Arm-Decline-Chest-Fly_Chest_720.gif
+26	Aperturas Declinadas con Mancuernas	Pecho	Túmbate boca arriba sobre el banco declinado. Coge las mancuernas con las dos manos, teniendo en cuenta que las palmas deben mirar hacia el centro del cuerpo y manteniendo los brazos un poco flexionados en vertical al cuerpo. Desciende los brazos a los lados hasta bajar con las manos a la altura de los hombros.\nLos codos tienen que estar alineados entre sí, perpendiculares al cuerpo y paralelos al suelo. En el momento que espiras, regresa al centro del cuerpo sin extender los brazos ni flexionar los codos.	Banco Inclinable, Mancuernas	Intermedio	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/03021301-Dumbbell-Decline-Fly_Chest_720.gif
+27	Aperturas Extendidas en Máquina	Pecho	Sentados con la espalda bien apoyada y recta, extendemos bien los brazos a los lados y agarramos las barras de la máquina con agarre neutro (palmas mirándose entre sí). A continuación realizamos el cierre manteniendo los brazos extendidos hasta llegar a tocarse ambas manos. Después retrocedemos de forma controlada sin llegar a perder la tensión (no llegar al final para descansar).	Máquina	Intermedio	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/05961301-Lever-Seated-Fly_Chest_720.gif
+28	Aperturas Traseras en Pronación en Máquina	Hombro	Con la espalda recta coge un agarre con cada mano en pronación y sin balanceo ni impulso, lleva los soportes hacia los lados con los brazos rectos. Aprieta los hombros y aguanta durante uno o dos segundos. Retrocede de forma controlada a la posición inicial.	Máquina	Intermedio	Trapecio, Deltoides	https://fitcron.com/wp-content/uploads/2021/04/06021301-Lever-Seated-Reverse-Fly_Shoulders_720.gif
+29	Buenos días con Barra	Pierna	Colócate de pie con las piernas separadas a la anchura algo menor a la de los hombros. Así, coge una barra tras la cabeza, exactamente bajo la zona de los trapecios. Baja el tronco hacia adelante, siempre manteniendo la espalda en una posición erecta. Al llegar al punto máximo, tu torso debe encontrarse casi paralelo al piso, todo ello sin que la espalda pierda su posición inicial y, eso sí, doblando ligeramente las rodillas y sacando los glúteos.\nPuedes mantener la posición final por uno o dos segundos, en donde sentirás cómo se tensa tu abdomen. Una vez hecho esto, regresa a la posición de inicio.	Barra Larga	Intermedio	Glúteo, Aductor, Cuádriceps, Gemelo	https://fitcron.com/wp-content/uploads/2021/04/00441301-Barbell-Good-Morning_Thighs_720.gif
+30	Cruces en Máquina	Pecho	Sentados en la máquina con la espalda recta, ponemos las manos en pronación (palmas hacia el suelo) y los codos bien arriba, a la altura de los hombros. Empujamos hacia abajo para cerrar los brazos (sin bajar los codos por debajo de las manos) hasta prácticamente juntar las manos y volvemos a la posición inicial con un movimiento controlado.	Máquina	Intermedio	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/33441301-Lever-Crossovers_Chest_720.gif
+31	Crunch Cruzado estirado	Abdomen	Acuéstate boca arriba con las piernas rectas y los pies apoyados en el suelo. Coloca las manos detrás de la cabeza. Levanta los hombros del suelo mientras contraes los abdominales. Al mismo tiempo, levanta ligeramente una pierna mientras mantienes la parte baja de la espalda en contacto con el suelo. Regresa a la posición inicial y repite, alternando la pierna en cada repetición. Este ejercicio trabaja los músculos oblicuos y abdominales.	Ninguno	Intermedio	Abdomen, Oblicuos, Cuádriceps	https://fitcron.com/wp-content/uploads/2024/05/43311301-Crunch-Single-Leg-Lift_Waist_720.gif
+32	Crunch Lateral de pie con Banda	Abdomen	De pie situado al lado de una banda en algún soporte a la altura de los pies, coge el agarre con una mano con el brazo extendido al lado del cuerpo. Encoge el torso lateralmente hacia el lado de la banda. A continuación inclínate hacia el lado opuesto mediante la contracción de los abdominales oblicuos, sin tirar del brazo. Al terminar la serie cambia de lado.	Bandas	Intermedio	Abdomen, Oblicuos	https://fitcron.com/wp-content/uploads/2021/04/38411301-Band-side-bend-male_Waist_720.gif
+33	Dominada	Espalda	Colgado en una barra de dominadas con las manos a una anchura algo mayor que la de los hombros y las palmas hacia delante, sube el cuerpo mediante la flexión de los brazos hasta pasar la cabeza sobre la barra. Desciende lentamente.	Otro	Intermedio	Dorsal, Trapecio, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/14291301-Wide-Grip-Pull-Up_Back_720.gif
+34	Dominada Cerrada	Espalda	Colgado en una barra de dominadas con las manos a la anchura de los hombros y las palmas hacia delante, sube el cuerpo mediante la flexión de los brazos hasta pasar la cabeza sobre la barra. Desciende lentamente.	Otro	Intermedio	Dorsal, Trapecio, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/17631301-Shoulder-Grip-Pull-up_Back_720.gif
+35	Abdominales en V con Mancuerna	Abdomen	Tumbado en el suelo (o colchoneta de ejercicios) sobre la espalda con los brazos estirados hacia atrás detrás de la cabeza y con las piernas extendidas. Al exhalar, flexiona la cintura al mismo tiempo que elevas las piernas y los brazos para que se junten. Las piernas deben estar estiradas y levantadas a un ángulo aproximado de 35-45 grados del suelo, y los brazos deben estar totalmente extendidos y paralelos a las piernas. La parte superior del torso debe estar levantada. Mientras inhalas, baja los brazos y las piernas de nuevo a la posición inicial.\nSostén una mancuerna entre las manos para mayor dificultad.	Mancuernas	Avanzado	Abdomen, Oblicuos	https://fitcron.com/wp-content/uploads/2021/04/33361301-Dumbbell-V-up_Waist_720.gif
+36	Crunch Diagonal en Polea	Abdomen	De pie con la espalda recta y las piernas a la anchura aproximada de la cadera, ponte delante de la polea alta. Coge la cuerda con las dos manos a un lado de la cabeza, con los brazos flexionados hacia arriba. Flexiona el tronco lateralmente hacia abajo del lado contrario al de las manos, girando el torso y sin mover los brazos, apretando el abdomen.	Polea	Avanzado	Abdomen, Oblicuos	https://fitcron.com/wp-content/uploads/2021/04/01741301-Cable-Judo-Flip_waist_720.gif
+37	Crunch Inferior en círculos	Abdomen	Desde una posición sentada en un banco con el cuerpo perpendicular al asiento y las piernas extendidas frente a ti, apoya las manos en el banco a los lados de tus caderas. Levanta las piernas rectas mientras las abres al ponerlas paralelas al suelo. Contrae los abdominales y eleva las piernas todo lo que puedas mientras las cierras de nuevo. Mantén la posición y desciende invirtiendo el movimiento, con el descenso controlado. Este ejercicio fortalece los músculos abdominales inferiores y contribuye a mejorar la estabilidad del core.	Banco Plano	Avanzado	Abdomen, Oblicuos, Cuádriceps	https://fitcron.com/wp-content/uploads/2024/05/43331301-Bench-Reverse-Crunch-Circle_Waist_720.gif
+38	Curl Femoral Libre	Pierna	De rodillas en el suelo con los tobillos sujetos por alguna plataforma, banco o step. Trata de estirar las piernas llevando el cuerpo hacia delante hasta tumbarte en el suelo. Vuelve a la posicion inicial flexionando las piernas y dejando el cuerpo en vertical.	Otro	Avanzado	Glúteo, Aductor, Cuádriceps, Gemelo	https://fitcron.com/wp-content/uploads/2021/04/35071301-Self-Assisted-Inverse-Leg-Curl-VERSION-2_Thighs_720.gif
+39	Curl Horizontal con giro con Mancuernas	Bíceps	Tumbado hacia arriba en un banco plano, coge una mancuerna con cada mano con las palmas hacia el cuerpo (agarre neutro) y extiende los brazos a los lados, a 45º del cuerpo. Flexiona los codos manteniendo los brazos inmovilizados, hasta llegar con las mancuernas frente al pecho, mientras giras las muñecas hacia adentro (palmas hacia arriba). Al llegar a arriba sube un poco los brazos para una mayor contracción. Desciende de forma controlada a la posición inicial.	Banco Plano, Mancuernas	Avanzado	Antebrazo, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/03501301-Dumbbell-Lying-Supine-Curl_Forearms_720.gif
+40	Dominada a una mano	Espalda	Colgado en una barra de dominadas con una mano en agarre neutro (palma hacia el interior), sube el cuerpo mediante la flexión del brazo hasta llegar con la cabeza a la barra, inclinando hacia el lado contrario del brazo para compensar el peso. Desciende lentamente. Con la otra mano puedes coger peso para añadir dificultad.	Otro	Avanzado	Dorsal, Trapecio, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/32901301-Weighted-One-Hand-Pull-up_720.gif
+41	Dominada Abierta	Espalda	Colgado en una barra de dominadas con las manos a una anchura mayor que la de los hombros y las palmas hacia delante, sube el cuerpo mediante la flexión de los brazos hasta pasar la cabeza sobre la barra. Desciende lentamente.	Otro	Avanzado	Dorsal, Trapecio, Bíceps	https://fitcron.com/wp-content/uploads/2021/04/18661301-Wide-Grip-Pull-Up-on-Dip-Cage_Back_720.gif
+42	Elevaciones Laterales Declinadas Neutras con Mancuernas	Hombro	Túmbate hacia abajo en un banco declinado, apoyando el pecho en el respaldo y con los pies en el suelo. Coge las mancuernas con las manos en martillo o agarre neutro (palmas hacia el interior) por delante del cuerpo creando un ángulo de 90º entre torso y brazos. Con los codos ligeramente flexionados, eleva las mancuernas lateralmente hasta ponerlas a la altura de los hombros y desciende de nuevo de forma controlada.	Banco Inclinable, Mancuernas	Avanzado	Trapecio, Deltoides	https://fitcron.com/wp-content/uploads/2021/04/03831301-Dumbbell-Reverse-Fly_Shoulders_720.gif
+55	Carrera rápida en el sitio	Todos	De pie, con los codos flexionados en un ángulo de 90 grados y los pies separados a la anchura de las caderas. Mueve el codo derecho hacia delante al mismo tiempo que subes la rodilla izquierda. Repite en el lado opuesto y mantén los lados alternados.	Ninguno	Principiante	Todos	https://fitcron.com/wp-content/uploads/2021/03/35891301-Quickly-Trot-in-place_Cardio_720.gif
+43	Flexiones a una mano	Pecho	La posición será como en una flexión normal, pero colocaremos solamente una mano en el suelo. Seguidamente, será importante intentar lograr una posición que nos permita mantenernos en equilibrio usando las piernas y el brazo de apoyo extendidos.\nEl brazo que va a realizar la flexión estará a la altura del hombro, completamente extendido, y el otro brazo lo mantendremos doblado, colocándolo en nuestra zona lumbar. Las piernas estarán más separadas como cuando realizamos una flexión normal, ya que si no perderíamos el equilibrio. Deberemos descender poco a poco, hasta tocar el suelo con la barbilla, para volver a subir de nuevo.	Ninguno	Avanzado	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/07251301-Single-Arm-Push-up_Chest_720.gif
+44	Elevación Completa con Barra	Hombro	De pie con la espalda recta y las piernas ligeramente separadas, coge la barra con las manos en pronación (palmas hacia abajo) a la anchura de los hombros. Con los brazos estirados, eleva la barra frontalmente hasta tenerla sobre la cabeza. Desciende de nuevo de forma controlada.	Barra Larga	Avanzado	Trapecio, Deltoides	https://fitcron.com/wp-content/uploads/2021/04/01071301-Barbell-Standing-Front-Raise-Over-Head_Shoulders_720.gif
+45	Flexiones a una mano asistidas	Pecho	La posición será como en una flexión normal, pero colocaremos solamente una mano en el suelo. La otra la pondremos sobre un banco, silla o caja, apoyando toda la parte del codo y antebrazo, a modo de sujeción. Deberemos descender poco a poco, cargando el peso en la mano del suelo, para volver a subir de nuevo. Al terminar la serie cambiar de mano.	Ninguno	Avanzado	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/39641301-Twist-Push-up_Chest_720.gif
+46	Fondos Imposibles	Tríceps	Se trata de colocarse en las barras paralelas apoyando los antebrazos en las mismas, y subir hasta bloquear los codos, sin utilizar balanceos ni impulsos, sólo por pura fuerza de tríceps.\nPara coger fuerza y técnica, podemos empezar desde arriba descendiendo muy lentamente, y subir de un salto si es necesario.	Otro	Avanzado	Tríceps, Antebrazo	https://fitcron.com/wp-content/uploads/2021/03/32891301-Impossible-dips_Upper-arms_720.gif
+47	Peso Muerto a una pierna con Barra	Pierna	De pie con la espalda recta, sujeta la barra con las manos en pronación (palmas hacia atrás) a la anchura de los hombros, activando ligeramente las escápulas y con el pecho fuera. Levanta una pierna del suelo flexionando ligeramente hacia atrás.\nFlexiona la rodilla de apoyo de 15º a 20º, empujando la cadera hacia atrás y estirando la pierna no apoyada hacia atrás de forma que quede paralela al suelo, mientras inclinas el cuerpo hacia delante quedando también paralelo al suelo. Comienza a extender la cadera a medida que la barra asciende y vuelve en la posición inicial, contrayendo glúteos y activando ligeramente las escápulas con el pecho bien arriba y la posición anatómica natural de toda la columna.	Barra Larga	Avanzado	Glúteo, Aductor, Cuádriceps, Gemelo	https://fitcron.com/wp-content/uploads/2021/04/17561301-Barbell-Single-Leg-Deadlift_Hips_720.gif
+48	Carrera en Cinta	Cardio	Una cinta de correr, cinta ergométrica, caminadora de banda o máquina de caminar es una máquina para entrenamiento físico que puede funcionar mediante propulsión eléctrica o manual, y que sirve para correr o andar sin moverse de un mismo sitio.\nColócate sobre la cinta y realiza algún programa de la misma o regula la intensidad ajustándola a tus necesidades.	Máquina	Principiante	Todos	https://fitcron.com/wp-content/uploads/2021/03/06841301-Run-equipment_Cardio_720.gif
+49	Burpee	Cardio	Para realizar el ejercicio de se parte de una posición inicial en cuclillas (o sentadillas), se colocan las manos en el suelo y se mantiene la cabeza erguida. Después se desplazan las piernas hacia atrás con los pies juntos. A continuación se recogen las piernas para volver y se da un salto vertical con los brazos en alto (se puede dar una palmada por encima de la cabeza). Después vuelve a la posición de cuclillas para repetir el ejercicio.\n\nEl movimiento debe ser fluido, por lo que es importante trabajar la coordinación. Se puede dar una palmada por encima de la cabeza. Recuerda que es importante amortiguar la caída y aterrizar de la manera más suave posible.	Ninguno	Avanzado	Todos	https://fitcron.com/wp-content/uploads/2021/03/11601301-Burpee_Cardio_720.gif
+50	Crunch Cruzado	Abdomen	Acuéstate boca arriba con las rodillas dobladas y los pies apoyados en el suelo. Coloca las manos detrás de la cabeza, sin entrelazar los dedos. Levanta los hombros del suelo mientras contraes los abdominales. A medida que subes, gira el torso y lleva el codo derecho hacia la rodilla izquierda, levantando también esa pierna del suelo para acortar el recorrido. Intenta tocar la rodilla con el codo mientras mantienes la parte baja de la espalda en contacto con el suelo. Regresa a la posición inicial y repite del otro lado, llevando el codo izquierdo hacia la rodilla derecha. Alterna los lados en cada repetición. Este ejercicio trabaja los músculos oblicuos y abdominales	Ninguno	Intermedio	Abdomen, Oblicuos	https://fitcron.com/wp-content/uploads/2024/05/02621301-Cross-Body-Crunch_waist_720.gif
+51	Butt Kicks	Cardio	Se trata de correr sin moverte del sitio donde te encuentres, flexionando las rodillas hacia atrás lo máximo posible tratando de tocar el glúteo con el talón.	Ninguno	Principiante	Todos	https://fitcron.com/wp-content/uploads/2021/03/30371301-Butt-Kicks-male_Cardio_720.gif
+52	Flexiones Abiertas	Pecho	Empezamos con el pecho y abdomen pegado al suelo y las manos apoyadas a la altura del pecho, a una anchura algo superior a la de los codos si estiramos los brazos a los lados.\nSubimos estirando los brazos con los codos en ángulo, estirando bien arriba. Al bajar tenemos que volver a tocar el suelo, sin descansar abajo. Los brazos volverán a estar en ángulo como al comienzo.	Ninguno	intermedio	Pectoral, Tríceps	https://fitcron.com/wp-content/uploads/2021/03/13111301-Wide-Hand-Push-up_Chest_720.gif
+53	Jumping Jacks	Todos	Comienza de pie con los pies juntos. Con un solo movimiento, dando un pequeño salto, abre los pies hacia los lados y levanta los brazos por encima de la cabeza. Inmediatamente invierte el movimiento volviendo a la posición inicial.	Ninguno	Principiante	Todos	https://fitcron.com/wp-content/uploads/2021/03/30941301-Jumping-Jack-male_Cardio_720.gif
+54	Mountain Climbers	Todos	En su ejecución, aunque sencilla, hay que ser muy cuidadoso para evitar lesiones y para obtener el máximo provecho. Para empezar hay que colocarse tumbados boca abajo en el suelo apoyando las manos con los dedos dirigidos hacia el frente a la anchura de los hombros como en una plancha isométrica con los brazos extendidos y el cuerpo apoyado sobre las palmas de las manos y los dedos de los pies de modo que el cuerpo quede en línea recta.\n\nA partir de esa postura, comienza el movimiento consistente en llevar de manera alterna las rodillas hacia el codo opuesto, es decir, elevar la rodilla izquierda hacia el codo derecho por debajo del cuerpo y la derecha hacia el codo izquierdo de igual modo. El cambio de pierna se realiza mediante salto explosivo, si bien para ejecutarlo correctamente se necesita partir de una forma física inicial adecuada. Para aquellos que están comenzando a introducirse en el mundo deportivo es mejor practicarlo marcando el gesto sin salto y modificando el ritmo.	Ninguno	Intermedio	Todos	https://fitcron.com/wp-content/uploads/2021/03/06301301-Mountain-Climber_Cardio_720.gif
+57	Pre-Workout	Todos	Calentamiento para antes del entrenamiento. Importante para evitar lesiones, poner énfasis en las articulaciones y principales músculos a entrenar.	Ninguno	Principiante	Todos	https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg
+58	Post-Workout	Todos	Estiramientos para después del entrenamiento. Importante para reducir las agujetas y favorecer la recuperación muscular.	Ninguno	Principiante	Todos	https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg
 \.
 
 
@@ -1308,20 +1436,10 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 113	Pecho	fuerza	principiante	fuerza	30	3e965a3e-9729-4a41-96e7-724c0763edd0	f
 114	Fuerza	aaaaa	principiante	fuerza	80	1166241f-43ab-44b4-8b44-94394e4a197a	f
 87	ADSA	tODAS	intermedio	hipertrofia	30	ef794a04-7430-4bda-8604-b6324ea88cde	f
-133	Hiper 1	Pecho	principiante	fuerza	30	\N	t
-134	Hiper 2	qqq	principiante	fuerza	30	\N	t
-135	Hiper 3	Las sala	principiante	fuerza	30	\N	t
-136	saddd	fff	principiante	fuerza	30	ef794a04-7430-4bda-8604-b6324ea88cde	f
-146	ddniasd	sdadasd	principiante	fuerza	30	ef794a04-7430-4bda-8604-b6324ea88cde	f
+190	1432	fsfsd	principiante	fuerza	30	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f
+191	Hiper 1	Ejemplo rutina	principiante	fuerza	30	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f
+192	Hiper 2	Ejemplo rutina	principiante	fuerza	30	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f
 115	Se pudo?	aaaaaaaa	principiante	fuerza	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f
-150	Hiper 1	Pecho	principiante	fuerza	30	ef794a04-7430-4bda-8604-b6324ea88cde	f
-151	Hiper 2	qqq	principiante	fuerza	30	ef794a04-7430-4bda-8604-b6324ea88cde	f
-152	Hiper 3	Las sala	principiante	fuerza	30	ef794a04-7430-4bda-8604-b6324ea88cde	f
-153	Pierna	legcita	avanzado	fuerza	30	09ff1a6d-48d3-4dbf-814e-5229c6549e86	f
-154	Hiper 1	Pecho	principiante	fuerza	30	09ff1a6d-48d3-4dbf-814e-5229c6549e86	f
-155	Hiper 2	qqq	principiante	fuerza	30	09ff1a6d-48d3-4dbf-814e-5229c6549e86	f
-156	Hiper 3	Las sala	principiante	fuerza	30	09ff1a6d-48d3-4dbf-814e-5229c6549e86	f
-157	fdsfdsf	sdadsad	intermedio	resistencia	33	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f
 117	kadja	sakdnjajbds	principiante	hipertrofia	38	ef794a04-7430-4bda-8604-b6324ea88cde	f
 120	CHESTERDAAAAAAAY	pecho hombro tricep	avanzado	hipertrofia	30	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f
 121	Pierna	ddddd	principiante	fuerza	30	bf9f3a06-afbe-4031-b3ed-86d08af7f87b	f
@@ -1333,6 +1451,37 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 130	FuerzaPecho	fuerza	principiante	fuerza	30	09ff1a6d-48d3-4dbf-814e-5229c6549e86	f
 131	Push	Pechamen, hombro, tripa	principiante	fuerza	60	db4793b9-fc50-489f-9e64-c48939606f9c	f
 132	Pruebita	as	principiante	fuerza	30	\N	f
+177	Full body y quema grasa	Esta rutina es ideal para las personas que tengan poca disponibilidad para ir al gym pero aun asi quieran entrenar todo y bajar de peso	intermedio	hipertrofia	70	\N	t
+175	Cross Training	Rutina hecha para la adaptacion y empezar a crear fuerza en el cuerpo.	principiante	fuerza	50	\N	t
+178	Todo en uno	Esta rutina es buena opcion si quieres entrenar un poco de todo pero sin la necesidad de hacerlo pesado.	intermedio	hipertrofia	42	\N	t
+176	Estiramiento completo	Esta rutina es un conjunto de estiramientos que se deberian de llevar a cabo antes de cualquier rutina, ademas de servir como adaptacion para los nuevos usuarios.	principiante	resistencia	15	\N	t
+173	Tonifica en casa	Esta rutina está diseñada para poder tonificar y entrenar todo el cuerpo desde casa, se recomienda hacerla 3 veces a la semana porque es bastante extenuante.	intermedio	resistencia	30	\N	t
+180	Hombro y brazo like Arnold	Rutina destructiva de brazo completo, perfecto para combinar en el Arnold Split	avanzado	fuerza	45	\N	t
+174	Core duro	Esta rutina está enfocada en fortalecer el core para todos los ejercicios en general, se puede llevar a la par de otra rutina más pesada.	principiante	fuerza	30	\N	t
+181	Piernas y abdomen like Arnold	Rutina enfocada en quemar las piernas y abdomen, totalmente compatible con un Arnold Split.	avanzado	fuerza	45	\N	t
+182	Power tren superior	Esta rutina está meramente enfocada en potenciar la fuerza de los musculos de tren superior, es una rutina adecuada para gente con experiencia y objetivos de aumentar fuerza.	intermedio	fuerza	60	\N	t
+183	Power tren inferior	Rutina dedicada a sacar la mayor fuerza posible de las piernas como sea humanamente posible, no apto para principiantes.	intermedio	fuerza	60	\N	t
+184	Push	Rutina dedicada a los empujes lo cual ayuda al pectoral y triceps	avanzado	fuerza	50	\N	t
+187	Parte alta	Rutina enfocada en trabajar todo el torso y sus extremidades	intermedio	hipertrofia	45	\N	t
+188	Bilbo	Rutina basada en el metodo bilbo creada para mejorar cargas en el empuje	avanzado	fuerza	45	\N	t
+193	Hiper 3	Ejemplo rutina	principiante	fuerza	30	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f
+133	Hiper 1	Ejemplo rutina	principiante	fuerza	30	\N	t
+185	Pull	Rutina enfocada en jalones, desarrollo de espalda y biceps.	avanzado	fuerza	30	\N	t
+134	Hiper 2	Ejemplo rutina	principiante	fuerza	30	\N	t
+168	Acondicionamiento	Esta rutina está pensada para realizarse durante una máximo dos semanas, se recomienda hacerlo un dia y descansar el siguiente, el objetivo es acostumbrarse al ejercicio.	principiante	resistencia	50	\N	t
+169	Abdomen de lavadero	Esta rutina está enfocada a la perdida de peso y definicion del abdomen, se puede realizar todos los dias si tu cuerpo te lo permite.	intermedio	resistencia	60	\N	t
+179	Pecho y espalda like Arnold	Esta rutina es una bomba para el pecho y la espalda, esta es genial para hacer un Arnold Split.	avanzado	fuerza	45	\N	t
+186	Leg	Esta rutina es enfocada al tren inferior para poder aislar los musculos.	avanzado	fuerza	70	\N	t
+161	Hiper 1	Pecho	principiante	fuerza	30	\N	t
+162	Hiper 2	qqq	principiante	fuerza	30	\N	t
+163	Hiper 3	Las sala	principiante	fuerza	30	\N	t
+146	ddniasd	sdadasd	principiante	fuerza	30	\N	t
+136	saddd	fff	principiante	fuerza	30	\N	t
+153	Pierna	legcita	avanzado	fuerza	30	\N	t
+157	fdsfdsf	sdadsad	intermedio	resistencia	33	\N	t
+164	bdgbdb	fwsdsdf	avanzado	fuerza	30	\N	t
+135	Hiper 3	Ejemplo rutina	principiante	fuerza	30	\N	t
+189	Tonifica en casa	Esta rutina está diseñada para poder tonificar y entrenar todo el cuerpo desde casa, se recomienda hacerla 3 veces a la semana porque es bastante extenuante.	intermedio	resistencia	30	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	f
 \.
 
 
@@ -1341,6 +1490,7 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 --
 
 COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repeticiones", "peso_sugerido", "orden") FROM stdin;
+176	53	2	10	0.00	4
 1	16	3	10	0.50	1
 1	17	3	10	1.00	2
 3	2	4	8	100.00	1
@@ -1356,11 +1506,17 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 113	1	4	10	0.00	1
 114	1	4	10	90.00	1
 114	8	3	10	0.00	2
+161	1	3	10	0.00	1
+161	2	3	10	0.00	2
 125	1	3	10	100.00	1
 126	1	3	10	100.00	1
+161	6	3	10	0.00	3
 134	15	3	10	0.00	1
 134	16	3	10	0.00	2
 134	17	3	10	0.00	3
+162	15	3	10	0.00	1
+162	16	3	10	0.00	2
+162	17	3	10	0.00	3
 115	1	1	10	0.00	1
 115	7	1	10	0.00	2
 120	1	4	10	100.00	1
@@ -1375,8 +1531,11 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 121	12	3	10	0.00	1
 121	7	3	10	100.00	2
 135	20	3	10	0.00	3
+163	20	3	10	0.00	3
 128	1	4	10	100.00	1
 128	8	3	10	20.00	2
+163	21	3	10	0.00	2
+163	22	3	10	0.00	1
 129	1	3	10	120.00	1
 136	1	3	10	0.00	1
 136	6	3	10	0.00	2
@@ -1393,31 +1552,132 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 132	2	3	10	0.00	2
 132	14	3	10	0.00	3
 132	22	3	10	0.00	4
-150	1	3	10	0.00	1
-150	2	3	10	0.00	2
-150	6	3	10	0.00	3
-151	15	3	10	0.00	1
-151	16	3	10	0.00	2
-151	17	3	10	0.00	3
-152	20	3	10	0.00	3
-152	21	3	10	0.00	2
-152	22	3	10	0.00	1
+173	51	4	20	0.00	2
+173	52	3	15	0.00	3
+173	53	4	20	0.00	4
+173	31	4	15	0.00	5
+173	49	4	15	0.00	1
+164	1	2	10	0.00	1
+164	15	3	10	0.00	2
 153	10	3	10	0.00	1
 153	12	3	10	0.00	2
 153	11	3	10	180.00	3
-154	1	3	10	0.00	1
-154	2	3	10	0.00	2
-154	6	3	10	0.00	3
-155	15	3	10	0.00	1
-155	16	3	10	0.00	2
-155	17	3	10	0.00	3
-156	20	3	10	0.00	3
-156	21	3	10	0.00	2
-156	22	3	10	0.00	1
+174	17	4	10	20.00	1
+174	16	4	15	0.00	2
+174	54	5	30	0.00	3
+175	13	2	15	0.00	1
+175	14	2	15	60.00	2
 157	1	3	10	0.00	1
 157	2	3	10	0.00	2
 157	12	3	10	0.00	3
 157	15	3	10	0.00	4
+175	46	2	10	0.00	3
+175	22	4	15	30.00	4
+176	57	1	30	0.00	1
+176	55	1	35	0.00	2
+168	1	3	12	50.00	1
+168	12	4	12	40.00	2
+168	13	4	12	8.00	3
+168	7	3	10	30.00	4
+168	11	3	12	30.00	5
+176	56	1	30	0.00	3
+176	58	1	30	0.00	5
+177	26	4	10	20.00	2
+177	33	4	15	0.00	3
+177	7	4	12	50.00	4
+169	48	1	30	0.00	5
+169	16	4	15	0.00	1
+169	31	4	15	0.00	2
+169	37	4	15	0.00	3
+169	36	3	12	20.00	4
+177	29	4	10	60.00	5
+177	12	4	12	60.00	6
+177	37	5	10	0.00	7
+177	50	5	12	0.00	8
+177	48	1	30	0.00	9
+177	1	4	10	0.00	1
+178	2	3	10	20.00	1
+178	26	3	15	15.00	2
+178	34	5	15	0.00	3
+178	8	2	15	50.00	4
+178	10	4	12	80.00	5
+178	11	4	12	80.00	6
+178	48	1	15	0.00	7
+179	26	4	12	20.00	1
+179	27	4	10	50.00	2
+179	1	3	8	80.00	3
+179	34	4	15	0.00	4
+179	9	4	12	45.00	5
+179	8	3	8	90.00	6
+180	44	4	10	40.00	1
+180	15	4	15	35.00	2
+180	28	4	10	35.00	3
+180	21	4	12	15.00	4
+180	23	4	12	35.00	5
+180	19	4	12	15.00	6
+180	18	4	15	55.00	7
+186	47	3	10	60.00	1
+186	10	4	10	50.00	3
+189	31	4	15	0.00	5
+188	46	4	15	0.00	2
+187	2	4	12	45.00	1
+187	50	4	20	0.00	3
+181	47	3	8	60.00	1
+181	12	3	12	100.00	2
+181	10	3	10	60.00	3
+181	31	4	15	0.00	5
+187	19	4	12	30.00	6
+189	49	4	15	0.00	1
+181	11	3	10	60.00	4
+181	35	4	15	0.00	6
+181	17	4	15	40.00	7
+181	36	4	12	45.00	8
+185	33	3	10	0.00	1
+185	40	3	8	0.00	2
+185	7	4	15	70.00	3
+185	22	4	15	45.00	4
+185	23	4	15	35.00	5
+185	21	3	10	50.00	6
+186	12	3	12	100.00	2
+186	11	4	12	50.00	4
+187	41	4	20	0.00	2
+187	44	4	10	40.00	4
+187	22	4	10	40.00	5
+188	1	4	15	130.00	1
+188	25	4	10	40.00	3
+189	51	4	20	0.00	2
+183	38	3	10	0.00	1
+183	12	3	8	130.00	2
+183	10	3	7	80.00	3
+183	11	3	7	90.00	4
+183	24	4	12	60.00	5
+183	29	3	7	60.00	6
+189	52	3	15	0.00	3
+189	53	4	20	0.00	4
+190	1	3	10	111.00	1
+191	1	3	10	0.00	1
+191	2	3	10	0.00	2
+191	6	3	10	0.00	3
+182	1	3	8	120.00	1
+182	27	3	10	90.00	2
+182	9	3	10	90.00	3
+182	8	3	10	80.00	4
+182	39	3	8	50.00	5
+182	18	3	10	80.00	6
+182	42	3	8	40.00	7
+182	13	3	8	50.00	8
+192	15	3	10	0.00	1
+192	16	3	10	0.00	2
+192	17	3	10	0.00	3
+193	20	3	10	0.00	3
+193	21	3	10	0.00	2
+193	22	3	10	0.00	1
+184	1	3	8	90.00	1
+184	2	4	10	50.00	2
+184	6	4	12	60.00	3
+184	18	4	12	60.00	4
+184	19	4	12	40.00	5
+184	20	4	20	0.00	6
 \.
 
 
@@ -1567,6 +1827,367 @@ COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", 
 157	15	1	0.00	10
 157	15	2	0.00	10
 157	15	3	0.00	10
+164	1	1	0.00	10
+164	1	2	0.00	10
+164	15	1	0.00	10
+164	15	2	0.00	10
+164	15	3	0.00	10
+168	1	1	50.00	12
+168	1	2	50.00	12
+168	1	3	50.00	12
+168	12	1	40.00	12
+168	12	2	40.00	12
+168	12	3	40.00	12
+168	12	4	40.00	12
+168	13	1	8.00	12
+168	13	2	8.00	12
+168	13	3	8.00	12
+168	13	4	8.00	12
+169	31	1	0.00	15
+169	31	2	0.00	15
+169	31	3	0.00	15
+169	31	4	0.00	15
+168	7	1	30.00	10
+168	7	2	30.00	10
+168	7	3	30.00	10
+169	16	1	0.00	15
+169	16	2	0.00	15
+169	16	3	0.00	15
+169	16	4	0.00	15
+168	11	1	30.00	12
+168	11	2	30.00	12
+168	11	3	30.00	12
+169	48	1	0.00	30
+169	37	1	0.00	15
+169	37	2	0.00	15
+169	37	3	0.00	15
+169	37	4	0.00	15
+169	36	1	20.00	12
+169	36	2	20.00	12
+169	36	3	20.00	12
+173	51	1	0.00	20
+173	51	2	0.00	20
+173	51	3	0.00	20
+173	51	4	0.00	20
+173	52	1	0.00	15
+173	52	2	0.00	15
+173	52	3	0.00	15
+173	53	1	0.00	20
+173	53	2	0.00	20
+173	53	3	0.00	20
+173	53	4	0.00	20
+173	31	1	0.00	15
+173	31	2	0.00	15
+173	31	3	0.00	15
+173	31	4	0.00	15
+173	49	1	0.00	15
+173	49	2	0.00	15
+173	49	3	0.00	15
+173	49	4	0.00	15
+174	17	1	20.00	10
+174	17	2	20.00	10
+174	17	3	20.00	10
+174	17	4	20.00	10
+174	16	1	0.00	15
+174	16	2	0.00	15
+174	16	3	0.00	15
+174	16	4	0.00	15
+174	54	1	0.00	30
+174	54	2	0.00	30
+174	54	3	0.00	30
+174	54	4	0.00	30
+174	54	5	0.00	30
+175	13	1	10.50	15
+175	13	2	10.50	15
+175	14	1	60.00	15
+175	14	2	60.00	15
+175	46	1	0.00	10
+175	46	2	0.00	10
+175	22	1	30.00	15
+175	22	2	30.00	15
+175	22	3	30.00	15
+175	22	4	30.00	15
+176	57	1	0.00	30
+176	55	1	0.00	35
+176	56	1	0.00	30
+176	58	1	0.00	30
+176	53	1	0.00	10
+176	53	2	0.00	10
+177	26	1	20.00	10
+177	26	2	20.00	10
+177	26	3	20.00	10
+177	26	4	20.00	10
+177	33	1	0.00	15
+177	33	2	0.00	15
+177	33	3	0.00	15
+177	33	4	0.00	15
+177	7	1	50.00	12
+177	7	2	50.00	12
+177	7	3	50.00	12
+177	7	4	50.00	12
+177	29	1	60.00	10
+177	29	2	60.00	10
+177	29	3	60.00	10
+177	29	4	60.00	10
+177	12	1	60.00	12
+177	12	2	60.00	12
+177	12	3	60.00	12
+177	12	4	60.00	12
+177	37	1	0.00	10
+177	37	2	0.00	10
+177	37	3	0.00	10
+177	37	4	0.00	10
+177	37	5	0.00	10
+177	50	1	0.00	12
+177	50	2	0.00	12
+177	50	3	0.00	12
+177	50	4	0.00	12
+177	50	5	0.00	12
+177	48	1	0.00	30
+177	1	1	60.00	10
+177	1	2	60.00	10
+177	1	3	60.00	10
+177	1	4	60.00	10
+178	2	1	20.00	10
+178	2	2	20.00	10
+178	2	3	20.00	10
+178	26	1	15.00	15
+178	26	2	15.00	15
+178	26	3	15.00	15
+178	34	1	0.00	15
+178	34	2	0.00	15
+178	34	3	0.00	15
+178	34	4	0.00	15
+178	34	5	0.00	15
+178	8	1	50.00	15
+178	8	2	50.00	15
+178	10	1	60.00	12
+178	10	2	60.00	12
+178	10	3	60.00	12
+178	10	4	60.00	12
+178	11	1	60.00	12
+178	11	2	60.00	12
+178	11	3	60.00	12
+178	11	4	60.00	12
+178	48	1	0.00	15
+179	26	1	20.00	12
+179	26	2	20.00	12
+179	26	3	20.00	12
+179	26	4	20.00	12
+179	27	1	50.00	10
+179	27	2	50.00	10
+179	27	3	50.00	10
+179	27	4	50.00	10
+179	1	1	80.00	8
+179	1	2	80.00	8
+179	1	3	80.00	8
+179	34	1	0.00	15
+179	34	2	0.00	15
+179	34	3	0.00	15
+179	34	4	0.00	15
+179	9	1	45.00	12
+179	9	2	45.00	12
+179	9	3	45.00	12
+179	9	4	45.00	12
+179	8	1	90.00	8
+179	8	2	90.00	8
+179	8	3	90.00	8
+180	44	1	40.00	10
+180	44	2	40.00	10
+180	44	3	40.00	10
+180	44	4	40.00	10
+180	15	1	35.00	15
+180	15	2	35.00	15
+180	15	3	35.00	15
+180	15	4	35.00	15
+180	28	1	35.00	10
+180	28	2	35.00	10
+180	28	3	35.00	10
+180	28	4	35.00	10
+180	21	1	15.00	12
+180	21	2	15.00	12
+180	21	3	15.00	12
+180	21	4	15.00	12
+180	23	1	35.00	12
+180	23	2	35.00	12
+180	23	3	35.00	12
+180	23	4	35.00	12
+180	19	1	15.00	12
+180	19	2	15.00	12
+180	19	3	15.00	12
+180	19	4	15.00	12
+180	18	1	55.00	15
+180	18	2	55.00	15
+180	18	3	55.00	15
+180	18	4	55.00	15
+181	47	1	60.00	8
+181	47	2	60.00	8
+181	47	3	60.00	8
+181	12	1	100.00	12
+181	12	2	100.00	12
+181	12	3	100.00	12
+181	10	1	60.00	10
+181	10	2	60.00	10
+181	10	3	60.00	10
+181	11	1	60.00	10
+181	11	2	60.00	10
+181	11	3	60.00	10
+181	31	1	0.00	15
+181	31	2	0.00	15
+181	31	3	0.00	15
+181	31	4	0.00	15
+181	35	1	0.00	15
+181	35	2	0.00	15
+181	35	3	0.00	15
+181	35	4	0.00	15
+181	17	1	40.00	15
+181	17	2	40.00	15
+181	17	3	40.00	15
+181	17	4	40.00	15
+181	36	1	45.00	12
+181	36	2	45.00	12
+181	36	3	45.00	12
+181	36	4	45.00	12
+183	38	1	0.00	10
+183	38	2	0.00	10
+183	38	3	0.00	10
+183	12	1	130.00	8
+183	12	2	130.00	8
+183	12	3	130.00	8
+183	10	1	80.00	7
+183	10	2	80.00	7
+183	10	3	80.00	7
+183	11	1	90.00	7
+183	11	2	90.00	7
+183	11	3	90.00	7
+183	24	1	60.00	12
+183	24	2	60.00	12
+183	24	3	60.00	12
+183	24	4	60.00	12
+183	29	1	60.00	7
+183	29	2	60.00	7
+183	29	3	60.00	7
+182	1	1	120.00	8
+182	1	2	120.00	8
+182	1	3	120.00	8
+182	27	1	90.00	10
+182	27	2	90.00	10
+182	27	3	90.00	10
+182	9	1	90.00	10
+182	9	2	90.00	10
+182	9	3	90.00	10
+182	8	1	80.00	10
+182	8	2	80.00	10
+182	8	3	80.00	10
+182	39	1	50.00	8
+182	39	2	50.00	8
+182	39	3	50.00	8
+182	18	1	80.00	10
+182	18	2	80.00	10
+182	18	3	80.00	10
+182	42	1	40.00	8
+182	42	2	40.00	8
+182	42	3	40.00	8
+182	13	1	50.00	8
+182	13	2	50.00	8
+182	13	3	50.00	8
+184	1	1	90.00	8
+184	1	2	90.00	8
+184	1	3	90.00	8
+184	2	1	50.00	10
+184	2	2	50.00	10
+184	2	3	50.00	10
+184	2	4	50.00	10
+184	6	1	60.00	12
+184	6	2	60.00	12
+184	6	3	60.00	12
+184	6	4	60.00	12
+184	18	1	60.00	12
+184	18	2	60.00	12
+184	18	3	60.00	12
+184	18	4	60.00	12
+184	19	1	40.00	12
+184	19	2	40.00	12
+184	19	3	40.00	12
+184	19	4	40.00	12
+184	20	1	0.00	20
+184	20	2	0.00	20
+184	20	3	0.00	20
+184	20	4	0.00	20
+185	33	1	0.00	10
+185	33	2	0.00	10
+185	33	3	0.00	10
+185	40	1	0.00	8
+185	40	2	0.00	8
+185	40	3	0.00	8
+185	7	1	70.00	15
+185	7	2	70.00	15
+185	7	3	70.00	15
+185	7	4	70.00	15
+185	22	1	45.00	15
+185	22	2	45.00	15
+185	22	3	45.00	15
+185	22	4	45.00	15
+185	23	1	35.00	15
+185	23	2	35.00	15
+185	23	3	35.00	15
+185	23	4	35.00	15
+185	21	1	50.00	10
+185	21	2	50.00	10
+185	21	3	50.00	10
+186	47	1	60.00	10
+186	47	2	60.00	10
+186	47	3	60.00	10
+186	12	1	100.00	12
+186	12	2	100.00	12
+186	12	3	100.00	12
+186	10	1	50.00	10
+186	10	2	50.00	10
+186	10	3	50.00	10
+186	10	4	50.00	10
+186	11	1	50.00	12
+186	11	2	50.00	12
+186	11	3	50.00	12
+186	11	4	50.00	12
+187	2	1	45.00	12
+187	2	2	45.00	12
+187	2	3	45.00	12
+187	2	4	45.00	12
+187	41	1	0.00	20
+187	41	2	0.00	20
+187	41	3	0.00	20
+187	41	4	0.00	20
+187	50	1	0.00	20
+187	50	2	0.00	20
+187	50	3	0.00	20
+187	50	4	0.00	20
+187	44	1	40.00	10
+187	44	2	40.00	10
+187	44	3	40.00	10
+187	44	4	40.00	10
+187	22	1	40.00	10
+187	22	2	40.00	10
+187	22	3	40.00	10
+187	22	4	40.00	10
+187	19	1	30.00	12
+187	19	2	30.00	12
+187	19	3	30.00	12
+187	19	4	30.00	12
+188	1	1	130.00	15
+188	1	2	130.00	15
+188	1	3	130.00	15
+188	1	4	130.00	15
+188	46	1	0.00	15
+188	46	2	0.00	15
+188	46	3	0.00	15
+188	46	4	0.00	15
+188	25	1	40.00	10
+188	25	2	40.00	10
+188	25	3	40.00	10
+188	25	4	40.00	10
+190	1	1	111.00	10
+190	1	2	111.00	10
+190	1	3	111.00	10
 \.
 
 
@@ -1604,6 +2225,11 @@ COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_
 92	126	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-10-01 02:28:38.498+00	2025-10-01 02:29:01.303+00	23	3000	\N	\N	2025-10-01 02:29:01.600404+00
 93	153	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-10-01 04:00:38.526+00	2025-10-01 04:00:47.359+00	9	6000	\N	\N	2025-10-01 04:00:47.680084+00
 94	157	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 04:51:15.967+00	2025-10-01 04:51:55.146+00	39	0	\N	\N	2025-10-01 04:51:54.730214+00
+95	146	ef794a04-7430-4bda-8604-b6324ea88cde	2025-10-01 13:44:08.619+00	2025-10-01 13:44:43.22+00	35	2880	\N	\N	2025-10-01 13:44:43.495336+00
+96	113	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 16:58:23.235+00	2025-10-01 16:58:57.136+00	34	1000	\N	\N	2025-10-01 16:58:58.496497+00
+97	113	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 17:01:52.673+00	2025-10-01 17:02:32.621+00	40	6000	\N	\N	2025-10-01 17:02:33.950143+00
+98	113	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 17:02:58.2+00	2025-10-01 17:03:09.448+00	11	2000	\N	\N	2025-10-01 17:03:10.751544+00
+99	189	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 21:17:20.617+00	2025-10-01 21:18:10.084+00	49	66	\N	\N	2025-10-01 21:18:09.143867+00
 46	113	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-22 17:41:43.683+00	2025-09-22 17:59:30.945+00	1067	3000	\N	\N	2025-09-22 17:59:31.416612+00
 47	124	d028ed7d-a831-42ed-acbf-582084cf6b7a	2025-09-23 02:14:10.576+00	2025-09-23 02:14:23.85+00	13	1200	\N	\N	2025-09-23 02:14:24.423196+00
 48	125	c41d0adf-4a1e-40a8-81f8-f0791d2ed2f9	2025-09-23 14:24:48.823+00	2025-09-23 14:24:52.87+00	4	3000	\N	\N	2025-09-23 14:24:54.327227+00
@@ -1868,6 +2494,32 @@ COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "re
 94	15	1	0	10	Fácil	t	2025-10-01 04:51:46.353+00
 94	15	2	0	10	Difícil	t	2025-10-01 04:51:45.701+00
 94	15	3	0	10	Fácil	t	2025-10-01 04:51:45.283+00
+95	1	1	50	10	Muy difícil	t	2025-10-01 13:44:14.583+00
+95	1	2	70	16	Al fallo	t	2025-10-01 13:44:25.148+00
+95	1	3	12	105	Al fallo	t	2025-10-01 13:44:33.492+00
+95	2	1	0	10	\N	t	2025-10-01 13:44:35.284+00
+95	2	2	0	10	\N	t	2025-10-01 13:44:36.163+00
+95	7	1	0	10	\N	t	2025-10-01 13:44:37.652+00
+95	7	2	0	10	\N	t	2025-10-01 13:44:38.34+00
+95	7	3	0	10	\N	t	2025-10-01 13:44:39.332+00
+96	1	1	100	10	Muy difícil	t	2025-10-01 16:58:35.977+00
+96	1	2	100	10	Moderado	f	\N
+96	1	3	100	10	Difícil	f	\N
+96	1	4	100	10	Al fallo	f	\N
+97	1	1	100	10	Al fallo	t	2025-10-01 17:02:01.235+00
+97	1	2	100	10	Al fallo	t	2025-10-01 17:02:01.531+00
+97	1	3	100	10	Al fallo	t	2025-10-01 17:02:01.963+00
+97	2	1	100	10	Fácil	t	2025-10-01 17:02:24.039+00
+97	2	2	100	10	Al fallo	t	2025-10-01 17:02:24.383+00
+97	2	3	100	10	Moderado	t	2025-10-01 17:02:24.706+00
+98	1	1	100	10	Muy difícil	t	2025-10-01 17:03:05.97+00
+98	1	2	100	10	Al fallo	t	2025-10-01 17:03:06.213+00
+98	1	3	100	10	\N	f	\N
+99	49	1	1	12	\N	t	2025-10-01 21:17:30.792+00
+99	51	1	1	15	\N	t	2025-10-01 21:17:40.852+00
+99	52	1	1	12	\N	t	2025-10-01 21:17:42.12+00
+99	53	1	1	15	\N	t	2025-10-01 21:17:43.088+00
+99	31	1	1	12	\N	t	2025-10-01 21:17:44.185+00
 \.
 
 
@@ -1893,6 +2545,21 @@ COPY "public"."MedallasUsuario" ("id_usuario", "id_medalla", "fecha_obtenida") F
 
 COPY "public"."Programas" ("id", "nombre", "descripcion", "nivel_recomendado") FROM stdin;
 1	Full_Body_Hipertrofia_Basico	Esta rutina consta de 3 rutinas las cuales se deben de hacer primero Hiper 1 luego el 2 y asi hasta hacer las 3 despues dejar descansar un dia y volver al ciclo	\N
+2	Acondicionamiento_Funcional	Plan de ejercicios para adaptación, hacer durante 1 o 2 semanas segun el estado fisico, se recomienda hacerlo un dia y descansar el siguiente, el objetivo es acostumbrarse al ejercicio.	Principiante
+3	Cardio_y_Abs_Intenso	Rutina perfecta para todos los que quieran mostrar six pack en verano, esta rutina se puede realizar hasta 6 veces a la semana, solo escucha a tu cuerppo y si te sientes muy cansado puedes hacerlo minimo 3 días.	Intermedio
+4	Circuito_Quema_Grasa_en_Casa	Rutina adaptada a las disponibilidades del hogar, planeado para poder tonificar sin tanto presupuesto, se recomienda de 3-6 veces por semana.	Principiante
+5	Core_y_Estabilidad_Total	Rutina enfocada en fortalecer el core para todos los ejercicios, se recomienda llevar a la par de otra rutina.	Principiante
+6	Cross_Training_Moderado	Rutina hecha para introducir a los nuevos al ejercicio con variedad de ejercicios.	Principiante
+7	Flexibilidad_y_Movilidad	Rutina ideada para preparar el cuerpo para la accion y adaptarse al ejercicio para los más nuevos, realizar 6 veces por semana.	Principiante
+8	Full_Body_Quema_Grasa	Rutina especial para realizarse pocos dias a la semana y aun asi tener resultados, recomentable si solo puedes ir menos de 4 dias por semana.	Intermedio
+9	Mantenimiento_Activo_General	Rutina ideal para los usuarios que solo necesitan mantenerse en su estado fisico actual o al menos no empeorar.	Intermedio
+10	Arnold_Split	Este split está inspirado en el famoso culturista Arnold, la idea es hacer un dia pecho y espalda, al siguiente brazo completo y al final pierna con abs, descansar un dia y repetir el ciclo.	\N
+11	Powerlifting_Basico	Rutina especial para aquellos que quieran potenciar su fuerza en general, se recomienda no entrenarla más de 4 dias a la semana.	\N
+12	Push_Pull_Legs_Avanzado	Rutina dividade en 3 dias como base, uno de empuje otro de jalones y otro tren inferior, perfecto para 3 o 6 dias de entrenamiento.	\N
+13	Rutina_Weider_Dividida	Rutina dinamica para alternar partes sin tanto cansansio de por medio, hacer 3 dias y descansar 1.	\N
+14	Torso_Pierna_Intermedio	Rutina creada para trabajar todo el cuerpo en tan solo dos dias, ideal para las personas con poca disponibilidad de dias. Se puede realizar mas de una vez a la semana.	\N
+15	Metodo_Bilbo	Rutina especializada en el desarrollo de fuerza en el tren superior, directamente relacionada con el tren de empuje, por lo cual se puede combinar con una rutina complementaria.	\N
+16	Rutina_descarga	Rutina ideal para aquellos que se sientan cansados o necesitan bajar pesos para poder descansar sin perder musculo, por su dificultad baja se puede hacer hasta 5 días a la semana.\n	\N
 \.
 
 
@@ -1904,6 +2571,34 @@ COPY "public"."ProgramasRutinas" ("id", "id_programa", "id_rutina", "orden", "di
 1	1	133	\N	\N
 2	1	134	\N	\N
 3	1	135	\N	\N
+4	2	168	\N	\N
+5	3	169	\N	\N
+6	4	173	\N	\N
+7	5	174	\N	\N
+8	6	174	\N	\N
+9	6	175	\N	\N
+10	7	176	\N	\N
+11	7	174	\N	\N
+12	8	177	\N	\N
+13	9	176	\N	\N
+14	9	178	\N	\N
+15	10	179	\N	\N
+16	10	180	\N	\N
+17	10	181	\N	\N
+18	11	182	\N	\N
+19	11	183	\N	\N
+20	12	184	\N	\N
+21	12	185	\N	\N
+22	12	186	\N	\N
+23	13	184	\N	\N
+24	13	185	\N	\N
+25	13	183	\N	\N
+26	14	187	\N	\N
+27	14	181	\N	\N
+28	15	188	\N	\N
+29	15	183	\N	\N
+30	16	178	\N	\N
+31	16	168	\N	\N
 \.
 
 
@@ -1920,22 +2615,19 @@ COPY "public"."ProgresoDeUsuario" ("id_progreso", "id_usuario", "fecha", "id_eje
 --
 
 COPY "public"."SocialComments" ("id_comment", "id_sesion", "author_uid", "texto", "created_at", "updated_at") FROM stdin;
-17	85	09ff1a6d-48d3-4dbf-814e-5229c6549e86	Buen entrenamiento	2025-09-30 00:32:05.422318+00	\N
 18	81	09ff1a6d-48d3-4dbf-814e-5229c6549e86	Segundo comentario	2025-09-30 00:44:29.790352+00	\N
 19	81	3e965a3e-9729-4a41-96e7-724c0763edd0	Wow que buen entrenamiento	2025-09-30 00:44:58.896474+00	\N
-20	80	09ff1a6d-48d3-4dbf-814e-5229c6549e86	que fuerte	2025-09-30 00:57:23.787041+00	\N
 21	80	3e965a3e-9729-4a41-96e7-724c0763edd0	si estas fuerte	2025-09-30 00:57:40.328742+00	\N
 22	80	82eb2899-4641-4dfe-97dc-665ccb66cdf7	alaaaa bencha	2025-09-30 00:58:15.662397+00	\N
 24	85	3e965a3e-9729-4a41-96e7-724c0763edd0	Nice work	2025-09-30 02:38:32.866374+00	\N
 26	85	82eb2899-4641-4dfe-97dc-665ccb66cdf7	alaaaa bencha	2025-09-30 04:18:34.80128+00	\N
 27	85	3e965a3e-9729-4a41-96e7-724c0763edd0	Nice dick bro	2025-09-30 13:49:50.662071+00	\N
-28	85	82eb2899-4641-4dfe-97dc-665ccb66cdf7	Ahorcame papi con esos brazos	2025-09-30 13:53:45.583941+00	\N
-29	86	09ff1a6d-48d3-4dbf-814e-5229c6549e86	funciona	2025-09-30 18:06:57.13513+00	\N
-30	86	82eb2899-4641-4dfe-97dc-665ccb66cdf7	cgcghcghccgh	2025-09-30 18:07:43.890003+00	\N
 31	88	82eb2899-4641-4dfe-97dc-665ccb66cdf7	Hola	2025-10-01 00:41:07.6666+00	\N
-33	93	09ff1a6d-48d3-4dbf-814e-5229c6549e86	siiiu	2025-10-01 04:00:56.043208+00	\N
-34	94	3e965a3e-9729-4a41-96e7-724c0763edd0	Se logro	2025-10-01 04:52:12.445316+00	\N
 35	85	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	Ah	2025-10-01 04:54:00.88974+00	\N
+36	46	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	Que rico	2025-10-01 05:40:07.980358+00	\N
+40	95	ef794a04-7430-4bda-8604-b6324ea88cde	sfdsdfs	2025-10-01 13:44:59.338405+00	\N
+56	93	3e965a3e-9729-4a41-96e7-724c0763edd0	Buen entrenamiento	2025-10-01 16:57:14.653731+00	\N
+57	93	09ff1a6d-48d3-4dbf-814e-5229c6549e86	si estas fuerte	2025-10-01 16:57:38.379343+00	\N
 \.
 
 
@@ -1944,17 +2636,17 @@ COPY "public"."SocialComments" ("id_comment", "id_sesion", "author_uid", "texto"
 --
 
 COPY "public"."SocialLikes" ("id_like", "id_sesion", "author_uid", "created_at") FROM stdin;
-3	85	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-29 23:19:22.262594+00
 6	85	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-29 23:21:12.613696+00
 14	81	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-30 00:45:00.110004+00
 15	80	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-30 00:57:17.562333+00
 16	80	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-30 00:57:30.778518+00
+83	93	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 16:57:10.23096+00
 18	85	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-30 01:39:51.750081+00
 22	86	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-30 18:06:50.459965+00
 24	88	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-10-01 00:41:10.979526+00
-25	93	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-10-01 04:00:52.995079+00
-26	94	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 04:52:04.047132+00
-27	85	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 04:52:11.707017+00
+34	85	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 05:39:45.095887+00
+38	94	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 05:41:50.01319+00
+39	95	ef794a04-7430-4bda-8604-b6324ea88cde	2025-10-01 13:44:56.019662+00
 \.
 
 
@@ -1975,6 +2667,7 @@ e8caff85-aab0-45a3-8b8a-a0741090e852	9	13	aceptada	\N	2025-09-27 03:44:15.84447+
 c0a1541c-5a4e-4b2c-8042-f30eb0044ca2	13	9	aceptada	\N	2025-09-30 23:18:20.174977+00	2025-09-30 23:18:25.450241+00
 7034f9fb-c4b8-4ae6-b947-1698f4e324e5	9	1	pendiente	\N	2025-10-01 03:23:47.749204+00	2025-10-01 03:23:47.749204+00
 b6681492-9807-4ae4-aef8-6d0497e6cc6b	13	33	aceptada	\N	2025-10-01 04:49:35.423423+00	2025-10-01 04:49:43.345871+00
+63d43a8e-5c64-45bd-be51-f040abec6e57	20	33	aceptada	\N	2025-10-01 13:46:32.439656+00	2025-10-01 21:15:12.719906+00
 \.
 
 
@@ -2007,14 +2700,35 @@ COPY "public"."UsuarioRutina" ("id", "created_at", "id_usuario", "id_rutina", "i
 153	2025-09-30 17:44:38.632814+00	20	135	\N	t	f
 155	2025-09-30 18:08:20.631105+00	20	136	\N	t	f
 175	2025-09-30 19:34:55.708771+00	20	146	\N	t	f
-183	2025-09-30 19:46:03.588483+00	20	150	\N	t	f
-185	2025-09-30 19:46:03.588483+00	20	151	\N	t	f
-187	2025-09-30 19:46:03.588483+00	20	152	\N	t	f
 189	2025-10-01 02:26:09.335605+00	9	153	\N	t	f
-191	2025-10-01 04:02:19.349565+00	9	154	\N	t	f
-193	2025-10-01 04:02:19.349565+00	9	155	\N	t	f
-195	2025-10-01 04:02:19.349565+00	9	156	\N	t	f
 197	2025-10-01 04:51:04.617059+00	33	157	\N	t	f
+205	2025-10-01 05:43:01.934496+00	33	161	\N	t	f
+207	2025-10-01 05:43:01.934496+00	33	162	\N	t	f
+209	2025-10-01 05:43:01.934496+00	33	163	\N	t	f
+211	2025-10-01 13:45:47.858169+00	20	164	\N	t	f
+219	2025-10-01 16:49:04.516128+00	20	168	\N	t	f
+221	2025-10-01 16:55:20.866644+00	20	169	\N	t	f
+229	2025-10-01 17:19:15.032544+00	20	173	\N	t	f
+231	2025-10-01 17:24:07.416215+00	20	174	\N	t	f
+233	2025-10-01 17:39:29.138828+00	20	175	\N	t	f
+235	2025-10-01 17:55:54.831164+00	20	176	\N	t	f
+237	2025-10-01 18:19:51.544232+00	20	177	\N	t	f
+239	2025-10-01 18:32:19.279761+00	20	178	\N	t	f
+241	2025-10-01 20:23:02.710979+00	20	179	\N	t	f
+243	2025-10-01 20:26:01.728634+00	20	180	\N	t	f
+245	2025-10-01 20:31:04.104496+00	20	181	\N	t	f
+247	2025-10-01 20:38:26.383686+00	20	182	\N	t	f
+249	2025-10-01 20:40:53.044926+00	20	183	\N	t	f
+251	2025-10-01 20:46:25.072505+00	20	184	\N	t	f
+253	2025-10-01 20:48:19.548836+00	20	185	\N	t	f
+255	2025-10-01 20:51:22.637056+00	20	186	\N	t	f
+257	2025-10-01 20:58:46.751706+00	20	187	\N	t	f
+259	2025-10-01 21:05:02.603321+00	20	188	\N	t	f
+261	2025-10-01 21:17:09.28778+00	33	189	\N	t	f
+263	2025-10-01 21:18:51.563241+00	33	190	\N	t	f
+265	2025-10-01 21:19:26.020037+00	33	191	\N	t	f
+267	2025-10-01 21:19:26.020037+00	33	192	\N	t	f
+269	2025-10-01 21:19:26.020037+00	33	193	\N	t	f
 \.
 
 
@@ -2067,6 +2781,7 @@ d37c3a07-9bf8-4099-a7d7-fde451ce58de	avatars	82eb2899-4641-4dfe-97dc-665ccb66cdf
 a9ebfb56-c177-400d-86d4-4514432a1007	avatars	82eb2899-4641-4dfe-97dc-665ccb66cdf7/avatar_1758685514777.jpg	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-24 03:45:15.720781+00	2025-09-24 03:45:15.720781+00	2025-09-24 03:45:15.720781+00	{"eTag": "\\"b30c5389d19a865843ae7e55e093a667\\"", "size": 43228, "mimetype": "image/jpeg", "cacheControl": "max-age=3600", "lastModified": "2025-09-24T03:45:16.000Z", "contentLength": 43228, "httpStatusCode": 200}	23ddc72e-f067-446c-8c4b-37385830fba1	82eb2899-4641-4dfe-97dc-665ccb66cdf7	{}	2
 822c9c91-37fa-4d13-b8cd-0996c80f4b36	avatars	09ff1a6d-48d3-4dbf-814e-5229c6549e86/avatar_1758894236053.jpg	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-26 13:43:55.836809+00	2025-09-26 13:43:55.836809+00	2025-09-26 13:43:55.836809+00	{"eTag": "\\"de9bf725599e6c46514e88b1ea383726\\"", "size": 11084, "mimetype": "image/jpeg", "cacheControl": "max-age=3600", "lastModified": "2025-09-26T13:43:56.000Z", "contentLength": 11084, "httpStatusCode": 200}	558f84c5-769a-407b-98e3-c59e1677cb0a	09ff1a6d-48d3-4dbf-814e-5229c6549e86	{}	2
 a5ddd9cd-8936-413f-915b-0629e2f46a39	avatars	3e965a3e-9729-4a41-96e7-724c0763edd0/avatar_1759072207398.jpg	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-28 15:10:07.722636+00	2025-09-28 15:10:07.722636+00	2025-09-28 15:10:07.722636+00	{"eTag": "\\"d057228140fc40bc5843687af70baa11\\"", "size": 6559, "mimetype": "image/jpeg", "cacheControl": "max-age=3600", "lastModified": "2025-09-28T15:10:08.000Z", "contentLength": 6559, "httpStatusCode": 200}	8536beef-4ad0-4f0b-a115-da331f116b6b	3e965a3e-9729-4a41-96e7-724c0763edd0	{}	2
+08de40df-ec1c-4fb2-b45f-34c49c471e93	avatars	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2/avatar_1759297500676.png	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 05:45:00.753628+00	2025-10-01 05:45:00.753628+00	2025-10-01 05:45:00.753628+00	{"eTag": "\\"9051e194caea91ae73ba34bd3c552a63\\"", "size": 224662, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2025-10-01T05:45:01.000Z", "contentLength": 224662, "httpStatusCode": 200}	ecd5c703-c073-473c-a67e-887ea917d11b	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	{}	2
 \.
 
 
@@ -2078,6 +2793,7 @@ COPY "storage"."prefixes" ("bucket_id", "name", "created_at", "updated_at") FROM
 avatars	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-09-24 03:05:31.939067+00	2025-09-24 03:05:31.939067+00
 avatars	09ff1a6d-48d3-4dbf-814e-5229c6549e86	2025-09-26 13:43:55.836809+00	2025-09-26 13:43:55.836809+00
 avatars	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-09-28 15:10:07.722636+00	2025-09-28 15:10:07.722636+00
+avatars	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 05:45:00.753628+00	2025-10-01 05:45:00.753628+00
 \.
 
 
@@ -2101,56 +2817,56 @@ COPY "storage"."s3_multipart_uploads_parts" ("id", "upload_id", "size", "part_nu
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 464, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 497, true);
 
 
 --
 -- Name: Entrenamientos_id_sesion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 94, true);
+SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 99, true);
 
 
 --
 -- Name: ProgramasRutinas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."ProgramasRutinas_id_seq"', 3, true);
+SELECT pg_catalog.setval('"public"."ProgramasRutinas_id_seq"', 31, true);
 
 
 --
 -- Name: Programas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."Programas_id_seq"', 1, true);
+SELECT pg_catalog.setval('"public"."Programas_id_seq"', 16, true);
 
 
 --
 -- Name: SocialComments_id_comment_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."SocialComments_id_comment_seq"', 35, true);
+SELECT pg_catalog.setval('"public"."SocialComments_id_comment_seq"', 58, true);
 
 
 --
 -- Name: SocialLikes_id_like_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."SocialLikes_id_like_seq"', 32, true);
+SELECT pg_catalog.setval('"public"."SocialLikes_id_like_seq"', 85, true);
 
 
 --
 -- Name: UsuarioRutina_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."UsuarioRutina_id_seq"', 198, true);
+SELECT pg_catalog.setval('"public"."UsuarioRutina_id_seq"', 270, true);
 
 
 --
 -- Name: ejercicios_id_ejercicio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."ejercicios_id_ejercicio_seq"', 23, true);
+SELECT pg_catalog.setval('"public"."ejercicios_id_ejercicio_seq"', 58, true);
 
 
 --
@@ -2185,7 +2901,7 @@ SELECT pg_catalog.setval('"public"."recomendacionesia_id_recomendacion_seq"', 1,
 -- Name: rutinas_id_rutina_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 157, true);
+SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 193, true);
 
 
 --
@@ -2199,6 +2915,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 33, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict 8Vt0uBHIucWRRIpKtn4saz3hNyGfJUcCOUeiiCS7DTXr7J1048GVEjQteNnBH5y
+-- \unrestrict ru1j42m3idwS3goYhiVHRBo7ldPA6xSzI76TR6upxrhA5TsceZ1ypVlyRtwSuYT
 
 RESET ALL;
