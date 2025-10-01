@@ -89,6 +89,58 @@ $$;
 ALTER FUNCTION "public"."attach_owner_after_rutina_insert"() OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."clone_program_for_user"("p_id_programa" bigint) RETURNS "jsonb"
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+  -- variable para guardar el ID del usuario que llama a la función
+  current_user_id UUID := auth.uid();
+  -- variable para iterar sobre cada rutina de la plantilla
+  template_routine RECORD;
+  -- variable para guardar el ID de la nueva rutina que creemos
+  new_rutina_id INT;
+  -- array para guardar la información de las nuevas rutinas y devolverla
+  new_routines_info JSONB[] := ARRAY[]::JSONB[];
+BEGIN
+  -- 1. Buscamos todas las rutinas que pertenecen al programa plantilla.
+  FOR template_routine IN
+    SELECT r.*
+    FROM public."Rutinas" r
+    JOIN public."ProgramasRutinas" pr ON r.id_rutina = pr.id_rutina
+    WHERE pr.id_programa = p_id_programa AND r.es_plantilla = true
+  LOOP
+    -- 2. Por cada rutina plantilla, creamos una copia para el usuario.
+    INSERT INTO public."Rutinas"
+      (nombre, descripcion, nivel_recomendado, objetivo, duracion_estimada, owner_uid, es_plantilla)
+    VALUES
+      -- Copiamos los datos, pero cambiamos el dueño y el estado de plantilla
+      (template_routine.nombre, template_routine.descripcion, template_routine.nivel_recomendado, template_routine.objetivo, template_routine.duracion_estimada, current_user_id, false)
+    -- Guardamos el ID de la rutina recién creada en nuestra variable
+    RETURNING id_rutina INTO new_rutina_id;
+
+    -- 3. Ahora, copiamos todos los ejercicios de la rutina plantilla a nuestra nueva rutina.
+    INSERT INTO public."EjerciciosRutinas"
+      (id_rutina, id_ejercicio, series, repeticiones, peso_sugerido, orden)
+    -- Seleccionamos todos los ejercicios de la plantilla y los insertamos con el nuevo ID de rutina
+    SELECT
+      new_rutina_id, id_ejercicio, series, repeticiones, peso_sugerido, orden
+    FROM public."EjerciciosRutinas"
+    WHERE id_rutina = template_routine.id_rutina;
+
+    -- 4. Guardamos la info de la nueva rutina para devolverla al final
+    new_routines_info := array_append(new_routines_info, jsonb_build_object('id', new_rutina_id, 'nombre', template_routine.nombre));
+
+  END LOOP;
+
+  -- 5. Devolvemos el array con la información de las rutinas creadas.
+  RETURN jsonb_agg(item) FROM unnest(new_routines_info) item;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."clone_program_for_user"("p_id_programa" bigint) OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) RETURNS "text"
     LANGUAGE "sql" STABLE
     AS $$
@@ -529,6 +581,463 @@ $$;
 
 
 ALTER FUNCTION "public"."friend_ids_for"("me" integer) OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text" DEFAULT NULL::"text", "target_user_id" integer DEFAULT NULL::integer) RETURNS TABLE("id_ejercicio" integer, "nombre" "text", "imagen_url" "text", "sets_count" integer, "volume_kg" numeric)
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_target_id  integer;
+  v_target_uid uuid;
+  v_name_clean text;
+  v_sesion integer;
+BEGIN
+  -- Resolver target
+  IF target_user_id IS NOT NULL THEN
+    v_target_id := target_user_id;
+  ELSIF target_username IS NOT NULL THEN
+    v_name_clean := trim(both from lower(regexp_replace(target_username, '^\s*@+', '')));
+    SELECT u.id_usuario
+      INTO v_target_id
+      FROM "Usuarios" u
+     WHERE trim(both from lower(u.username)) = v_name_clean
+     LIMIT 1;
+  ELSE
+    v_target_id := current_usuario_id();
+  END IF;
+
+  IF v_target_id IS NULL THEN RETURN; END IF;
+
+  SELECT u.auth_uid
+    INTO v_target_uid
+    FROM "Usuarios" u
+   WHERE u.id_usuario = v_target_id;
+
+  IF v_target_uid IS NULL THEN RETURN; END IF;
+
+  -- Última sesión
+  SELECT e.id_sesion
+    INTO v_sesion
+    FROM "Entrenamientos" e
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL
+   ORDER BY e.ended_at DESC
+   LIMIT 1;
+
+  IF v_sesion IS NULL THEN RETURN; END IF;
+
+  -- Resumen por ejercicio
+  RETURN QUERY
+  SELECT
+    s.id_ejercicio::integer,
+    ex.nombre::text,
+    ex.ejemplo::text AS imagen_url,
+    count(*)::integer AS sets_count,
+    sum((s.kg::numeric)*(s.reps::numeric)) AS volume_kg
+  FROM "EntrenamientoSets" s
+  JOIN "Ejercicios" ex ON ex.id = s.id_ejercicio
+  WHERE s.id_sesion = v_sesion
+  GROUP BY s.id_ejercicio, ex.nombre, ex.ejemplo
+  ORDER BY volume_kg DESC NULLS LAST;
+END
+$$;
+
+
+ALTER FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text", "target_user_id" integer) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text", "target_user_id" integer) IS 'Ejercicios del último entrenamiento (público): sets y volumen por ejercicio.';
+
+
+
+CREATE OR REPLACE FUNCTION "public"."get_last_workout_public_v1"("target_username" "text" DEFAULT NULL::"text", "target_user_id" integer DEFAULT NULL::integer) RETURNS TABLE("id_sesion" integer, "ended_at" timestamp with time zone, "duracion_seg" integer, "sets_count" integer, "total_volume_kg" numeric, "difficulty_label" "text")
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_target_id  integer;
+  v_target_uid uuid;
+  v_name_clean text;
+  v_id integer;
+  v_end timestamptz;
+  v_dur integer;
+  v_diff text;
+  v_sets integer := 0;
+  v_vol numeric := 0;
+BEGIN
+  -- Resolver target
+  IF target_user_id IS NOT NULL THEN
+    v_target_id := target_user_id;
+  ELSIF target_username IS NOT NULL THEN
+    v_name_clean := trim(both from lower(regexp_replace(target_username, '^\s*@+', '')));
+    SELECT u.id_usuario INTO v_target_id
+      FROM "Usuarios" u
+     WHERE trim(both from lower(u.username)) = v_name_clean
+     LIMIT 1;
+  ELSE
+    v_target_id := current_usuario_id();
+  END IF;
+
+  IF v_target_id IS NULL THEN RETURN; END IF;
+
+  SELECT u.auth_uid INTO v_target_uid
+    FROM "Usuarios" u
+   WHERE u.id_usuario = v_target_id;
+
+  IF v_target_uid IS NULL THEN RETURN; END IF;
+
+  -- Última sesión finalizada
+  SELECT e.id_sesion, e.ended_at, e.duracion_seg, e.sensacion_global
+    INTO v_id, v_end, v_dur, v_diff
+    FROM "Entrenamientos" e
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL
+   ORDER BY e.ended_at DESC
+   LIMIT 1;
+
+  IF v_id IS NULL THEN RETURN; END IF;
+
+  -- Agregados de sets y volumen
+  SELECT COALESCE(count(*),0), COALESCE(sum((s.kg::numeric)*(s.reps::numeric)),0)
+    INTO v_sets, v_vol
+    FROM "EntrenamientoSets" s
+   WHERE s.id_sesion = v_id;
+
+  RETURN QUERY
+  SELECT
+    v_id::integer,
+    v_end,
+    v_dur::integer,
+    v_sets::integer,
+    v_vol::numeric,
+    v_diff::text;
+END
+$$;
+
+
+ALTER FUNCTION "public"."get_last_workout_public_v1"("target_username" "text", "target_user_id" integer) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."get_last_workout_public_v1"("target_username" "text", "target_user_id" integer) IS 'Devuelve el último entrenamiento del usuario target (público): sets, duración, volumen y sensación.';
+
+
+
+CREATE OR REPLACE FUNCTION "public"."get_last_workout_public_v2"("target_username" "text" DEFAULT NULL::"text", "target_user_id" integer DEFAULT NULL::integer) RETURNS TABLE("id_sesion" integer, "ended_at" timestamp with time zone, "duracion_seg" integer, "sets_count" integer, "total_volume_kg" numeric, "difficulty_label" "text")
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_target_id  integer;
+  v_target_uid uuid;
+  v_name_clean text;
+  v_id integer;
+  v_end timestamptz;
+  v_dur integer;
+  v_sets integer := 0;
+  v_vol numeric := 0;
+  v_diff text := NULL;
+BEGIN
+  -- Resolver target
+  IF target_user_id IS NOT NULL THEN
+    v_target_id := target_user_id;
+  ELSIF target_username IS NOT NULL THEN
+    v_name_clean := trim(both from lower(regexp_replace(target_username, '^\s*@+', '')));
+    SELECT u.id_usuario INTO v_target_id
+      FROM "Usuarios" u
+     WHERE trim(both from lower(u.username)) = v_name_clean
+     LIMIT 1;
+  ELSE
+    v_target_id := current_usuario_id();
+  END IF;
+
+  IF v_target_id IS NULL THEN RETURN; END IF;
+
+  SELECT u.auth_uid INTO v_target_uid
+    FROM "Usuarios" u
+   WHERE u.id_usuario = v_target_id;
+
+  IF v_target_uid IS NULL THEN RETURN; END IF;
+
+  -- Última sesión finalizada
+  SELECT e.id_sesion,
+         e.ended_at,
+         /* duración real: columna o diferencia de timestamps */
+         COALESCE(e.duracion_seg,
+                  EXTRACT(EPOCH FROM (e.ended_at - e.started_at))::int,
+                  0)
+    INTO v_id, v_end, v_dur
+    FROM "Entrenamientos" e
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL
+   ORDER BY e.ended_at DESC
+   LIMIT 1;
+
+  IF v_id IS NULL THEN RETURN; END IF;
+
+  -- Agregados de sets y volumen
+  SELECT COALESCE(count(*),0),
+         COALESCE(sum((s.kg::numeric)*(s.reps::numeric)),0)
+    INTO v_sets, v_vol
+    FROM "EntrenamientoSets" s
+   WHERE s.id_sesion = v_id;
+
+  -- Sensación final (usa tu función estable)
+  v_diff := public.get_sensacion_or_compute(v_id);
+
+  RETURN QUERY
+  SELECT v_id::integer, v_end, v_dur::integer, v_sets::integer, v_vol::numeric, v_diff::text;
+END
+$$;
+
+
+ALTER FUNCTION "public"."get_last_workout_public_v2"("target_username" "text", "target_user_id" integer) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."get_last_workout_public_v2"("target_username" "text", "target_user_id" integer) IS 'Último entrenamiento del usuario target (público): sets, duración, volumen y sensaciones con resolución robusta.';
+
+
+
+CREATE OR REPLACE FUNCTION "public"."get_profile_summary"("target_username" "text" DEFAULT NULL::"text", "target_user_id" integer DEFAULT NULL::integer) RETURNS TABLE("id_usuario" integer, "username" "text", "nombre" "text", "url_avatar" "text", "workouts_count" integer, "total_duration_sec" integer, "last_workout_id" integer, "last_ended_at" timestamp with time zone, "friends_count" integer)
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_target_id    integer;
+  v_target_uid   uuid;
+  v_is_self      boolean := false;
+  v_is_friend    boolean := false;
+
+  v_wc   integer := NULL;
+  v_tot  bigint  := NULL;
+  v_last_id integer := NULL;
+  v_last_ended timestamptz := NULL;
+  v_fc   integer := 0;
+BEGIN
+  -- 1) Resolver target (por id, username o actual)
+  IF target_user_id IS NOT NULL THEN
+    v_target_id := target_user_id;
+  ELSIF target_username IS NOT NULL THEN
+    SELECT u.id_usuario
+    INTO v_target_id
+    FROM "Usuarios" u
+    WHERE lower(u.username) = lower(target_username)
+    LIMIT 1;
+  ELSE
+    v_target_id := current_usuario_id();
+  END IF;
+
+  IF v_target_id IS NULL THEN
+    -- Usuario no encontrado
+    RETURN;
+  END IF;
+
+  -- 2) Obtener auth_uid del target
+  SELECT u.auth_uid
+  INTO v_target_uid
+  FROM "Usuarios" u
+  WHERE u.id_usuario = v_target_id;
+
+  IF v_target_uid IS NULL THEN
+    RETURN;
+  END IF;
+
+  -- 3) Visibilidad
+  v_is_self   := (v_target_id = current_usuario_id());
+  v_is_friend := is_friend(current_usuario_id(), v_target_id);
+
+  -- 4) Conteo de amigos (siempre visible)
+  SELECT count(*)
+  INTO v_fc
+  FROM "Amigos" a
+  WHERE a.id_usuario1 = v_target_id OR a.id_usuario2 = v_target_id;
+
+  -- 5) Métricas de entrenamientos (solo self o amigo)
+  IF v_is_self OR v_is_friend THEN
+    SELECT count(*)
+    INTO v_wc
+    FROM "Entrenamientos" e
+    WHERE e.owner_uid = v_target_uid
+      AND e.ended_at IS NOT NULL;
+
+    SELECT COALESCE(sum(e.duracion_seg), 0)
+    INTO v_tot
+    FROM "Entrenamientos" e
+    WHERE e.owner_uid = v_target_uid
+      AND e.ended_at IS NOT NULL;
+
+    SELECT e.id_sesion, e.ended_at
+    INTO v_last_id, v_last_ended
+    FROM "Entrenamientos" e
+    WHERE e.owner_uid = v_target_uid
+      AND e.ended_at IS NOT NULL
+    ORDER BY e.ended_at DESC
+    LIMIT 1;
+  END IF;
+
+  -- 6) Devolver una fila con perfil + métricas (NULAS si no visible)
+  RETURN QUERY
+  SELECT
+    u.id_usuario,
+    u.username,
+    u.nombre,
+    u.url_avatar,
+    v_wc::integer AS workouts_count,
+    CASE WHEN v_tot IS NULL THEN NULL ELSE v_tot::integer END AS total_duration_sec,
+    v_last_id     AS last_workout_id,
+    v_last_ended  AS last_ended_at,
+    v_fc::integer AS friends_count
+  FROM "Usuarios" u
+  WHERE u.id_usuario = v_target_id;
+END
+$$;
+
+
+ALTER FUNCTION "public"."get_profile_summary"("target_username" "text", "target_user_id" integer) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."get_profile_summary"("target_username" "text", "target_user_id" integer) IS 'Perfil + métricas. Stats visibles solo si viewer es el propio usuario o amigo; usa auth.uid() y is_friend() internamente.';
+
+
+
+CREATE OR REPLACE FUNCTION "public"."get_profile_summary_v2"("target_username" "text" DEFAULT NULL::"text", "target_user_id" integer DEFAULT NULL::integer) RETURNS TABLE("id_usuario" integer, "username" "text", "nombre" "text", "url_avatar" "text", "workouts_count" integer, "total_duration_sec" integer, "total_volume_kg" numeric, "last_workout_id" integer, "last_ended_at" timestamp with time zone, "friends_count" integer)
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_target_id    integer;
+  v_target_uid   uuid;
+
+  v_wc   integer := 0;
+  v_tot  bigint  := 0;
+  v_vol  numeric := 0;
+  v_last_id integer := NULL;
+  v_last_ended timestamptz := NULL;
+  v_fc   integer := 0;
+
+  v_name_clean text;
+BEGIN
+  -- Resolver target por id / username / self
+  IF target_user_id IS NOT NULL THEN
+    v_target_id := target_user_id;
+  ELSIF target_username IS NOT NULL THEN
+    v_name_clean := trim(both from lower(regexp_replace(target_username, '^\s*@+', '')));
+    SELECT u.id_usuario
+      INTO v_target_id
+      FROM "Usuarios" u
+     WHERE trim(both from lower(u.username)) = v_name_clean
+     LIMIT 1;
+  ELSE
+    v_target_id := current_usuario_id();
+  END IF;
+
+  IF v_target_id IS NULL THEN
+    RETURN;
+  END IF;
+
+  -- auth_uid del target
+  SELECT u.auth_uid
+    INTO v_target_uid
+    FROM "Usuarios" u
+   WHERE u.id_usuario = v_target_id;
+
+  IF v_target_uid IS NULL THEN
+    RETURN;
+  END IF;
+
+  -- nº de amigos (siempre visible)
+  SELECT count(*)
+    INTO v_fc
+    FROM "Amigos" a
+   WHERE a.id_usuario1 = v_target_id OR a.id_usuario2 = v_target_id;
+
+  -- métricas públicas sobre sesiones finalizadas
+  SELECT count(*)
+    INTO v_wc
+    FROM "Entrenamientos" e
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL;
+
+  SELECT COALESCE(sum(e.duracion_seg), 0)
+    INTO v_tot
+    FROM "Entrenamientos" e
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL;
+
+  SELECT e.id_sesion, e.ended_at
+    INTO v_last_id, v_last_ended
+    FROM "Entrenamientos" e
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL
+   ORDER BY e.ended_at DESC
+   LIMIT 1;
+
+  -- volumen total (kg * reps) en sets de sesiones finalizadas
+  SELECT COALESCE(sum((s.kg::numeric) * (s.reps::numeric)), 0)
+    INTO v_vol
+    FROM "EntrenamientoSets" s
+    JOIN "Entrenamientos" e ON e.id_sesion = s.id_sesion
+   WHERE e.owner_uid = v_target_uid
+     AND e.ended_at IS NOT NULL;
+
+  -- fila final (⚠️ casteos explícitos para que coincida el tipo retornado)
+  RETURN QUERY
+  SELECT
+    u.id_usuario::integer,
+    u.username::text,
+    u.nombre::text,
+    u.url_avatar::text,
+    v_wc::integer,
+    v_tot::integer,
+    v_vol::numeric,
+    v_last_id::integer,
+    v_last_ended,
+    v_fc::integer
+  FROM "Usuarios" u
+  WHERE u.id_usuario = v_target_id;
+END
+$$;
+
+
+ALTER FUNCTION "public"."get_profile_summary_v2"("target_username" "text", "target_user_id" integer) OWNER TO "postgres";
+
+
+COMMENT ON FUNCTION "public"."get_profile_summary_v2"("target_username" "text", "target_user_id" integer) IS 'Resumen de perfil (público): workouts, duración, volumen total, último entrenamiento y amigos.';
+
+
+
+CREATE OR REPLACE FUNCTION "public"."get_program_details"("p_nombre" "text") RETURNS json
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  RETURN (
+    SELECT
+      json_build_object(
+        'id', p.id, -- <-- AÑADIMOS ESTA LÍNEA
+        'nombre', p.nombre,
+        'descripcion', p.descripcion,
+        'ProgramasRutinas', (
+          SELECT json_agg(
+            json_build_object(
+              'Rutinas', json_build_object(
+                'nombre', r.nombre,
+                'descripcion', r.descripcion
+              )
+            )
+          )
+          FROM public."ProgramasRutinas" pr
+          JOIN public."Rutinas" r ON pr.id_rutina = r.id_rutina
+          WHERE pr.id_programa = p.id
+        )
+      )
+    FROM public."Programas" p
+    WHERE p.nombre = p_nombre
+  );
+END;
+$$;
+
+
+ALTER FUNCTION "public"."get_program_details"("p_nombre" "text") OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."get_sensacion_or_compute"("p_id_sesion" bigint) RETURNS "text"
@@ -1221,7 +1730,6 @@ ALTER TABLE "public"."MedallasUsuario" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."Programas" (
     "id" bigint NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "nombre" character varying,
     "descripcion" character varying,
     "nivel_recomendado" character varying
@@ -1237,7 +1745,6 @@ COMMENT ON TABLE "public"."Programas" IS 'Aqui se agruparán varias rutinas para
 
 CREATE TABLE IF NOT EXISTS "public"."ProgramasRutinas" (
     "id" bigint NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "id_programa" bigint,
     "id_rutina" integer,
     "orden" integer,
@@ -1298,6 +1805,7 @@ CREATE TABLE IF NOT EXISTS "public"."Rutinas" (
     "objetivo" character varying(20),
     "duracion_estimada" integer,
     "owner_uid" "uuid" DEFAULT "auth"."uid"(),
+    "es_plantilla" boolean DEFAULT false,
     CONSTRAINT "rutinas_nivel_recomendado_check" CHECK ((("nivel_recomendado")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
     CONSTRAINT "rutinas_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"])))
 );
@@ -1995,6 +2503,40 @@ ALTER TABLE "public"."EntrenamientoSets" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."Entrenamientos" ENABLE ROW LEVEL SECURITY;
 
 
+CREATE POLICY "Permitir actualizar si el usuario es dueño" ON "public"."EjerciciosRutinas" FOR UPDATE TO "authenticated" USING ((( SELECT "Rutinas"."owner_uid"
+   FROM "public"."Rutinas"
+  WHERE ("Rutinas"."id_rutina" = "EjerciciosRutinas"."id_rutina")) = "auth"."uid"()));
+
+
+
+CREATE POLICY "Permitir borrar si el usuario es dueño" ON "public"."EjerciciosRutinas" FOR DELETE TO "authenticated" USING ((( SELECT "Rutinas"."owner_uid"
+   FROM "public"."Rutinas"
+  WHERE ("Rutinas"."id_rutina" = "EjerciciosRutinas"."id_rutina")) = "auth"."uid"()));
+
+
+
+CREATE POLICY "Permitir inserción si el usuario es dueño de la rutina" ON "public"."EjerciciosRutinas" FOR INSERT TO "authenticated" WITH CHECK ((( SELECT "Rutinas"."owner_uid"
+   FROM "public"."Rutinas"
+  WHERE ("Rutinas"."id_rutina" = "EjerciciosRutinas"."id_rutina")) = "auth"."uid"()));
+
+
+
+CREATE POLICY "Permitir lectura a usuarios autenticados" ON "public"."Programas" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Permitir lectura a usuarios autenticados" ON "public"."ProgramasRutinas" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Permitir lectura si el usuario es dueño o la rutina es plantil" ON "public"."EjerciciosRutinas" FOR SELECT TO "authenticated" USING (((( SELECT "Rutinas"."owner_uid"
+   FROM "public"."Rutinas"
+  WHERE ("Rutinas"."id_rutina" = "EjerciciosRutinas"."id_rutina")) = "auth"."uid"()) OR (( SELECT "Rutinas"."es_plantilla"
+   FROM "public"."Rutinas"
+  WHERE ("Rutinas"."id_rutina" = "EjerciciosRutinas"."id_rutina")) = true)));
+
+
+
 ALTER TABLE "public"."Programas" ENABLE ROW LEVEL SECURITY;
 
 
@@ -2016,6 +2558,10 @@ ALTER TABLE "public"."SolicitudesAmistad" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."UsuarioRutina" ENABLE ROW LEVEL SECURITY;
 
 
+CREATE POLICY "authenticated_can_see_templates" ON "public"."Rutinas" FOR SELECT USING ((("es_plantilla" = true) AND ("auth"."role"() = 'authenticated'::"text")));
+
+
+
 CREATE POLICY "ent_delete_owner" ON "public"."Entrenamientos" FOR DELETE USING (("owner_uid" = "auth"."uid"()));
 
 
@@ -2035,21 +2581,6 @@ CREATE POLICY "ent_select_owner_or_friend" ON "public"."Entrenamientos" FOR SELE
 
 
 CREATE POLICY "ent_update_owner" ON "public"."Entrenamientos" FOR UPDATE USING (("owner_uid" = "auth"."uid"()));
-
-
-
-CREATE POLICY "er_cud_owner" ON "public"."EjerciciosRutinas" TO "authenticated" USING ((EXISTS ( SELECT 1
-   FROM "public"."Rutinas" "r"
-  WHERE (("r"."id_rutina" = "EjerciciosRutinas"."id_rutina") AND ("r"."owner_uid" = "auth"."uid"()))))) WITH CHECK ((EXISTS ( SELECT 1
-   FROM "public"."Rutinas" "r"
-  WHERE (("r"."id_rutina" = "EjerciciosRutinas"."id_rutina") AND ("r"."owner_uid" = "auth"."uid"())))));
-
-
-
-CREATE POLICY "er_select_owner_or_friends" ON "public"."EjerciciosRutinas" FOR SELECT TO "authenticated" USING ((EXISTS ( SELECT 1
-   FROM ("public"."Rutinas" "r"
-     JOIN "public"."Usuarios" "u_owner" ON (("u_owner"."auth_uid" = "r"."owner_uid")))
-  WHERE (("r"."id_rutina" = "EjerciciosRutinas"."id_rutina") AND (("r"."owner_uid" = "auth"."uid"()) OR "public"."is_friend"("u_owner"."id_usuario", "public"."current_usuario_id"()))))));
 
 
 
@@ -2352,6 +2883,12 @@ GRANT ALL ON FUNCTION "public"."attach_owner_after_rutina_insert"() TO "service_
 
 
 
+GRANT ALL ON FUNCTION "public"."clone_program_for_user"("p_id_programa" bigint) TO "anon";
+GRANT ALL ON FUNCTION "public"."clone_program_for_user"("p_id_programa" bigint) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."clone_program_for_user"("p_id_programa" bigint) TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) TO "anon";
 GRANT ALL ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."compute_sensacion_final"("p_id_sesion" bigint) TO "service_role";
@@ -2423,6 +2960,47 @@ GRANT ALL ON FUNCTION "public"."finalizar_entrenamiento"("p_id_sesion" integer, 
 GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "anon";
 GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."friend_ids_for"("me" integer) TO "service_role";
+
+
+
+REVOKE ALL ON FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text", "target_user_id" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text", "target_user_id" integer) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text", "target_user_id" integer) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_last_workout_exercises_public_v1"("target_username" "text", "target_user_id" integer) TO "service_role";
+
+
+
+REVOKE ALL ON FUNCTION "public"."get_last_workout_public_v1"("target_username" "text", "target_user_id" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."get_last_workout_public_v1"("target_username" "text", "target_user_id" integer) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_last_workout_public_v1"("target_username" "text", "target_user_id" integer) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_last_workout_public_v1"("target_username" "text", "target_user_id" integer) TO "service_role";
+
+
+
+REVOKE ALL ON FUNCTION "public"."get_last_workout_public_v2"("target_username" "text", "target_user_id" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."get_last_workout_public_v2"("target_username" "text", "target_user_id" integer) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_last_workout_public_v2"("target_username" "text", "target_user_id" integer) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_last_workout_public_v2"("target_username" "text", "target_user_id" integer) TO "service_role";
+
+
+
+REVOKE ALL ON FUNCTION "public"."get_profile_summary"("target_username" "text", "target_user_id" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."get_profile_summary"("target_username" "text", "target_user_id" integer) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_profile_summary"("target_username" "text", "target_user_id" integer) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_profile_summary"("target_username" "text", "target_user_id" integer) TO "service_role";
+
+
+
+REVOKE ALL ON FUNCTION "public"."get_profile_summary_v2"("target_username" "text", "target_user_id" integer) FROM PUBLIC;
+GRANT ALL ON FUNCTION "public"."get_profile_summary_v2"("target_username" "text", "target_user_id" integer) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_profile_summary_v2"("target_username" "text", "target_user_id" integer) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_profile_summary_v2"("target_username" "text", "target_user_id" integer) TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."get_program_details"("p_nombre" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_program_details"("p_nombre" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_program_details"("p_nombre" "text") TO "service_role";
 
 
 
