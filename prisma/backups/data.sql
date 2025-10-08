@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict Hh3RcJlX5g921HUXMT8EAg0GaWoYeogh0FSxKi83R1NOCWKtUEcBSel1zdoIxKf
+-- \restrict DbSd6JhM5pzSBHF1ag2RDXuoUveVyedr7kRrMINylPfIboagMQlFl96Od7PJ0eC
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1347,6 +1347,14 @@ COPY "auth"."mfa_challenges" ("id", "factor_id", "created_at", "verified_at", "i
 
 
 --
+-- Data for Name: oauth_clients; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+COPY "auth"."oauth_clients" ("id", "client_id", "client_secret_hash", "registration_type", "redirect_uris", "grant_types", "client_name", "client_uri", "logo_uri", "created_at", "updated_at", "deleted_at") FROM stdin;
+\.
+
+
+--
 -- Data for Name: one_time_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
@@ -1391,7 +1399,7 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 -- Data for Name: sso_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-COPY "auth"."sso_providers" ("id", "resource_id", "created_at", "updated_at") FROM stdin;
+COPY "auth"."sso_providers" ("id", "resource_id", "created_at", "updated_at", "disabled") FROM stdin;
 \.
 
 
@@ -3474,6 +3482,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 37, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict Hh3RcJlX5g921HUXMT8EAg0GaWoYeogh0FSxKi83R1NOCWKtUEcBSel1zdoIxKf
+-- \unrestrict DbSd6JhM5pzSBHF1ag2RDXuoUveVyedr7kRrMINylPfIboagMQlFl96Od7PJ0eC
 
 RESET ALL;
