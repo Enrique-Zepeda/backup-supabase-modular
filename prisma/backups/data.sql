@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict Td4QJ86gXSahmltePcxS3OzP78FHgP9jSBm7SzAPGlJDfDehTo2aGsB9knCCXBr
+-- \restrict Glkh2paOm2Yb9PpudXfbdUla8tlhLA69hwGzTJmaf3VwVr8iPytBC606mjLXA1D
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1201,6 +1201,18 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	91afd152-4c12-4df4-a945-f35e50eee19c	{"action":"token_revoked","actor_id":"ef794a04-7430-4bda-8604-b6324ea88cde","actor_username":"pepepecas@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-11 23:32:06.44281+00	
 00000000-0000-0000-0000-000000000000	eb52c885-b59e-43b6-b451-4ca66e7bc40b	{"action":"token_refreshed","actor_id":"1695499b-b50d-4696-9127-d61a609a1c16","actor_username":"leonardosegovianozepeda@gmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-19 02:30:10.565554+00	
 00000000-0000-0000-0000-000000000000	503fc0b6-8eb0-4d25-89ce-6deb4657e075	{"action":"token_revoked","actor_id":"1695499b-b50d-4696-9127-d61a609a1c16","actor_username":"leonardosegovianozepeda@gmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-19 02:30:10.588821+00	
+00000000-0000-0000-0000-000000000000	51e24020-0854-4482-b139-43f132df3e9f	{"action":"user_confirmation_requested","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}	2025-10-21 15:43:47.040823+00	
+00000000-0000-0000-0000-000000000000	e273c357-00aa-4566-ba7a-cca28ff20db9	{"action":"user_signedup","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"team","traits":{"provider":"email"}}	2025-10-21 15:44:04.451328+00	
+00000000-0000-0000-0000-000000000000	02ec125f-4a83-4a57-beb8-532a88b904c6	{"action":"logout","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"account"}	2025-10-21 15:44:05.412931+00	
+00000000-0000-0000-0000-000000000000	fd596684-230b-42e4-b07a-eabb2223b5d3	{"action":"user_recovery_requested","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"user"}	2025-10-21 15:44:23.111088+00	
+00000000-0000-0000-0000-000000000000	183b926b-303c-40bb-8b3a-cd6f45683cf0	{"action":"login","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"account"}	2025-10-21 15:44:33.059875+00	
+00000000-0000-0000-0000-000000000000	7342c408-ff5d-4950-b2b1-deadb502e580	{"action":"user_updated_password","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"user"}	2025-10-21 15:44:44.411076+00	
+00000000-0000-0000-0000-000000000000	8070a807-3835-4b42-a9af-8d0a6f23528e	{"action":"user_modified","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"user"}	2025-10-21 15:44:44.414562+00	
+00000000-0000-0000-0000-000000000000	efa5ffe4-683d-427a-a6f7-4ea5ea9cbc64	{"action":"login","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-21 15:44:57.373149+00	
+00000000-0000-0000-0000-000000000000	d8eb4366-d63d-47f3-8ae4-6fa3396b923d	{"action":"logout","actor_id":"fed55973-b581-43dc-88aa-da37bc9ce91f","actor_username":"dacisummonneu-7057@yopmail.com","actor_via_sso":false,"log_type":"account"}	2025-10-21 15:46:45.506994+00	
+00000000-0000-0000-0000-000000000000	eb0d06d6-a403-498f-ba79-295130837b45	{"action":"login","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2025-10-21 16:01:46.632462+00	
+00000000-0000-0000-0000-000000000000	8b56d5eb-5a27-4314-85ac-f9844e0b6569	{"action":"token_refreshed","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-21 17:56:35.476661+00	
+00000000-0000-0000-0000-000000000000	f185c863-a6d4-4509-96d9-07f6ca1034cd	{"action":"token_revoked","actor_id":"82eb2899-4641-4dfe-97dc-665ccb66cdf7","actor_username":"vattatovuwe-6463@yopmail.com","actor_via_sso":false,"log_type":"token"}	2025-10-21 17:56:35.493183+00	
 \.
 
 
@@ -1236,12 +1248,13 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	09ff1a6d-48d3-4dbf-814e-5229c6549e86	authenticated	authenticated	trajafigosso-7741@yopmail.com	$2a$10$Gr3RD471gD7zR/zmrOzFm.8QKeZm8Hekfbr4Ko.3VCcR2zY1GtIum	2025-08-07 00:59:35.342403+00	\N		\N		\N			\N	2025-10-01 15:15:36.051219+00	{"provider": "email", "providers": ["email"]}	{"sub": "09ff1a6d-48d3-4dbf-814e-5229c6549e86", "email": "trajafigosso-7741@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-08-07 00:59:14.282387+00	2025-10-02 02:49:04.458017+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	3d2cea8e-64e1-4967-bec7-a3cec1ca135d	authenticated	authenticated	paucreijifuza-3246@yopmail.com	$2a$10$KD8tFlOn1cSe8JdCjBCfeuS0PdNA6ymGbZj2wa7pV1ohf3axJGHsm	2025-10-02 02:50:49.463184+00	\N		2025-10-02 02:50:34.275416+00		\N			\N	2025-10-02 02:53:40.02592+00	{"provider": "email", "providers": ["email"]}	{"sub": "3d2cea8e-64e1-4967-bec7-a3cec1ca135d", "email": "paucreijifuza-3246@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-02 02:50:34.243691+00	2025-10-02 06:12:47.865647+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	90cf26a8-2777-4abe-93ec-8f91db0f4737	authenticated	authenticated	katherinedowney961@gmail.com	$2a$10$QFfaoi8Y2dD.wmBaJF2gCedolwIqsEECJBRL1j26xB2W10P7hf7K.	2025-10-02 06:09:01.97582+00	\N		2025-10-02 06:08:07.816411+00		\N			\N	2025-10-02 23:20:33.595078+00	{"provider": "email", "providers": ["email"]}	{"sub": "90cf26a8-2777-4abe-93ec-8f91db0f4737", "email": "katherinedowney961@gmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-02 06:08:07.784473+00	2025-10-02 23:20:33.631574+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-10-02 14:52:09.576004+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-10-02 14:52:09.604345+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	82eb2899-4641-4dfe-97dc-665ccb66cdf7	authenticated	authenticated	vattatovuwe-6463@yopmail.com	$2a$10$JGpNcodIGQgOUBYYsQ.tUO1bkFdQzR5XqtqkEuOYgeSA7rrKtvIEG	2025-09-02 16:10:44.314951+00	\N		2025-09-02 16:10:34.738793+00		\N			\N	2025-10-21 16:01:46.65125+00	{"provider": "email", "providers": ["email"]}	{"sub": "82eb2899-4641-4dfe-97dc-665ccb66cdf7", "email": "vattatovuwe-6463@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-02 16:10:34.713301+00	2025-10-21 17:56:35.531434+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	ef794a04-7430-4bda-8604-b6324ea88cde	authenticated	authenticated	pepepecas@yopmail.com	$2a$10$XbIzrmAbp0uQKTu8/V4GqOpay2ZIcRQS24K.RSX5x2OjWop32jkhO	2025-09-08 15:42:13.339992+00	\N		\N		\N			\N	2025-10-05 21:17:04.010441+00	{"provider": "email", "providers": ["email"]}	{"sub": "ef794a04-7430-4bda-8604-b6324ea88cde", "email": "pepepecas@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-08 15:42:01.222539+00	2025-10-11 23:32:06.491909+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	3e965a3e-9729-4a41-96e7-724c0763edd0	authenticated	authenticated	enrique.zepeda0017@alumnos.udg.mx	$2a$10$bsq65dnF7pfbIHWNJ0euH.AHArE3/fnlR5Zzhirx/1/YKKqKLEI2m	2025-08-01 20:35:34.760805+00	\N		\N		\N			\N	2025-10-02 17:01:12.158877+00	{"provider": "email", "providers": ["email"]}	{"sub": "3e965a3e-9729-4a41-96e7-724c0763edd0", "email": "enrique.zepeda0017@alumnos.udg.mx", "email_verified": true, "phone_verified": false}	\N	2025-08-01 20:35:18.909246+00	2025-10-03 01:12:40.16702+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	eb0d5b2b-0260-4f26-a399-e7496b25c94f	authenticated	authenticated	kikeesgei@yopmail.com	$2a$10$0t/ORPrVY15DBVXcf1eVAukjKOQkN1VXkhk9qUgYyc.ahD8gZ5UrC	2025-10-02 05:48:18.801214+00	\N		2025-10-02 05:48:12.837062+00		2025-10-05 21:13:41.402723+00			\N	2025-10-05 21:13:54.909414+00	{"provider": "email", "providers": ["email"]}	{"sub": "eb0d5b2b-0260-4f26-a399-e7496b25c94f", "email": "kikeesgei@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-02 05:48:12.797925+00	2025-10-05 21:13:54.921171+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	d028ed7d-a831-42ed-acbf-582084cf6b7a	authenticated	authenticated	cosegepunu-2914@yopmail.com	$2a$10$RkNdxM4VdUL.rKezTo1/L.ySteHa42ifaoLks.b6zOm6a9iWffdQK	2025-09-23 02:12:57.897146+00	\N		\N		\N			\N	2025-09-23 13:50:30.908504+00	{"provider": "email", "providers": ["email"]}	{"sub": "d028ed7d-a831-42ed-acbf-582084cf6b7a", "email": "cosegepunu-2914@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 02:12:34.6173+00	2025-09-23 13:50:30.909915+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	e334d918-2367-4b34-bf66-83a9c0b8a4aa	authenticated	authenticated	treitteubeigrizei-6265@yopmail.com	$2a$10$gfBTXVFCd3VuncqEmHWgkebFFqmUN/GfRrLt5hgAyreVy5Osq4wRe	2025-09-23 13:52:15.111632+00	\N		\N		\N			\N	2025-09-23 14:23:07.884217+00	{"provider": "email", "providers": ["email"]}	{"sub": "e334d918-2367-4b34-bf66-83a9c0b8a4aa", "email": "treitteubeigrizei-6265@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-09-23 13:52:02.543747+00	2025-09-23 14:23:07.885825+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	fed55973-b581-43dc-88aa-da37bc9ce91f	authenticated	authenticated	dacisummonneu-7057@yopmail.com	$2a$10$CvORRm05C2PwanSK7vOfzuzCMRVZm2XLEJLN6DPddSbdl1CEEtLeq	2025-10-21 15:44:04.456293+00	\N		\N		\N			\N	2025-10-21 15:44:57.374185+00	{"provider": "email", "providers": ["email"]}	{"sub": "fed55973-b581-43dc-88aa-da37bc9ce91f", "email": "dacisummonneu-7057@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-21 15:43:47.005237+00	2025-10-21 15:44:57.375889+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	1695499b-b50d-4696-9127-d61a609a1c16	authenticated	authenticated	leonardosegovianozepeda@gmail.com	$2a$10$5b4hG8qZkIwEMAfxWlqVF.zq82jJXoRYQwcQu0kvw6Uo0n/0KSa5e	2025-10-04 20:04:58.848574+00	\N		2025-10-04 20:04:27.165884+00		\N			\N	2025-10-04 20:05:10.300414+00	{"provider": "email", "providers": ["email"]}	{"sub": "1695499b-b50d-4696-9127-d61a609a1c16", "email": "leonardosegovianozepeda@gmail.com", "email_verified": true, "phone_verified": false}	\N	2025-10-04 20:04:27.076041+00	2025-10-19 02:30:10.619893+00	\N	\N			\N		0	\N		\N	f	\N	f
 \.
 
@@ -1277,6 +1290,7 @@ db4793b9-fc50-489f-9e64-c48939606f9c	db4793b9-fc50-489f-9e64-c48939606f9c	{"sub"
 eb0d5b2b-0260-4f26-a399-e7496b25c94f	eb0d5b2b-0260-4f26-a399-e7496b25c94f	{"sub": "eb0d5b2b-0260-4f26-a399-e7496b25c94f", "email": "kikeesgei@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-10-02 05:48:12.824168+00	2025-10-02 05:48:12.824228+00	2025-10-02 05:48:12.824228+00	362d0f8a-d39d-4e9c-824c-a4407da8407e
 90cf26a8-2777-4abe-93ec-8f91db0f4737	90cf26a8-2777-4abe-93ec-8f91db0f4737	{"sub": "90cf26a8-2777-4abe-93ec-8f91db0f4737", "email": "katherinedowney961@gmail.com", "email_verified": true, "phone_verified": false}	email	2025-10-02 06:08:07.804538+00	2025-10-02 06:08:07.804595+00	2025-10-02 06:08:07.804595+00	364040a1-4497-4157-b9c9-f20ec3760705
 1695499b-b50d-4696-9127-d61a609a1c16	1695499b-b50d-4696-9127-d61a609a1c16	{"sub": "1695499b-b50d-4696-9127-d61a609a1c16", "email": "leonardosegovianozepeda@gmail.com", "email_verified": true, "phone_verified": false}	email	2025-10-04 20:04:27.124182+00	2025-10-04 20:04:27.124231+00	2025-10-04 20:04:27.124231+00	377358c3-b916-40cd-8a53-2074034d5dcb
+fed55973-b581-43dc-88aa-da37bc9ce91f	fed55973-b581-43dc-88aa-da37bc9ce91f	{"sub": "fed55973-b581-43dc-88aa-da37bc9ce91f", "email": "dacisummonneu-7057@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-10-21 15:43:47.03174+00	2025-10-21 15:43:47.031797+00	2025-10-21 15:43:47.031797+00	0947d7da-631f-4eed-adfa-449340fd801f
 \.
 
 
@@ -1303,6 +1317,7 @@ COPY "auth"."oauth_clients" ("id", "client_secret_hash", "registration_type", "r
 COPY "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag", "oauth_client_id") FROM stdin;
 b4457a70-0d50-4114-a3fe-d4d34627eb0f	c78066b4-db29-4251-9b8b-3962ad36594f	2025-07-30 00:50:39.155321+00	2025-07-30 00:50:39.155321+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36	177.245.200.254	\N	\N
 3909d172-8c98-4cb4-847f-ac26e609227f	c78066b4-db29-4251-9b8b-3962ad36594f	2025-07-30 00:50:44.966242+00	2025-07-30 00:50:44.966242+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36	177.245.200.254	\N	\N
+a8e2ae92-1dde-4eda-b2f4-29050366afbc	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-10-21 16:01:46.651955+00	2025-10-21 17:56:35.542007+00	\N	aal1	\N	2025-10-21 17:56:35.541914	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36	187.201.139.103	\N	\N
 ea22d7f3-1640-47cc-aea4-906325eca875	ef794a04-7430-4bda-8604-b6324ea88cde	2025-10-02 14:56:26.568791+00	2025-10-02 14:56:26.568791+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	177.245.201.134	\N	\N
 3768bc7e-26a9-44b0-ae86-b1ec86a003bc	3d2cea8e-64e1-4967-bec7-a3cec1ca135d	2025-10-02 02:53:40.026024+00	2025-10-02 06:12:47.86699+00	\N	aal1	\N	2025-10-02 06:12:47.866918	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	187.201.188.240	\N	\N
 5370ddbc-c506-4d5b-9bde-3e20189eb896	ef794a04-7430-4bda-8604-b6324ea88cde	2025-10-02 14:56:48.155498+00	2025-10-02 16:52:15.762908+00	\N	aal1	\N	2025-10-02 16:52:15.762836	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36	189.192.233.36	\N	\N
@@ -1336,6 +1351,7 @@ ea22d7f3-1640-47cc-aea4-906325eca875	2025-10-02 14:56:26.574156+00	2025-10-02 14
 2012626d-6c88-467e-96e2-bc4b9632bd07	2025-10-05 21:15:14.379368+00	2025-10-05 21:15:14.379368+00	password	52f076c4-3eb9-4e97-b94c-e8ef4386a50b
 da8d592e-33bf-48e3-988e-29cccbfc0c6f	2025-10-05 21:17:04.015017+00	2025-10-05 21:17:04.015017+00	password	96f27be9-0e94-48bf-afe8-e8ede4ea9351
 35c53a73-5a8c-41cf-95bf-f8e1338c5892	2025-09-23 00:39:57.59047+00	2025-09-23 00:39:57.59047+00	password	66b4470e-dbd5-400a-957a-dc8b81574478
+a8e2ae92-1dde-4eda-b2f4-29050366afbc	2025-10-21 16:01:46.677937+00	2025-10-21 16:01:46.677937+00	password	fb98f7d5-5dc9-442b-b39c-f23e0da23b22
 b960fb45-6372-48b6-8038-5d1b164ea55e	2025-09-29 00:25:21.64166+00	2025-09-29 00:25:21.64166+00	otp	7cf09f3e-5259-48ff-97ed-e50313d09008
 c07eefb6-d212-4c6d-bd77-45eb9262ac69	2025-09-29 00:25:52.614243+00	2025-09-29 00:25:52.614243+00	password	eaffcc96-ce26-4a28-8416-ca59544a888e
 3768bc7e-26a9-44b0-ae86-b1ec86a003bc	2025-10-02 02:53:40.036257+00	2025-10-02 02:53:40.036257+00	password	1994cf08-dbb0-42ea-9746-f025e6d21586
@@ -1396,6 +1412,7 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	556	d6bdgirkhp3v	ef794a04-7430-4bda-8604-b6324ea88cde	f	2025-10-05 23:14:22.45371+00	2025-10-05 23:14:22.45371+00	qgdhdibbc4v7	da8d592e-33bf-48e3-988e-29cccbfc0c6f
 00000000-0000-0000-0000-000000000000	553	ucofq6e6fghf	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-05 21:15:14.374612+00	2025-10-05 23:38:24.103908+00	\N	2012626d-6c88-467e-96e2-bc4b9632bd07
 00000000-0000-0000-0000-000000000000	559	ypdbwfujtjlc	1695499b-b50d-4696-9127-d61a609a1c16	f	2025-10-19 02:30:10.606341+00	2025-10-19 02:30:10.606341+00	uik6sz7vrqiw	8bddd4fc-5c90-409f-85f8-215dffd7c2d3
+00000000-0000-0000-0000-000000000000	564	fmwzn77tnipy	82eb2899-4641-4dfe-97dc-665ccb66cdf7	f	2025-10-21 17:56:35.514243+00	2025-10-21 17:56:35.514243+00	doiwklzvfsfh	a8e2ae92-1dde-4eda-b2f4-29050366afbc
 00000000-0000-0000-0000-000000000000	277	rpmzz2obt4ck	3c278e9e-7ca6-4d16-bf51-1343d7347f81	f	2025-09-23 00:39:57.578986+00	2025-09-23 00:39:57.578986+00	\N	35c53a73-5a8c-41cf-95bf-f8e1338c5892
 00000000-0000-0000-0000-000000000000	377	bmowfdo5dnye	db4793b9-fc50-489f-9e64-c48939606f9c	f	2025-09-29 00:25:21.630157+00	2025-09-29 00:25:21.630157+00	\N	b960fb45-6372-48b6-8038-5d1b164ea55e
 00000000-0000-0000-0000-000000000000	378	lcebdraj6mbl	db4793b9-fc50-489f-9e64-c48939606f9c	f	2025-09-29 00:25:52.611622+00	2025-09-29 00:25:52.611622+00	\N	c07eefb6-d212-4c6d-bd77-45eb9262ac69
@@ -1412,6 +1429,7 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	552	7mbrokck7vn7	eb0d5b2b-0260-4f26-a399-e7496b25c94f	f	2025-10-05 21:13:54.915094+00	2025-10-05 21:13:54.915094+00	\N	52e6cd6d-64e9-4b01-b29d-97c69bdea017
 00000000-0000-0000-0000-000000000000	555	qgdhdibbc4v7	ef794a04-7430-4bda-8604-b6324ea88cde	t	2025-10-05 22:16:07.622575+00	2025-10-05 23:14:22.444764+00	ko7lhcmlxvez	da8d592e-33bf-48e3-988e-29cccbfc0c6f
 00000000-0000-0000-0000-000000000000	558	k5qoq4dnancw	ef794a04-7430-4bda-8604-b6324ea88cde	f	2025-10-11 23:32:06.473946+00	2025-10-11 23:32:06.473946+00	rtrj4p6dnb7i	2012626d-6c88-467e-96e2-bc4b9632bd07
+00000000-0000-0000-0000-000000000000	563	doiwklzvfsfh	82eb2899-4641-4dfe-97dc-665ccb66cdf7	t	2025-10-21 16:01:46.666943+00	2025-10-21 17:56:35.497438+00	\N	a8e2ae92-1dde-4eda-b2f4-29050366afbc
 00000000-0000-0000-0000-000000000000	507	g3ahz5witvj3	3d2cea8e-64e1-4967-bec7-a3cec1ca135d	t	2025-10-02 02:53:40.029601+00	2025-10-02 03:53:04.029425+00	\N	3768bc7e-26a9-44b0-ae86-b1ec86a003bc
 00000000-0000-0000-0000-000000000000	510	sd77yi7hdld3	3d2cea8e-64e1-4967-bec7-a3cec1ca135d	t	2025-10-02 03:53:04.03294+00	2025-10-02 04:52:50.47931+00	g3ahz5witvj3	3768bc7e-26a9-44b0-ae86-b1ec86a003bc
 \.
@@ -1474,6 +1492,7 @@ COPY "public"."Usuarios" ("id_usuario", "nombre", "correo", "contraseña", "edad
 9	Enrique Zepeda	trajafigosso-7741@yopmail.com	auth_managed	25	70.00	175.00	intermedio	hipertrofia	2025-08-26	09ff1a6d-48d3-4dbf-814e-5229c6549e86	kike	masculino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/09ff1a6d-48d3-4dbf-814e-5229c6549e86/avatar_1758894236053.jpg	2025-09-27 23:50:17.741+00
 20	Juana de Arco	pepepecas@yopmail.com	auth_managed	22	200.10	179.00	intermedio	hipertrofia	2025-09-08	ef794a04-7430-4bda-8604-b6324ea88cde	elmono1	masculino	\N	2025-10-05 22:39:47.179+00
 13	Enrique Zepeda	enrique.zepeda0017@alumnos.udg.mx	auth_managed	22	76.00	177.00	intermedio	hipertrofia	2025-08-26	3e965a3e-9729-4a41-96e7-724c0763edd0	enrique_zepeda	masculino	https://movrcfahsutfqsjjchij.supabase.co/storage/v1/object/public/avatars/3e965a3e-9729-4a41-96e7-724c0763edd0/avatar_1759072207398.jpg	2025-10-02 01:38:45.018+00
+38	prueba	dacisummonneu-7057@yopmail.com	auth_managed	22	80.50	173.00	intermedio	hipertrofia	2025-10-21	fed55973-b581-43dc-88aa-da37bc9ce91f	prueba123	masculino	\N	2025-10-21 15:46:19.640179+00
 32	Edgar Jara	ps36516088@gmail.com	auth_managed	23	106.00	172.00	principiante	hipertrofia	2025-09-29	db4793b9-fc50-489f-9e64-c48939606f9c	dronorewa	masculino	\N	2025-09-29 00:26:45.620199+00
 10	Pechamen Alto	libros123@yopmail.com	auth_managed	98	32.00	122.00	avanzado	resistencia	2025-08-26	ed716103-7c30-47f8-9d88-0a3188b9b43d	usuario3	femenino	\N	2025-09-24 03:20:33.472641+00
 34	Kike Zepeda	paucreijifuza-3246@yopmail.com	auth_managed	22	80.00	174.00	avanzado	fuerza	2025-10-02	3d2cea8e-64e1-4967-bec7-a3cec1ca135d	kike1	masculino	\N	2025-10-02 02:55:51.119687+00
@@ -3177,6 +3196,8 @@ COPY "public"."SocialComments" ("id_comment", "id_sesion", "author_uid", "texto"
 62	102	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	Ajalas	2025-10-02 03:07:55.636252+00	\N
 64	104	eb0d5b2b-0260-4f26-a399-e7496b25c94f	LOL	2025-10-02 05:51:37.579178+00	\N
 65	105	90cf26a8-2777-4abe-93ec-8f91db0f4737	Kike no te vi en el gym hoy, que paso ahi?	2025-10-02 06:17:59.707317+00	\N
+68	112	82eb2899-4641-4dfe-97dc-665ccb66cdf7	oh yeah	2025-10-21 16:02:28.809861+00	\N
+69	69	82eb2899-4641-4dfe-97dc-665ccb66cdf7	aaa	2025-10-21 18:25:07.164133+00	\N
 \.
 
 
@@ -3202,6 +3223,8 @@ COPY "public"."SocialLikes" ("id_like", "id_sesion", "author_uid", "created_at")
 94	104	90cf26a8-2777-4abe-93ec-8f91db0f4737	2025-10-02 06:18:09.59803+00
 95	105	90cf26a8-2777-4abe-93ec-8f91db0f4737	2025-10-02 06:18:15.186169+00
 34	85	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-10-01 05:39:45.095887+00
+97	112	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-10-21 16:02:23.959597+00
+98	69	82eb2899-4641-4dfe-97dc-665ccb66cdf7	2025-10-21 18:25:10.557843+00
 38	94	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	2025-10-01 05:41:50.01319+00
 39	95	ef794a04-7430-4bda-8604-b6324ea88cde	2025-10-01 13:44:56.019662+00
 \.
@@ -3406,7 +3429,7 @@ COPY "storage"."s3_multipart_uploads_parts" ("id", "upload_id", "size", "part_nu
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 559, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 564, true);
 
 
 --
@@ -3434,14 +3457,14 @@ SELECT pg_catalog.setval('"public"."Programas_id_seq"', 16, true);
 -- Name: SocialComments_id_comment_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."SocialComments_id_comment_seq"', 67, true);
+SELECT pg_catalog.setval('"public"."SocialComments_id_comment_seq"', 69, true);
 
 
 --
 -- Name: SocialLikes_id_like_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."SocialLikes_id_like_seq"', 96, true);
+SELECT pg_catalog.setval('"public"."SocialLikes_id_like_seq"', 98, true);
 
 
 --
@@ -3497,13 +3520,13 @@ SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 220, true);
 -- Name: usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 37, true);
+SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 38, true);
 
 
 --
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict Td4QJ86gXSahmltePcxS3OzP78FHgP9jSBm7SzAPGlJDfDehTo2aGsB9knCCXBr
+-- \unrestrict Glkh2paOm2Yb9PpudXfbdUla8tlhLA69hwGzTJmaf3VwVr8iPytBC606mjLXA1D
 
 RESET ALL;
