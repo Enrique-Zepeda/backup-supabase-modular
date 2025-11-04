@@ -63,6 +63,19 @@ CREATE TYPE "public"."friend_request_state" AS ENUM (
 ALTER TYPE "public"."friend_request_state" OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."_age_years_from_dob"("dob" "date") RETURNS integer
+    LANGUAGE "sql"
+    AS $$
+  SELECT CASE
+           WHEN dob IS NULL THEN NULL
+           ELSE GREATEST(0, EXTRACT(YEAR FROM age(current_date, dob))::int)
+         END;
+$$;
+
+
+ALTER FUNCTION "public"."_age_years_from_dob"("dob" "date") OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."_normalize_label"("p" "text") RETURNS "text"
     LANGUAGE "sql" IMMUTABLE
     AS $$
@@ -1390,6 +1403,7 @@ CREATE TABLE IF NOT EXISTS "public"."Usuarios" (
     "sexo" "text",
     "url_avatar" "text",
     "updated_at" timestamp with time zone DEFAULT "now"(),
+    "fecha_nacimiento" "date",
     CONSTRAINT "usuarios_nivel_experiencia_check" CHECK ((("nivel_experiencia")::"text" = ANY (ARRAY[('principiante'::character varying)::"text", ('intermedio'::character varying)::"text", ('avanzado'::character varying)::"text"]))),
     CONSTRAINT "usuarios_objetivo_check" CHECK ((("objetivo")::"text" = ANY (ARRAY[('fuerza'::character varying)::"text", ('hipertrofia'::character varying)::"text", ('resistencia'::character varying)::"text"]))),
     CONSTRAINT "usuarios_sexo_check" CHECK ((("sexo" IS NULL) OR ("sexo" = ANY (ARRAY['masculino'::"text", 'femenino'::"text"])))),
@@ -1493,6 +1507,57 @@ $$;
 ALTER FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text") OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer DEFAULT NULL::integer, "p_peso" numeric DEFAULT NULL::numeric, "p_altura" numeric DEFAULT NULL::numeric, "p_nivel" "text" DEFAULT NULL::"text", "p_objetivo" "text" DEFAULT NULL::"text", "p_sexo" "text" DEFAULT NULL::"text", "p_fecha_nacimiento" "date" DEFAULT NULL::"date") RETURNS "public"."Usuarios"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+DECLARE
+  v_email text;
+  v_uid uuid;
+  v_row public."Usuarios";
+BEGIN
+  v_uid := auth.uid();
+  SELECT email INTO v_email FROM auth.users WHERE id = v_uid;
+
+  -- UPDATE si ya existe fila del usuario
+  UPDATE public."Usuarios" u
+  SET
+    username = p_username,
+    nombre = p_nombre,
+    -- si viene DOB, lo priorizamos (el trigger recalcula edad)
+    fecha_nacimiento = COALESCE(p_fecha_nacimiento, u.fecha_nacimiento),
+    edad = CASE WHEN p_fecha_nacimiento IS NOT NULL THEN u.edad ELSE p_edad END,
+    peso = p_peso,
+    altura = p_altura,
+    nivel_experiencia = p_nivel,
+    objetivo = p_objetivo,
+    sexo = p_sexo,
+    updated_at = now()
+  WHERE u.auth_uid = v_uid
+  RETURNING * INTO v_row;
+
+  IF NOT FOUND THEN
+    -- INSERT si no existe
+    INSERT INTO public."Usuarios" (
+      auth_uid, correo, username, nombre, fecha_nacimiento, edad,
+      peso, altura, nivel_experiencia, objetivo, sexo
+    ) VALUES (
+      v_uid, v_email, p_username, p_nombre,
+      p_fecha_nacimiento,
+      CASE WHEN p_fecha_nacimiento IS NOT NULL THEN NULL ELSE p_edad END,
+      p_peso, p_altura, p_nivel, p_objetivo, p_sexo
+    )
+    RETURNING * INTO v_row;
+  END IF;
+
+  RETURN v_row;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text", "p_fecha_nacimiento" "date") OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."set_er_orden"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
@@ -1538,6 +1603,21 @@ $$;
 
 
 ALTER FUNCTION "public"."set_updated_at"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."tg_set_edad_from_dob"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  IF NEW.fecha_nacimiento IS NOT NULL THEN
+    NEW.edad := public._age_years_from_dob(NEW.fecha_nacimiento);
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."tg_set_edad_from_dob"() OWNER TO "postgres";
 
 
 CREATE OR REPLACE FUNCTION "public"."tg_set_updated_at"() RETURNS "trigger"
@@ -2361,6 +2441,10 @@ CREATE OR REPLACE TRIGGER "trg_sa_set_updated" BEFORE UPDATE ON "public"."Solici
 
 
 
+CREATE OR REPLACE TRIGGER "trg_set_edad_from_dob" BEFORE INSERT OR UPDATE OF "fecha_nacimiento" ON "public"."Usuarios" FOR EACH ROW EXECUTE FUNCTION "public"."tg_set_edad_from_dob"();
+
+
+
 ALTER TABLE ONLY "public"."EntrenamientoSets"
     ADD CONSTRAINT "EntrenamientoSets_id_ejercicio_fkey" FOREIGN KEY ("id_ejercicio") REFERENCES "public"."Ejercicios"("id");
 
@@ -2871,6 +2955,12 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 
 
 
+GRANT ALL ON FUNCTION "public"."_age_years_from_dob"("dob" "date") TO "anon";
+GRANT ALL ON FUNCTION "public"."_age_years_from_dob"("dob" "date") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."_age_years_from_dob"("dob" "date") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."_normalize_label"("p" "text") TO "anon";
 GRANT ALL ON FUNCTION "public"."_normalize_label"("p" "text") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."_normalize_label"("p" "text") TO "service_role";
@@ -3096,6 +3186,12 @@ GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", 
 
 
 
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text", "p_fecha_nacimiento" "date") TO "anon";
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text", "p_fecha_nacimiento" "date") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text", "p_fecha_nacimiento" "date") TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
@@ -3111,6 +3207,12 @@ GRANT ALL ON FUNCTION "public"."set_rutinas_owner"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."tg_set_edad_from_dob"() TO "anon";
+GRANT ALL ON FUNCTION "public"."tg_set_edad_from_dob"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."tg_set_edad_from_dob"() TO "service_role";
 
 
 
