@@ -1558,6 +1558,25 @@ $$;
 ALTER FUNCTION "public"."save_current_user_profile"("p_username" "text", "p_nombre" "text", "p_edad" integer, "p_peso" numeric, "p_altura" numeric, "p_nivel" "text", "p_objetivo" "text", "p_sexo" "text", "p_fecha_nacimiento" "date") OWNER TO "postgres";
 
 
+CREATE OR REPLACE FUNCTION "public"."set_competencia_username"() RETURNS "trigger"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  -- Buscamos el username del usuario que está participando
+  SELECT u.username
+  INTO NEW.participant_username
+  FROM public."Usuarios" u
+  WHERE u.auth_uid = NEW.participant_uid
+  LIMIT 1;
+
+  RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."set_competencia_username"() OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."set_er_orden"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     AS $$
@@ -1698,6 +1717,50 @@ CREATE TABLE IF NOT EXISTS "public"."Amigos" (
 
 
 ALTER TABLE "public"."Amigos" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."CompetenciaPushups" (
+    "id_registro" bigint NOT NULL,
+    "participant_uid" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "reps" integer NOT NULL,
+    "is_verified" boolean DEFAULT false NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "participant_username" "text",
+    CONSTRAINT "CompetenciaPushups_reps_check" CHECK ((("reps" >= 1) AND ("reps" <= 300)))
+);
+
+
+ALTER TABLE "public"."CompetenciaPushups" OWNER TO "postgres";
+
+
+CREATE OR REPLACE VIEW "public"."CompetenciaPushupsDetalle" AS
+ SELECT "c"."id_registro",
+    "c"."participant_uid",
+    "u"."username",
+    "u"."correo",
+    "c"."reps",
+    "c"."is_verified",
+    "c"."created_at"
+   FROM ("public"."CompetenciaPushups" "c"
+     JOIN "public"."Usuarios" "u" ON (("u"."auth_uid" = "c"."participant_uid")));
+
+
+ALTER VIEW "public"."CompetenciaPushupsDetalle" OWNER TO "postgres";
+
+
+CREATE SEQUENCE IF NOT EXISTS "public"."CompetenciaPushups_id_registro_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE "public"."CompetenciaPushups_id_registro_seq" OWNER TO "postgres";
+
+
+ALTER SEQUENCE "public"."CompetenciaPushups_id_registro_seq" OWNED BY "public"."CompetenciaPushups"."id_registro";
+
 
 
 CREATE TABLE IF NOT EXISTS "public"."Ejercicios" (
@@ -2179,6 +2242,10 @@ COMMENT ON VIEW "public"."v_finished_workouts_with_label" IS 'v_finished_workout
 
 
 
+ALTER TABLE ONLY "public"."CompetenciaPushups" ALTER COLUMN "id_registro" SET DEFAULT "nextval"('"public"."CompetenciaPushups_id_registro_seq"'::"regclass");
+
+
+
 ALTER TABLE ONLY "public"."Ejercicios" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."ejercicios_id_ejercicio_seq"'::"regclass");
 
 
@@ -2216,6 +2283,16 @@ ALTER TABLE ONLY "public"."feedbackusuario" ALTER COLUMN "id_feedback" SET DEFAU
 
 
 ALTER TABLE ONLY "public"."recomendacionesia" ALTER COLUMN "id_recomendacion" SET DEFAULT "nextval"('"public"."recomendacionesia_id_recomendacion_seq"'::"regclass");
+
+
+
+ALTER TABLE ONLY "public"."CompetenciaPushups"
+    ADD CONSTRAINT "CompetenciaPushups_pkey" PRIMARY KEY ("id_registro");
+
+
+
+ALTER TABLE ONLY "public"."CompetenciaPushups"
+    ADD CONSTRAINT "CompetenciaPushups_unique_participant" UNIQUE ("participant_uid");
 
 
 
@@ -2329,6 +2406,10 @@ ALTER TABLE ONLY "public"."Usuarios"
 
 
 
+CREATE INDEX "CompetenciaPushups_verified_reps_desc" ON "public"."CompetenciaPushups" USING "btree" ("is_verified", "reps" DESC);
+
+
+
 CREATE INDEX "er_sets_by_pair" ON "public"."EjerciciosRutinaSets" USING "btree" ("id_rutina", "id_ejercicio");
 
 
@@ -2418,6 +2499,10 @@ CREATE OR REPLACE TRIGGER "before_normalize_username" BEFORE INSERT OR UPDATE OF
 
 
 CREATE OR REPLACE TRIGGER "set_updated_at_socialcomments" BEFORE UPDATE ON "public"."SocialComments" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "trg_competencia_set_username" BEFORE INSERT ON "public"."CompetenciaPushups" FOR EACH ROW EXECUTE FUNCTION "public"."set_competencia_username"();
 
 
 
@@ -2575,6 +2660,9 @@ ALTER TABLE ONLY "public"."Usuarios"
 
 
 
+ALTER TABLE "public"."CompetenciaPushups" ENABLE ROW LEVEL SECURITY;
+
+
 ALTER TABLE "public"."EjerciciosRutinaSets" ENABLE ROW LEVEL SECURITY;
 
 
@@ -2643,6 +2731,14 @@ ALTER TABLE "public"."UsuarioRutina" ENABLE ROW LEVEL SECURITY;
 
 
 CREATE POLICY "authenticated_can_see_templates" ON "public"."Rutinas" FOR SELECT USING ((("es_plantilla" = true) AND ("auth"."role"() = 'authenticated'::"text")));
+
+
+
+CREATE POLICY "cp_insert_self" ON "public"."CompetenciaPushups" FOR INSERT TO "authenticated" WITH CHECK (("participant_uid" = "auth"."uid"()));
+
+
+
+CREATE POLICY "cp_select_all_verified_or_self" ON "public"."CompetenciaPushups" FOR SELECT TO "authenticated" USING ((("is_verified" = true) OR ("participant_uid" = "auth"."uid"())));
 
 
 
@@ -2787,6 +2883,10 @@ ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
 
 
 
+
+
+
+ALTER PUBLICATION "supabase_realtime" ADD TABLE ONLY "public"."CompetenciaPushups";
 
 
 
@@ -3192,6 +3292,12 @@ GRANT ALL ON FUNCTION "public"."save_current_user_profile"("p_username" "text", 
 
 
 
+GRANT ALL ON FUNCTION "public"."set_competencia_username"() TO "anon";
+GRANT ALL ON FUNCTION "public"."set_competencia_username"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."set_competencia_username"() TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_er_orden"() TO "service_role";
@@ -3258,6 +3364,24 @@ GRANT ALL ON FUNCTION "public"."username_is_available"("p_username" "text") TO "
 GRANT ALL ON TABLE "public"."Amigos" TO "anon";
 GRANT ALL ON TABLE "public"."Amigos" TO "authenticated";
 GRANT ALL ON TABLE "public"."Amigos" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."CompetenciaPushups" TO "anon";
+GRANT ALL ON TABLE "public"."CompetenciaPushups" TO "authenticated";
+GRANT ALL ON TABLE "public"."CompetenciaPushups" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."CompetenciaPushupsDetalle" TO "anon";
+GRANT ALL ON TABLE "public"."CompetenciaPushupsDetalle" TO "authenticated";
+GRANT ALL ON TABLE "public"."CompetenciaPushupsDetalle" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "public"."CompetenciaPushups_id_registro_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."CompetenciaPushups_id_registro_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."CompetenciaPushups_id_registro_seq" TO "service_role";
 
 
 
