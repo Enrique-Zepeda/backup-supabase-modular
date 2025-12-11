@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict bxIEdDi7Ib0cdwbLcsXDC1JEBDR4fYHcu8hxbveYaCLDxicwveCeE0PVuyKQcD7
+-- \restrict qQu2RJGrXtaSVIsaTIbAiZNGIixun0sbVxxrul5qlsEKuN9gB7zNMaXwJm7Z7Me
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1863,6 +1863,7 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	8ddfa5ed-6ac6-4df0-ba88-f608b6f0731e	{"action":"token_revoked","actor_id":"182f2c4c-bec0-401e-8c50-77c69e528c6e","actor_name":"YAEL JACOBO CHAVEZ MARAVELES","actor_username":"yael.chavez2332@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-11-24 22:12:54.535611+00	
 00000000-0000-0000-0000-000000000000	000456b4-c7ea-4f55-aa1e-e6108d7d09eb	{"action":"token_refreshed","actor_id":"182f2c4c-bec0-401e-8c50-77c69e528c6e","actor_name":"YAEL JACOBO CHAVEZ MARAVELES","actor_username":"yael.chavez2332@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-12-02 22:08:07.610923+00	
 00000000-0000-0000-0000-000000000000	7f8751c5-c98d-42ba-8700-a4d6fd9805ee	{"action":"token_revoked","actor_id":"182f2c4c-bec0-401e-8c50-77c69e528c6e","actor_name":"YAEL JACOBO CHAVEZ MARAVELES","actor_username":"yael.chavez2332@alumnos.udg.mx","actor_via_sso":false,"log_type":"token"}	2025-12-02 22:08:07.631325+00	
+00000000-0000-0000-0000-000000000000	4174799c-bec9-4b3b-8a35-0a5e0044ffdc	{"action":"login","actor_id":"c528beb6-710c-4486-bd1c-8929ddcac626","actor_name":"ZepZam","actor_username":"adairzambrano60@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"google"}}	2025-12-10 13:36:24.611373+00	
 \.
 
 
@@ -1926,8 +1927,8 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	5f40eaa9-8d5c-43b5-a042-cc59a5e9ac74	authenticated	authenticated	carlos.garcia1039@alumnos.udg.mx	\N	2025-11-12 05:34:47.444678+00	\N		\N		\N			\N	2025-11-12 05:34:47.456243+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "110116083578346599270", "name": "CARLOS ISRAEL GARCIA ARREDONDO", "email": "carlos.garcia1039@alumnos.udg.mx", "picture": "https://lh3.googleusercontent.com/a/ACg8ocJDLRqE7VGmtnRUteGhjXxdPiBQ_oSkYsK_XNQ7Q8BTdz2F5A=s96-c", "full_name": "CARLOS ISRAEL GARCIA ARREDONDO", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJDLRqE7VGmtnRUteGhjXxdPiBQ_oSkYsK_XNQ7Q8BTdz2F5A=s96-c", "provider_id": "110116083578346599270", "custom_claims": {"hd": "alumnos.udg.mx"}, "email_verified": true, "phone_verified": false}	\N	2025-11-12 05:34:47.409229+00	2025-11-14 04:18:41.203091+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	a4c9052d-f3ad-4156-922e-6d151c859d34	authenticated	authenticated	weilequahonne-6942@yopmail.com	$2a$10$nhCrzTy92rP4DyBTX3tswumwJESKXo4Y7PsEGE5KxN9MBvvEbJrBi	\N	\N	d2797fb7017dccf81b63699fb2d41ffe88bdbe2cda4f51f554541203	2025-11-13 05:34:02.774826+00		\N			\N	\N	{"provider": "email", "providers": ["email"]}	{"sub": "a4c9052d-f3ad-4156-922e-6d151c859d34", "email": "weilequahonne-6942@yopmail.com", "email_verified": false, "phone_verified": false}	\N	2025-11-13 05:34:02.724238+00	2025-11-13 05:34:03.601261+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	c778db74-86e4-455f-8ef4-56258dc77014	authenticated	authenticated	enriquezepeda60z@gmail.com	\N	2025-11-08 03:24:09.795392+00	\N		\N		\N			\N	2025-11-12 02:39:11.501149+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "112912896282155490436", "name": "Enrique Zepeda", "email": "enriquezepeda60z@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "full_name": "Enrique Zepeda", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "provider_id": "112912896282155490436", "email_verified": true, "phone_verified": false}	\N	2025-11-08 03:24:09.788609+00	2025-11-12 02:39:11.513991+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	c528beb6-710c-4486-bd1c-8929ddcac626	authenticated	authenticated	adairzambrano60@gmail.com	\N	2025-11-08 03:04:18.985875+00	\N		\N		\N			\N	2025-11-14 01:15:16.569312+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "104809231271673389711", "name": "ZepZam", "email": "adairzambrano60@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "full_name": "ZepZam", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "provider_id": "104809231271673389711", "email_verified": true, "phone_verified": false}	\N	2025-11-08 03:04:18.952285+00	2025-11-14 19:38:22.689568+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	7066892f-cfb4-47a4-96cd-b7735430fa9b	authenticated	authenticated	crevuyonubrau-5178@yopmail.com	$2a$10$CtuboAXih444Y2VcSI5M3OFVkdRfz3KmxDldK4ZYxLP69fMto0p/2	2025-11-08 13:20:25.352611+00	\N		2025-11-08 13:20:15.908614+00		\N			\N	2025-11-08 13:20:43.794891+00	{"provider": "email", "providers": ["email"]}	{"sub": "7066892f-cfb4-47a4-96cd-b7735430fa9b", "email": "crevuyonubrau-5178@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-08 13:20:15.901385+00	2025-11-08 13:20:43.803684+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	c528beb6-710c-4486-bd1c-8929ddcac626	authenticated	authenticated	adairzambrano60@gmail.com	\N	2025-11-08 03:04:18.985875+00	\N		\N		\N			\N	2025-12-10 13:36:24.632513+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "104809231271673389711", "name": "ZepZam", "email": "adairzambrano60@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "full_name": "ZepZam", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "provider_id": "104809231271673389711", "email_verified": true, "phone_verified": false}	\N	2025-11-08 03:04:18.952285+00	2025-12-10 13:36:24.69692+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	89be9f65-a1b4-483f-9c55-623142e632cf	authenticated	authenticated	progegressixa-6622@yopmail.com	$2a$10$.Rk9JWer9d0Dc3i/AAKP.OSzAztRgImkBaMC.UL/8GKfJvoG4eK8G	2025-11-11 22:23:29.988367+00	\N		2025-11-11 22:23:22.140488+00		\N			\N	2025-11-11 22:23:40.288556+00	{"provider": "email", "providers": ["email"]}	{"sub": "89be9f65-a1b4-483f-9c55-623142e632cf", "email": "progegressixa-6622@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-11 22:23:22.113578+00	2025-11-11 22:23:40.290848+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	913a365f-2ea6-4e91-b655-fe671fbe0834	authenticated	authenticated	veiyouxeppidei-7484@yopmail.com	$2a$10$p9UM.bBAeZmSFHqVvpKaA.HgBCFNqfrJhu/IQM.ZMOmRvLXNA2OiK	2025-11-12 03:16:33.55655+00	\N		2025-11-12 03:15:53.274308+00		\N			\N	2025-11-12 13:38:49.150537+00	{"provider": "email", "providers": ["email"]}	{"sub": "913a365f-2ea6-4e91-b655-fe671fbe0834", "email": "veiyouxeppidei-7484@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-12 03:15:53.251183+00	2025-11-12 13:38:49.18248+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	deae5320-e8ef-4d02-8463-0e82f7929fd5	authenticated	authenticated	greullevoukiddo-7689@yopmail.com	$2a$10$h.jZDlPbUleBWtpdrrL1mewZphmgHqcGhmZmyQ52LnX2Okk.o2MS2	2025-11-11 23:24:48.080014+00	\N		2025-11-11 23:24:40.752482+00		\N			\N	2025-11-11 23:25:01.840429+00	{"provider": "email", "providers": ["email"]}	{"sub": "deae5320-e8ef-4d02-8463-0e82f7929fd5", "email": "greullevoukiddo-7689@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-11 23:24:40.654895+00	2025-11-12 01:23:07.624563+00	\N	\N			\N		0	\N		\N	f	\N	f
@@ -2012,7 +2013,7 @@ a4c9052d-f3ad-4156-922e-6d151c859d34	a4c9052d-f3ad-4156-922e-6d151c859d34	{"sub"
 853f9125-3c54-454a-b0dc-f466803e1061	853f9125-3c54-454a-b0dc-f466803e1061	{"sub": "853f9125-3c54-454a-b0dc-f466803e1061", "email": "catherine.garcia5698@alumnos.udg.mx", "email_verified": true, "phone_verified": false}	email	2025-11-13 18:06:30.268803+00	2025-11-13 18:06:30.268859+00	2025-11-13 18:06:30.268859+00	e2fc5516-585c-4fc9-a80a-fa65450cc07a
 112613251378283061955	60467a02-4172-49f3-8523-c872ae97faeb	{"iss": "https://accounts.google.com", "sub": "112613251378283061955", "name": "Camara Seguridad", "email": "camara.casita13@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocIyzf-wggkAqF5EMQRi5QgJkRpxVHQH07h50gwIF0vgKPjnKA=s96-c", "full_name": "Camara Seguridad", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocIyzf-wggkAqF5EMQRi5QgJkRpxVHQH07h50gwIF0vgKPjnKA=s96-c", "provider_id": "112613251378283061955", "email_verified": true, "phone_verified": false}	google	2025-11-13 19:45:02.822109+00	2025-11-13 19:45:02.822169+00	2025-11-13 19:45:02.822169+00	4ace3851-88da-4090-a90d-4a9558e05294
 105954957159754856492	6c56ba9b-1223-486d-863c-5200ba578959	{"iss": "https://accounts.google.com", "sub": "105954957159754856492", "name": "The Grayish", "email": "yezael01@hotmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocKrRXu0u9cf6TlpodW6MLiOVZjBhEX6s1YC-m-F5_BXKXEyJOqxsA=s96-c", "full_name": "The Grayish", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocKrRXu0u9cf6TlpodW6MLiOVZjBhEX6s1YC-m-F5_BXKXEyJOqxsA=s96-c", "provider_id": "105954957159754856492", "email_verified": true, "phone_verified": false}	google	2025-11-14 16:06:25.00413+00	2025-11-14 16:06:25.004183+00	2025-11-14 16:06:25.004183+00	048bbbed-aea0-488e-ba60-6a925b331c3a
-104809231271673389711	c528beb6-710c-4486-bd1c-8929ddcac626	{"iss": "https://accounts.google.com", "sub": "104809231271673389711", "name": "ZepZam", "email": "adairzambrano60@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "full_name": "ZepZam", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "provider_id": "104809231271673389711", "email_verified": true, "phone_verified": false}	google	2025-11-08 03:04:18.974785+00	2025-11-08 03:04:18.974836+00	2025-11-14 01:15:16.55951+00	3502ec81-8f17-48b3-a192-e21f097faa34
+104809231271673389711	c528beb6-710c-4486-bd1c-8929ddcac626	{"iss": "https://accounts.google.com", "sub": "104809231271673389711", "name": "ZepZam", "email": "adairzambrano60@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "full_name": "ZepZam", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "provider_id": "104809231271673389711", "email_verified": true, "phone_verified": false}	google	2025-11-08 03:04:18.974785+00	2025-11-08 03:04:18.974836+00	2025-12-10 13:36:24.579838+00	3502ec81-8f17-48b3-a192-e21f097faa34
 101974869944528754237	0ba13c1c-f80b-413d-b912-dd34292b4f79	{"iss": "https://accounts.google.com", "sub": "101974869944528754237", "name": "Violeta Hernandez Munoz", "email": "violeta.hdez.munoz@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocIXKcLHYqzLkS8TxJsHDuyo1xrIg3NHVWYtovRJOe5Zbv7UvDAmow=s96-c", "full_name": "Violeta Hernandez Munoz", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocIXKcLHYqzLkS8TxJsHDuyo1xrIg3NHVWYtovRJOe5Zbv7UvDAmow=s96-c", "provider_id": "101974869944528754237", "email_verified": true, "phone_verified": false}	google	2025-11-14 17:40:48.920985+00	2025-11-14 17:40:48.921037+00	2025-11-14 17:40:48.921037+00	22e0ef68-d442-494d-8746-b8a86cc77758
 113908395409550631017	5f9f94cb-8adf-4091-bae6-c3ddfcb62c9a	{"iss": "https://accounts.google.com", "sub": "113908395409550631017", "name": "Emiliano Ramón", "email": "emiliano.pinto1704@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocIfpY2FrjzFP02jKT1-emW6r0SOXHNjgyDnfFZpY1chJJfVLN79=s96-c", "full_name": "Emiliano Ramón", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocIfpY2FrjzFP02jKT1-emW6r0SOXHNjgyDnfFZpY1chJJfVLN79=s96-c", "provider_id": "113908395409550631017", "email_verified": true, "phone_verified": false}	google	2025-11-14 17:47:11.5431+00	2025-11-14 17:47:11.543157+00	2025-11-14 17:47:11.543157+00	33e71843-1550-4321-9c18-06e786036283
 108607366634984366361	f3738a2e-08eb-4e8a-940b-bfb8f439eaa2	{"iss": "https://accounts.google.com", "sub": "108607366634984366361", "name": "Diego Arath Maldonado Cárdenas", "email": "arathmpp13@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocLz_Q4faeZoY5uUEVaiTCbcaAQcH9C2lSnubWVngRgyZIXvuv8=s96-c", "full_name": "Diego Arath Maldonado Cárdenas", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocLz_Q4faeZoY5uUEVaiTCbcaAQcH9C2lSnubWVngRgyZIXvuv8=s96-c", "provider_id": "108607366634984366361", "email_verified": true, "phone_verified": false}	google	2025-11-14 18:07:12.526788+00	2025-11-14 18:07:12.526838+00	2025-11-14 18:07:12.526838+00	8d5c6fa2-5aa9-4de4-9caf-7a3eb4ba6a43
@@ -2094,6 +2095,7 @@ b81da1a0-3534-4df6-92a3-7d7574d10e4e	f28a3d00-eb30-45f1-b430-b38a35ab5777	2025-1
 fe6915c5-3acf-48e6-827e-75b30a4742a1	3a7a1de3-2661-4e45-823e-a251d9b9c44c	2025-11-14 19:32:17.788906+00	2025-11-14 19:32:17.788906+00	\N	aal1	\N	\N	Mozilla/5.0 (Linux; Android 12; 2207117BPG Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/141.0.7390.122 Mobile Safari/537.36 CamScanner/7.5.0.2511040000;webank/h5face;webank/2.0	189.192.233.60	\N	\N	\N	\N	\N
 62fc9756-0090-4aae-951d-859442dc13aa	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-11-14 15:26:43.633002+00	2025-11-14 20:18:37.170266+00	\N	aal1	\N	2025-11-14 20:18:37.168454	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36	189.192.233.48	\N	\N	\N	\N	\N
 43f1f28d-fef6-443f-a816-542074a2c4f4	182f2c4c-bec0-401e-8c50-77c69e528c6e	2025-11-14 19:17:33.177144+00	2025-12-02 22:08:07.676142+00	\N	aal1	\N	2025-12-02 22:08:07.676028	Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Mobile Safari/537.36	177.241.36.233	\N	\N	\N	\N	\N
+43e8e88a-b4c4-44fb-8dc7-e3653c9d63c6	c528beb6-710c-4486-bd1c-8929ddcac626	2025-12-10 13:36:24.632635+00	2025-12-10 13:36:24.632635+00	\N	aal1	\N	\N	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36	187.201.229.137	\N	\N	\N	\N	\N
 \.
 
 
@@ -2141,6 +2143,7 @@ b81da1a0-3534-4df6-92a3-7d7574d10e4e	2025-11-14 19:05:13.685704+00	2025-11-14 19
 7facad69-0183-4240-843e-69728007690b	2025-11-14 19:07:09.56454+00	2025-11-14 19:07:09.56454+00	oauth	adbdb169-fa3e-4644-a884-722e949ba30b
 43f1f28d-fef6-443f-a816-542074a2c4f4	2025-11-14 19:17:33.212591+00	2025-11-14 19:17:33.212591+00	oauth	34787606-1f9c-458d-a3a5-c035cd380002
 fe6915c5-3acf-48e6-827e-75b30a4742a1	2025-11-14 19:32:17.793108+00	2025-11-14 19:32:17.793108+00	password	7e013e56-3a28-41f1-b277-6ea81266c5b0
+43e8e88a-b4c4-44fb-8dc7-e3653c9d63c6	2025-12-10 13:36:24.697414+00	2025-12-10 13:36:24.697414+00	oauth	b1c1cd09-dfd6-4cad-bed1-0331679ceacd
 393d5882-9d87-4406-aa65-adf0e7169018	2025-11-06 01:00:51.694962+00	2025-11-06 01:00:51.694962+00	password	914ef3be-f13f-4820-a40e-af28662ce19a
 d0acbea8-4fd6-4553-a1d5-9bf29a4ff81d	2025-11-12 03:16:49.770522+00	2025-11-12 03:16:49.770522+00	password	733eaa52-4b98-4372-8d8f-b372d41575f4
 fc1e30dc-fe6e-421b-93da-4b15e7f9a5d5	2025-11-12 05:34:47.475902+00	2025-11-12 05:34:47.475902+00	oauth	a7d80eb3-19ce-40b9-8249-4cbddc0428e6
@@ -2305,6 +2308,7 @@ COPY "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked"
 00000000-0000-0000-0000-000000000000	810	mka54siazvzf	60467a02-4172-49f3-8523-c872ae97faeb	t	2025-11-13 19:45:02.882811+00	2025-11-13 20:43:08.485903+00	\N	3098448f-f39b-4a52-9d4a-6bb012ce07b1
 00000000-0000-0000-0000-000000000000	814	emp6xw42txrh	60467a02-4172-49f3-8523-c872ae97faeb	f	2025-11-13 20:43:08.509472+00	2025-11-13 20:43:08.509472+00	mka54siazvzf	3098448f-f39b-4a52-9d4a-6bb012ce07b1
 00000000-0000-0000-0000-000000000000	894	wdbohzsk3rxr	182f2c4c-bec0-401e-8c50-77c69e528c6e	t	2025-11-19 02:46:35.057837+00	2025-11-24 22:12:54.541131+00	sisl4il5wp27	43f1f28d-fef6-443f-a816-542074a2c4f4
+00000000-0000-0000-0000-000000000000	897	zllf3msp7ola	c528beb6-710c-4486-bd1c-8929ddcac626	f	2025-12-10 13:36:24.670039+00	2025-12-10 13:36:24.670039+00	\N	43e8e88a-b4c4-44fb-8dc7-e3653c9d63c6
 \.
 
 
@@ -5171,7 +5175,15 @@ Logo	Logo	\N	2025-11-13 05:44:37.741468+00	2025-11-13 05:44:37.741468+00	t	f	\N	
 -- Data for Name: buckets_analytics; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
 --
 
-COPY "storage"."buckets_analytics" ("id", "type", "format", "created_at", "updated_at") FROM stdin;
+COPY "storage"."buckets_analytics" ("name", "type", "format", "created_at", "updated_at", "id", "deleted_at") FROM stdin;
+\.
+
+
+--
+-- Data for Name: buckets_vectors; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+COPY "storage"."buckets_vectors" ("id", "type", "created_at", "updated_at") FROM stdin;
 \.
 
 
@@ -5241,10 +5253,18 @@ COPY "storage"."s3_multipart_uploads_parts" ("id", "upload_id", "size", "part_nu
 
 
 --
+-- Data for Name: vector_indexes; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+COPY "storage"."vector_indexes" ("id", "name", "bucket_id", "data_type", "dimension", "distance_metric", "metadata_configuration", "created_at", "updated_at") FROM stdin;
+\.
+
+
+--
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 896, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 897, true);
 
 
 --
@@ -5349,6 +5369,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 68, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict bxIEdDi7Ib0cdwbLcsXDC1JEBDR4fYHcu8hxbveYaCLDxicwveCeE0PVuyKQcD7
+-- \unrestrict qQu2RJGrXtaSVIsaTIbAiZNGIixun0sbVxxrul5qlsEKuN9gB7zNMaXwJm7Z7Me
 
 RESET ALL;
