@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict 7gDyLgsxWUmdmYoCshvMQiznxBIe4KCDSdsCx1gfKYaekfR6OtaXWvnKagHo7fd
+-- \restrict Mxw4fGcfY451PbcFGoFQiL2Elgh9haxO4QjXPYMNJvyOonESyXv4epxDh47DYod
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1872,6 +1872,9 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	1c4418bb-18a9-4f1e-b025-ecb0b87dd786	{"action":"token_revoked","actor_id":"c528beb6-710c-4486-bd1c-8929ddcac626","actor_name":"ZepZam","actor_username":"adairzambrano60@gmail.com","actor_via_sso":false,"log_type":"token"}	2025-12-14 22:14:32.427613+00	
 00000000-0000-0000-0000-000000000000	0dbf5358-b4b3-4cae-b54e-5bdcf3eb12ed	{"action":"token_refreshed","actor_id":"c528beb6-710c-4486-bd1c-8929ddcac626","actor_name":"ZepZam","actor_username":"adairzambrano60@gmail.com","actor_via_sso":false,"log_type":"token"}	2025-12-15 11:56:54.239197+00	
 00000000-0000-0000-0000-000000000000	95f2c4de-f093-445e-9ecf-0d87d222f842	{"action":"token_revoked","actor_id":"c528beb6-710c-4486-bd1c-8929ddcac626","actor_name":"ZepZam","actor_username":"adairzambrano60@gmail.com","actor_via_sso":false,"log_type":"token"}	2025-12-15 11:56:54.251641+00	
+00000000-0000-0000-0000-000000000000	035077bc-52f9-4d17-9386-bd5ccda75fab	{"action":"login","actor_id":"c778db74-86e4-455f-8ef4-56258dc77014","actor_name":"Enrique Zepeda","actor_username":"enriquezepeda60z@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"google"}}	2026-01-02 13:54:33.860439+00	
+00000000-0000-0000-0000-000000000000	c6f1bdce-9d2d-44b5-b5e4-dc6bd306eb6b	{"action":"login","actor_id":"c778db74-86e4-455f-8ef4-56258dc77014","actor_name":"Enrique Zepeda","actor_username":"enriquezepeda60z@gmail.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"google"}}	2026-01-02 13:54:34.519708+00	
+00000000-0000-0000-0000-000000000000	b9db0083-433d-4063-96ba-d10b615fbc9f	{"action":"logout","actor_id":"c778db74-86e4-455f-8ef4-56258dc77014","actor_name":"Enrique Zepeda","actor_username":"enriquezepeda60z@gmail.com","actor_via_sso":false,"log_type":"account"}	2026-01-02 13:55:15.353052+00	
 \.
 
 
@@ -1934,7 +1937,7 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	6c3b5e8a-127d-4423-8f4a-3c57863b44eb	authenticated	authenticated	graulliveuppeummu-2102@yopmail.com	$2a$10$x/yhvIxjdO7gtwuJ.WH0IeAxrP1bQnz2hNFyPCZWXVxiB00yM4bxS	2025-11-13 17:49:30.800479+00	\N		2025-11-13 17:49:18.152187+00		\N			\N	2025-11-13 17:49:59.046069+00	{"provider": "email", "providers": ["email"]}	{"sub": "6c3b5e8a-127d-4423-8f4a-3c57863b44eb", "email": "graulliveuppeummu-2102@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-13 17:49:18.11824+00	2025-11-13 17:49:59.048983+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	5f40eaa9-8d5c-43b5-a042-cc59a5e9ac74	authenticated	authenticated	carlos.garcia1039@alumnos.udg.mx	\N	2025-11-12 05:34:47.444678+00	\N		\N		\N			\N	2025-11-12 05:34:47.456243+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "110116083578346599270", "name": "CARLOS ISRAEL GARCIA ARREDONDO", "email": "carlos.garcia1039@alumnos.udg.mx", "picture": "https://lh3.googleusercontent.com/a/ACg8ocJDLRqE7VGmtnRUteGhjXxdPiBQ_oSkYsK_XNQ7Q8BTdz2F5A=s96-c", "full_name": "CARLOS ISRAEL GARCIA ARREDONDO", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJDLRqE7VGmtnRUteGhjXxdPiBQ_oSkYsK_XNQ7Q8BTdz2F5A=s96-c", "provider_id": "110116083578346599270", "custom_claims": {"hd": "alumnos.udg.mx"}, "email_verified": true, "phone_verified": false}	\N	2025-11-12 05:34:47.409229+00	2025-11-14 04:18:41.203091+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	a4c9052d-f3ad-4156-922e-6d151c859d34	authenticated	authenticated	weilequahonne-6942@yopmail.com	$2a$10$nhCrzTy92rP4DyBTX3tswumwJESKXo4Y7PsEGE5KxN9MBvvEbJrBi	\N	\N	d2797fb7017dccf81b63699fb2d41ffe88bdbe2cda4f51f554541203	2025-11-13 05:34:02.774826+00		\N			\N	\N	{"provider": "email", "providers": ["email"]}	{"sub": "a4c9052d-f3ad-4156-922e-6d151c859d34", "email": "weilequahonne-6942@yopmail.com", "email_verified": false, "phone_verified": false}	\N	2025-11-13 05:34:02.724238+00	2025-11-13 05:34:03.601261+00	\N	\N			\N		0	\N		\N	f	\N	f
-00000000-0000-0000-0000-000000000000	c778db74-86e4-455f-8ef4-56258dc77014	authenticated	authenticated	enriquezepeda60z@gmail.com	\N	2025-11-08 03:24:09.795392+00	\N		\N		\N			\N	2025-11-12 02:39:11.501149+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "112912896282155490436", "name": "Enrique Zepeda", "email": "enriquezepeda60z@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "full_name": "Enrique Zepeda", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "provider_id": "112912896282155490436", "email_verified": true, "phone_verified": false}	\N	2025-11-08 03:24:09.788609+00	2025-11-12 02:39:11.513991+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	c778db74-86e4-455f-8ef4-56258dc77014	authenticated	authenticated	enriquezepeda60z@gmail.com	\N	2025-11-08 03:24:09.795392+00	\N		\N		\N			\N	2026-01-02 13:54:34.522792+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "112912896282155490436", "name": "Enrique Zepeda", "email": "enriquezepeda60z@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "full_name": "Enrique Zepeda", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "provider_id": "112912896282155490436", "email_verified": true, "phone_verified": false}	\N	2025-11-08 03:24:09.788609+00	2026-01-02 13:54:34.526998+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	c528beb6-710c-4486-bd1c-8929ddcac626	authenticated	authenticated	adairzambrano60@gmail.com	\N	2025-11-08 03:04:18.985875+00	\N		\N		\N			\N	2025-12-10 13:36:24.632513+00	{"provider": "google", "providers": ["google"]}	{"iss": "https://accounts.google.com", "sub": "104809231271673389711", "name": "ZepZam", "email": "adairzambrano60@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "full_name": "ZepZam", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocKMeMWsh__k0aLJA4invdaGFgX08ioxFl_um_owNI5rqecLLRw4=s96-c", "provider_id": "104809231271673389711", "email_verified": true, "phone_verified": false}	\N	2025-11-08 03:04:18.952285+00	2025-12-15 11:56:54.297551+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	7066892f-cfb4-47a4-96cd-b7735430fa9b	authenticated	authenticated	crevuyonubrau-5178@yopmail.com	$2a$10$CtuboAXih444Y2VcSI5M3OFVkdRfz3KmxDldK4ZYxLP69fMto0p/2	2025-11-08 13:20:25.352611+00	\N		2025-11-08 13:20:15.908614+00		\N			\N	2025-11-08 13:20:43.794891+00	{"provider": "email", "providers": ["email"]}	{"sub": "7066892f-cfb4-47a4-96cd-b7735430fa9b", "email": "crevuyonubrau-5178@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-08 13:20:15.901385+00	2025-11-08 13:20:43.803684+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	89be9f65-a1b4-483f-9c55-623142e632cf	authenticated	authenticated	progegressixa-6622@yopmail.com	$2a$10$.Rk9JWer9d0Dc3i/AAKP.OSzAztRgImkBaMC.UL/8GKfJvoG4eK8G	2025-11-11 22:23:29.988367+00	\N		2025-11-11 22:23:22.140488+00		\N			\N	2025-11-11 22:23:40.288556+00	{"provider": "email", "providers": ["email"]}	{"sub": "89be9f65-a1b4-483f-9c55-623142e632cf", "email": "progegressixa-6622@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-11 22:23:22.113578+00	2025-11-11 22:23:40.290848+00	\N	\N			\N		0	\N		\N	f	\N	f
@@ -2007,7 +2010,7 @@ ad6e279c-02bc-4983-8f61-a2f59405e0d8	ad6e279c-02bc-4983-8f61-a2f59405e0d8	{"sub"
 4c89f03c-26a3-4183-ab9a-1ecf11d06954	4c89f03c-26a3-4183-ab9a-1ecf11d06954	{"sub": "4c89f03c-26a3-4183-ab9a-1ecf11d06954", "email": "wifeulleuttoiyi-1508@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-11-11 22:47:18.981163+00	2025-11-11 22:47:18.98121+00	2025-11-11 22:47:18.98121+00	dca0cc7e-3a68-4a2f-8b0e-e30d0319cc41
 deae5320-e8ef-4d02-8463-0e82f7929fd5	deae5320-e8ef-4d02-8463-0e82f7929fd5	{"sub": "deae5320-e8ef-4d02-8463-0e82f7929fd5", "email": "greullevoukiddo-7689@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-11-11 23:24:40.715002+00	2025-11-11 23:24:40.715641+00	2025-11-11 23:24:40.715641+00	1cbcb586-36c1-4e9f-b540-35a99ea9f527
 0d839573-8b0d-47d0-b9aa-96bf90aef040	0d839573-8b0d-47d0-b9aa-96bf90aef040	{"sub": "0d839573-8b0d-47d0-b9aa-96bf90aef040", "email": "bouttoimijeve-3528@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-11-12 02:08:51.905805+00	2025-11-12 02:08:51.906941+00	2025-11-12 02:08:51.906941+00	84ec051a-0e8f-4d8b-9049-fec0b7767f5e
-112912896282155490436	c778db74-86e4-455f-8ef4-56258dc77014	{"iss": "https://accounts.google.com", "sub": "112912896282155490436", "name": "Enrique Zepeda", "email": "enriquezepeda60z@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "full_name": "Enrique Zepeda", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "provider_id": "112912896282155490436", "email_verified": true, "phone_verified": false}	google	2025-11-08 03:24:09.790545+00	2025-11-08 03:24:09.790597+00	2025-11-12 02:39:11.486834+00	25e88996-39d5-4837-94fc-383978d91735
+112912896282155490436	c778db74-86e4-455f-8ef4-56258dc77014	{"iss": "https://accounts.google.com", "sub": "112912896282155490436", "name": "Enrique Zepeda", "email": "enriquezepeda60z@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "full_name": "Enrique Zepeda", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocLOSbnackwn5Ei46gUQcyCsyWy4ot4EAfsGgrfuHZwJTp58fZfi=s96-c", "provider_id": "112912896282155490436", "email_verified": true, "phone_verified": false}	google	2025-11-08 03:24:09.790545+00	2025-11-08 03:24:09.790597+00	2026-01-02 13:54:34.516079+00	25e88996-39d5-4837-94fc-383978d91735
 7540550f-517c-4656-b8e7-d2afb8eea381	7540550f-517c-4656-b8e7-d2afb8eea381	{"sub": "7540550f-517c-4656-b8e7-d2afb8eea381", "email": "nappoiffeinnecu-4016@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-11-12 02:39:52.655879+00	2025-11-12 02:39:52.655926+00	2025-11-12 02:39:52.655926+00	106661e6-682e-48ec-a3b1-a8f2a4c99fce
 913a365f-2ea6-4e91-b655-fe671fbe0834	913a365f-2ea6-4e91-b655-fe671fbe0834	{"sub": "913a365f-2ea6-4e91-b655-fe671fbe0834", "email": "veiyouxeppidei-7484@yopmail.com", "email_verified": true, "phone_verified": false}	email	2025-11-12 03:15:53.263836+00	2025-11-12 03:15:53.263887+00	2025-11-12 03:15:53.263887+00	86049427-496c-4c55-b3fd-f503443efa15
 110116083578346599270	5f40eaa9-8d5c-43b5-a042-cc59a5e9ac74	{"iss": "https://accounts.google.com", "sub": "110116083578346599270", "name": "CARLOS ISRAEL GARCIA ARREDONDO", "email": "carlos.garcia1039@alumnos.udg.mx", "picture": "https://lh3.googleusercontent.com/a/ACg8ocJDLRqE7VGmtnRUteGhjXxdPiBQ_oSkYsK_XNQ7Q8BTdz2F5A=s96-c", "full_name": "CARLOS ISRAEL GARCIA ARREDONDO", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocJDLRqE7VGmtnRUteGhjXxdPiBQ_oSkYsK_XNQ7Q8BTdz2F5A=s96-c", "provider_id": "110116083578346599270", "custom_claims": {"hd": "alumnos.udg.mx"}, "email_verified": true, "phone_verified": false}	google	2025-11-12 05:34:47.432062+00	2025-11-12 05:34:47.432125+00	2025-11-12 05:34:47.432125+00	8833dd3f-2d32-4228-92dc-2395bf258bb5
@@ -2636,6 +2639,7 @@ COPY "public"."Rutinas" ("id_rutina", "nombre", "descripcion", "nivel_recomendad
 255	Dhhd	Bsbsvs	principiante	fuerza	30	0d82338d-da61-43ec-926b-14be1deccfe9	f
 257	Pecho y espalda like Arnold	Esta rutina es una bomba para el pecho y la espalda, esta es genial para hacer un Arnold Split.	avanzado	fuerza	45	3e965a3e-9729-4a41-96e7-724c0763edd0	f
 258	Hombro y brazo like Arnold	Rutina destructiva de brazo completo, perfecto para combinar en el Arnold Split	avanzado	fuerza	45	3e965a3e-9729-4a41-96e7-724c0763edd0	f
+266	23	32423423	principiante	fuerza	30	c778db74-86e4-455f-8ef4-56258dc77014	f
 263	Hombro y brazo like Arnold	Rutina destructiva de brazo completo, perfecto para combinar en el Arnold Split	avanzado	fuerza	45	3e965a3e-9729-4a41-96e7-724c0763edd0	f
 264	Piernas y abdomen like Arnold	Rutina enfocada en quemar las piernas y abdomen, totalmente compatible con un Arnold Split.	avanzado	fuerza	45	3e965a3e-9729-4a41-96e7-724c0763edd0	f
 \.
@@ -3020,6 +3024,7 @@ COPY "public"."EjerciciosRutinas" ("id_rutina", "id_ejercicio", "series", "repet
 258	23	4	12	35.00	5
 258	28	4	10	35.00	3
 258	44	4	10	40.00	1
+266	1	3	10	5.44	1
 260	1	3	10	0.00	1
 260	26	4	10	20.00	2
 260	33	4	15	0.00	3
@@ -3642,6 +3647,9 @@ COPY "public"."EjerciciosRutinaSets" ("id_rutina", "id_ejercicio", "idx", "kg", 
 264	35	2	0.00	15
 264	35	3	0.00	15
 264	35	4	0.00	15
+266	1	1	5.44	10
+266	1	2	5.44	10
+266	1	3	5.44	10
 241	15	1	20.00	10
 241	15	2	20.00	10
 241	15	3	20.00	10
@@ -3876,6 +3884,7 @@ COPY "public"."Entrenamientos" ("id_sesion", "id_rutina", "owner_uid", "started_
 178	256	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-11-14 19:13:46.17+00	2025-11-14 19:15:45.301+00	119	3800	\N	\N	2025-11-14 19:15:49.022189+00
 179	264	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-11-14 20:01:27.737+00	2025-11-14 20:02:08.519+00	41	1500	\N	\N	2025-11-14 20:02:11.861385+00
 180	\N	c528beb6-710c-4486-bd1c-8929ddcac626	2025-12-13 03:50:52.739+00	2025-12-13 03:51:31.378+00	39	7000	\N	\N	2025-12-13 03:51:32.197592+00
+181	266	c778db74-86e4-455f-8ef4-56258dc77014	2026-01-02 13:54:57.303+00	2026-01-02 13:55:07.395+00	10	163.20000000000002	\N	\N	2026-01-02 13:55:07.678862+00
 \.
 
 
@@ -4804,6 +4813,9 @@ COPY "public"."EntrenamientoSets" ("id_sesion", "id_ejercicio", "idx", "kg", "re
 180	2	1	100	10	Al fallo	t	2025-12-13 03:51:21.14+00
 180	2	2	100	10	Al fallo	t	2025-12-13 03:51:23.821+00
 180	2	3	100	10	Al fallo	t	2025-12-13 03:51:25.65+00
+181	1	1	5.44	10	Difícil	t	2026-01-02 13:55:05.273+00
+181	1	2	5.44	10	Al fallo	t	2026-01-02 13:55:04.782+00
+181	1	3	5.44	10	Al fallo	t	2026-01-02 13:55:04.426+00
 \.
 
 
@@ -4941,6 +4953,7 @@ COPY "public"."SocialComments" ("id_comment", "id_sesion", "author_uid", "texto"
 60	101	3e965a3e-9729-4a41-96e7-724c0763edd0	solucionado	2025-10-01 23:00:05.226257+00	\N
 119	180	c528beb6-710c-4486-bd1c-8929ddcac626	aaa	2025-12-13 03:51:43.316702+00	\N
 62	102	3e15b2c6-7a1f-4382-bc91-8cf7ec8034e2	Ajalas	2025-10-02 03:07:55.636252+00	\N
+120	181	c778db74-86e4-455f-8ef4-56258dc77014	aaaa	2026-01-02 13:55:12.582984+00	\N
 64	104	eb0d5b2b-0260-4f26-a399-e7496b25c94f	LOL	2025-10-02 05:51:37.579178+00	\N
 65	105	90cf26a8-2777-4abe-93ec-8f91db0f4737	Kike no te vi en el gym hoy, que paso ahi?	2025-10-02 06:17:59.707317+00	\N
 68	112	82eb2899-4641-4dfe-97dc-665ccb66cdf7	oh yeah	2025-10-21 16:02:28.809861+00	\N
@@ -5002,6 +5015,7 @@ COPY "public"."SocialLikes" ("id_like", "id_sesion", "author_uid", "created_at")
 137	175	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-11-14 18:34:11.228885+00
 138	179	3e965a3e-9729-4a41-96e7-724c0763edd0	2025-11-14 20:02:29.757194+00
 140	180	c528beb6-710c-4486-bd1c-8929ddcac626	2025-12-15 12:04:54.113709+00
+141	181	c778db74-86e4-455f-8ef4-56258dc77014	2026-01-02 13:55:10.38118+00
 \.
 
 
@@ -5173,6 +5187,7 @@ COPY "public"."UsuarioRutina" ("id", "created_at", "id_usuario", "id_rutina", "i
 407	2025-11-14 18:31:08.266518+00	13	262	\N	t	f
 409	2025-11-14 18:31:08.266518+00	13	263	\N	t	f
 411	2025-11-14 18:31:08.266518+00	13	264	\N	t	f
+415	2026-01-02 13:54:53.473+00	43	266	\N	t	f
 \.
 
 
@@ -5295,7 +5310,7 @@ COPY "storage"."vector_indexes" ("id", "name", "bucket_id", "data_type", "dimens
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 901, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 903, true);
 
 
 --
@@ -5309,7 +5324,7 @@ SELECT pg_catalog.setval('"public"."CompetenciaPushups_id_registro_seq"', 18, tr
 -- Name: Entrenamientos_id_sesion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 180, true);
+SELECT pg_catalog.setval('"public"."Entrenamientos_id_sesion_seq"', 181, true);
 
 
 --
@@ -5330,21 +5345,21 @@ SELECT pg_catalog.setval('"public"."Programas_id_seq"', 16, true);
 -- Name: SocialComments_id_comment_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."SocialComments_id_comment_seq"', 119, true);
+SELECT pg_catalog.setval('"public"."SocialComments_id_comment_seq"', 120, true);
 
 
 --
 -- Name: SocialLikes_id_like_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."SocialLikes_id_like_seq"', 140, true);
+SELECT pg_catalog.setval('"public"."SocialLikes_id_like_seq"', 141, true);
 
 
 --
 -- Name: UsuarioRutina_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."UsuarioRutina_id_seq"', 414, true);
+SELECT pg_catalog.setval('"public"."UsuarioRutina_id_seq"', 416, true);
 
 
 --
@@ -5386,7 +5401,7 @@ SELECT pg_catalog.setval('"public"."recomendacionesia_id_recomendacion_seq"', 1,
 -- Name: rutinas_id_rutina_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 265, true);
+SELECT pg_catalog.setval('"public"."rutinas_id_rutina_seq"', 266, true);
 
 
 --
@@ -5400,6 +5415,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 68, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict 7gDyLgsxWUmdmYoCshvMQiznxBIe4KCDSdsCx1gfKYaekfR6OtaXWvnKagHo7fd
+-- \unrestrict Mxw4fGcfY451PbcFGoFQiL2Elgh9haxO4QjXPYMNJvyOonESyXv4epxDh47DYod
 
 RESET ALL;
