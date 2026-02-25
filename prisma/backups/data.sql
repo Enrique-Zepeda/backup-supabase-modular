@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict K0TeCrmBLECQAvunSqzMFlkXP4kb9VhqFoZI1kPbbCRGIqts4Rr4ChDWJu37puG
+-- \restrict Rh7WctZbH3a1ggNqYAoiEmwHAWpYrbOdYPbgxR1tV1EX7pOcpaOTrJRqaXnCqvZ
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1890,6 +1890,14 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	d75c3f29-112a-4371-8c3d-6d36cfb64307	{"action":"login","actor_id":"e3ebaf81-1fda-494d-b253-89f1cb384983","actor_username":"besap11134@codgal.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}	2026-02-08 00:54:48.03357+00	
 00000000-0000-0000-0000-000000000000	97419255-97d4-4111-9f30-d79f74b0a0f3	{"action":"token_refreshed","actor_id":"c528beb6-710c-4486-bd1c-8929ddcac626","actor_name":"ZepZam","actor_username":"adairzambrano60@gmail.com","actor_via_sso":false,"log_type":"token"}	2026-02-16 15:18:05.060032+00	
 00000000-0000-0000-0000-000000000000	cb1107c2-0382-4c6b-86db-e385752462ca	{"action":"token_revoked","actor_id":"c528beb6-710c-4486-bd1c-8929ddcac626","actor_name":"ZepZam","actor_username":"adairzambrano60@gmail.com","actor_via_sso":false,"log_type":"token"}	2026-02-16 15:18:05.09413+00	
+\.
+
+
+--
+-- Data for Name: custom_oauth_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+COPY "auth"."custom_oauth_providers" ("id", "provider_type", "identifier", "name", "client_id", "client_secret", "acceptable_client_ids", "scopes", "pkce_enabled", "attribute_mapping", "authorization_params", "enabled", "email_optional", "issuer", "discovery_url", "skip_nonce_check", "cached_discovery", "discovery_cached_at", "authorization_url", "token_url", "userinfo_url", "jwks_uri", "created_at", "updated_at") FROM stdin;
 \.
 
 
@@ -5456,6 +5464,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 70, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict K0TeCrmBLECQAvunSqzMFlkXP4kb9VhqFoZI1kPbbCRGIqts4Rr4ChDWJu37puG
+-- \unrestrict Rh7WctZbH3a1ggNqYAoiEmwHAWpYrbOdYPbgxR1tV1EX7pOcpaOTrJRqaXnCqvZ
 
 RESET ALL;
