@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict ZQyLOc3AuTrFWKKXiI0xZWIpDadSU3LxCwsUdV8fWXT2Y1Y8RTLcyQs6fPzmdRW
+-- \restrict ypwdiLhg5a8FIh0z8qDQVGflwXezY7TZbN1kabOjj7tDRk8hftCHd450Tt8TC9p
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1925,6 +1925,7 @@ COPY "auth"."custom_oauth_providers" ("id", "provider_type", "identifier", "name
 --
 
 COPY "auth"."flow_state" ("id", "user_id", "auth_code", "code_challenge_method", "code_challenge", "provider_type", "provider_access_token", "provider_refresh_token", "created_at", "updated_at", "authentication_method", "auth_code_issued_at", "invite_token", "referrer", "oauth_client_state_id", "linking_target_id", "email_optional") FROM stdin;
+a5cdf47f-0e56-4d94-ad97-2fb72b757192	\N	\N	\N	\N	google			2026-05-21 16:09:12.075853+00	2026-05-21 16:09:12.075853+00	oauth	\N	\N	https://gym-app-cucei.vercel.app/auth/callback	\N	\N	f
 \.
 
 
@@ -5495,6 +5496,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 70, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict ZQyLOc3AuTrFWKKXiI0xZWIpDadSU3LxCwsUdV8fWXT2Y1Y8RTLcyQs6fPzmdRW
+-- \unrestrict ypwdiLhg5a8FIh0z8qDQVGflwXezY7TZbN1kabOjj7tDRk8hftCHd450Tt8TC9p
 
 RESET ALL;
