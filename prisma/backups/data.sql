@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict VuifhkHVwHcpyTnMSypQXiAcPafWu6tnBspze82B79UIOBtYWu3Z6NyruPVUvjZ
+-- \restrict Xa91McNudAICAk83MigK0XhvBE6e6p28hACJcUPFQXdJqFKhsLS6ghbAtehQedY
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -1924,6 +1924,7 @@ COPY "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "
 00000000-0000-0000-0000-000000000000	a0efa2f8-e414-4404-a844-23dcc9074246	{"action":"token_refreshed","actor_id":"c778db74-86e4-455f-8ef4-56258dc77014","actor_name":"Enrique Zepeda","actor_username":"enriquezepeda60z@gmail.com","actor_via_sso":false,"log_type":"token"}	2026-06-08 00:58:16.296542+00	
 00000000-0000-0000-0000-000000000000	a398a3c8-0524-4a51-bc8a-14362d2dcc2b	{"action":"token_revoked","actor_id":"c778db74-86e4-455f-8ef4-56258dc77014","actor_name":"Enrique Zepeda","actor_username":"enriquezepeda60z@gmail.com","actor_via_sso":false,"log_type":"token"}	2026-06-08 00:58:16.319976+00	
 00000000-0000-0000-0000-000000000000	23dfdd40-2053-4892-96ba-50b28c9c88c0	{"action":"logout","actor_id":"c778db74-86e4-455f-8ef4-56258dc77014","actor_name":"Enrique Zepeda","actor_username":"enriquezepeda60z@gmail.com","actor_via_sso":false,"log_type":"account"}	2026-06-08 00:58:20.511183+00	
+00000000-0000-0000-0000-000000000000	7fcd3945-d606-4d8f-8333-4b4e9729de7b	{"action":"user_confirmation_requested","actor_id":"b19046a3-20cc-4fc9-a6e7-98448810b4b8","actor_username":"hsanchez@maver.com.mx","actor_via_sso":false,"log_type":"user","traits":{"provider":"email"}}	2026-06-10 13:09:48.227834+00	
 \.
 
 
@@ -2002,6 +2003,7 @@ COPY "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_pas
 00000000-0000-0000-0000-000000000000	7066892f-cfb4-47a4-96cd-b7735430fa9b	authenticated	authenticated	crevuyonubrau-5178@yopmail.com	$2a$10$CtuboAXih444Y2VcSI5M3OFVkdRfz3KmxDldK4ZYxLP69fMto0p/2	2025-11-08 13:20:25.352611+00	\N		2025-11-08 13:20:15.908614+00		\N			\N	2025-11-08 13:20:43.794891+00	{"provider": "email", "providers": ["email"]}	{"sub": "7066892f-cfb4-47a4-96cd-b7735430fa9b", "email": "crevuyonubrau-5178@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-08 13:20:15.901385+00	2025-11-08 13:20:43.803684+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	89be9f65-a1b4-483f-9c55-623142e632cf	authenticated	authenticated	progegressixa-6622@yopmail.com	$2a$10$.Rk9JWer9d0Dc3i/AAKP.OSzAztRgImkBaMC.UL/8GKfJvoG4eK8G	2025-11-11 22:23:29.988367+00	\N		2025-11-11 22:23:22.140488+00		\N			\N	2025-11-11 22:23:40.288556+00	{"provider": "email", "providers": ["email"]}	{"sub": "89be9f65-a1b4-483f-9c55-623142e632cf", "email": "progegressixa-6622@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-11 22:23:22.113578+00	2025-11-11 22:23:40.290848+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	913a365f-2ea6-4e91-b655-fe671fbe0834	authenticated	authenticated	veiyouxeppidei-7484@yopmail.com	$2a$10$p9UM.bBAeZmSFHqVvpKaA.HgBCFNqfrJhu/IQM.ZMOmRvLXNA2OiK	2025-11-12 03:16:33.55655+00	\N		2025-11-12 03:15:53.274308+00		\N			\N	2025-11-12 13:38:49.150537+00	{"provider": "email", "providers": ["email"]}	{"sub": "913a365f-2ea6-4e91-b655-fe671fbe0834", "email": "veiyouxeppidei-7484@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-12 03:15:53.251183+00	2025-11-12 13:38:49.18248+00	\N	\N			\N		0	\N		\N	f	\N	f
+00000000-0000-0000-0000-000000000000	b19046a3-20cc-4fc9-a6e7-98448810b4b8	authenticated	authenticated	hsanchez@maver.com.mx	$2a$10$cJrD3baIo2azBkqV1TKjPezqgpunj9aMgEIfn4eUrtrZeefRcwXAS	\N	\N	4753e3946064d4e4af623682a28c4d1c8f6edd9181e910b136bf2272	2026-06-10 13:09:48.251887+00		\N			\N	\N	{"provider": "email", "providers": ["email"]}	{"sub": "b19046a3-20cc-4fc9-a6e7-98448810b4b8", "email": "hsanchez@maver.com.mx", "email_verified": false, "phone_verified": false}	\N	2026-06-10 13:09:48.129611+00	2026-06-10 13:09:48.765263+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	deae5320-e8ef-4d02-8463-0e82f7929fd5	authenticated	authenticated	greullevoukiddo-7689@yopmail.com	$2a$10$h.jZDlPbUleBWtpdrrL1mewZphmgHqcGhmZmyQ52LnX2Okk.o2MS2	2025-11-11 23:24:48.080014+00	\N		2025-11-11 23:24:40.752482+00		\N			\N	2025-11-11 23:25:01.840429+00	{"provider": "email", "providers": ["email"]}	{"sub": "deae5320-e8ef-4d02-8463-0e82f7929fd5", "email": "greullevoukiddo-7689@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-11 23:24:40.654895+00	2025-11-12 01:23:07.624563+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	96b27c5a-677d-424d-8019-35adeafd32bc	authenticated	authenticated	peiffoseudafre-6167@yopmail.com	$2a$10$50C5nrK.5EAIpb5hrx3Y0.5eFBlcYvMigxVE5x6hMn0/aPT9O719K	2025-11-13 17:24:27.979162+00	\N		\N		\N			\N	2025-11-13 17:34:57.646991+00	{"provider": "email", "providers": ["email"]}	{"sub": "96b27c5a-677d-424d-8019-35adeafd32bc", "email": "peiffoseudafre-6167@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-13 17:24:09.237051+00	2025-11-13 17:34:57.64986+00	\N	\N			\N		0	\N		\N	f	\N	f
 00000000-0000-0000-0000-000000000000	327a0a24-af10-4047-97d7-afdcee19cab8	authenticated	authenticated	geddemmibella-5487@yopmail.com	$2a$10$xnc5EP4weRSUpDPR4GsShO6GEAMCIbw1kyWoDjzYHx8TmyhLxLsF2	2025-11-13 17:22:18.245775+00	\N		\N		\N			\N	2025-11-13 17:38:57.158041+00	{"provider": "email", "providers": ["email"]}	{"sub": "327a0a24-af10-4047-97d7-afdcee19cab8", "email": "geddemmibella-5487@yopmail.com", "email_verified": true, "phone_verified": false}	\N	2025-11-13 17:21:14.781783+00	2025-11-13 17:38:57.159639+00	\N	\N			\N		0	\N		\N	f	\N	f
@@ -2100,6 +2102,7 @@ f28a3d00-eb30-45f1-b430-b38a35ab5777	f28a3d00-eb30-45f1-b430-b38a35ab5777	{"sub"
 772481f3-d92e-40b6-b461-d00bb47dff9e	772481f3-d92e-40b6-b461-d00bb47dff9e	{"sub": "772481f3-d92e-40b6-b461-d00bb47dff9e", "email": "a232@gob.mx", "email_verified": false, "phone_verified": false}	email	2026-02-03 20:03:07.21646+00	2026-02-03 20:03:07.216512+00	2026-02-03 20:03:07.216512+00	5d3c6075-494c-4430-860f-daaa4481f98a
 116295129618997634203	afe1e444-ceb7-4a2b-b583-d0cccc705881	{"iss": "https://accounts.google.com", "sub": "116295129618997634203", "name": "Adrian Ramos", "email": "adrianrmz917@gmail.com", "picture": "https://lh3.googleusercontent.com/a/ACg8ocL_QHTkTof9KHVDuM_AeH9qdvc5Y9ozlHP3Y1KTexY7ArULqR0=s96-c", "full_name": "Adrian Ramos", "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocL_QHTkTof9KHVDuM_AeH9qdvc5Y9ozlHP3Y1KTexY7ArULqR0=s96-c", "provider_id": "116295129618997634203", "email_verified": true, "phone_verified": false}	google	2026-02-05 19:27:22.29527+00	2026-02-05 19:27:22.295318+00	2026-02-05 19:27:22.295318+00	54a0a7aa-23fa-4cd1-8f62-14d7b0b30cb8
 e3ebaf81-1fda-494d-b253-89f1cb384983	e3ebaf81-1fda-494d-b253-89f1cb384983	{"sub": "e3ebaf81-1fda-494d-b253-89f1cb384983", "email": "besap11134@codgal.com", "email_verified": true, "phone_verified": false}	email	2026-02-08 00:54:20.231577+00	2026-02-08 00:54:20.231629+00	2026-02-08 00:54:20.231629+00	1f8f96f8-7423-4bbc-b840-87f9c968bcb6
+b19046a3-20cc-4fc9-a6e7-98448810b4b8	b19046a3-20cc-4fc9-a6e7-98448810b4b8	{"sub": "b19046a3-20cc-4fc9-a6e7-98448810b4b8", "email": "hsanchez@maver.com.mx", "email_verified": false, "phone_verified": false}	email	2026-06-10 13:09:48.192833+00	2026-06-10 13:09:48.1929+00	2026-06-10 13:09:48.1929+00	9eec97b6-7842-446a-b219-3b9c79a8ac0f
 \.
 
 
@@ -2288,6 +2291,7 @@ COPY "auth"."one_time_tokens" ("id", "user_id", "token_type", "token_hash", "rel
 a0ea6ee6-fb7d-4696-aaee-95f002f39543	a37ae595-5ee2-43ae-90bb-fa08a900fa74	confirmation_token	6460254af351153789c9e90dde6654d232b5f5362c45afd8c74dede5	joleullouttuffe-7455@yopmail.com	2025-08-05 15:42:08.892152	2025-08-05 15:42:08.892152
 8b7e3126-cd52-4b34-92be-860d9ab72699	a4c9052d-f3ad-4156-922e-6d151c859d34	confirmation_token	d2797fb7017dccf81b63699fb2d41ffe88bdbe2cda4f51f554541203	weilequahonne-6942@yopmail.com	2025-11-13 05:34:03.613421	2025-11-13 05:34:03.613421
 fcd31b93-1775-4775-b8b7-2be147b9285a	772481f3-d92e-40b6-b461-d00bb47dff9e	confirmation_token	9c4b5bb93e547af248250f3803e496d37fd5f7c38c8ffc78616f2cc0	a232@gob.mx	2026-02-03 20:03:07.733666	2026-02-03 20:03:07.733666
+7d7e5592-97ba-4e05-b59e-3733ba3145a7	b19046a3-20cc-4fc9-a6e7-98448810b4b8	confirmation_token	4753e3946064d4e4af623682a28c4d1c8f6edd9181e910b136bf2272	hsanchez@maver.com.mx	2026-06-10 13:09:48.788996	2026-06-10 13:09:48.788996
 \.
 
 
@@ -5511,6 +5515,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 70, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict VuifhkHVwHcpyTnMSypQXiAcPafWu6tnBspze82B79UIOBtYWu3Z6NyruPVUvjZ
+-- \unrestrict Xa91McNudAICAk83MigK0XhvBE6e6p28hACJcUPFQXdJqFKhsLS6ghbAtehQedY
 
 RESET ALL;
