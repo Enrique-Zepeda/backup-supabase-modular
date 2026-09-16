@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict T8KNrbsTaFKojHN2XJ1eRwhhZE6G8jaUZRRRnwuLKuS5guVubV5oGIOvHAbN1c4
+-- \restrict A9wSdggj0fIBXb4FlVzbeP1VQ2UvV4mrmeIhuMTQeghgZk6kyZir6sUWvqJ7TFM
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.6
@@ -2270,6 +2270,22 @@ COPY "auth"."mfa_challenges" ("id", "factor_id", "created_at", "verified_at", "i
 
 
 --
+-- Data for Name: mfa_recovery_code_sets; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+COPY "auth"."mfa_recovery_code_sets" ("id", "user_id", "mfa_factor_id", "failed_verification_count", "verification_locked_until", "created_at", "updated_at") FROM stdin;
+\.
+
+
+--
+-- Data for Name: mfa_recovery_codes; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+COPY "auth"."mfa_recovery_codes" ("id", "mfa_recovery_code_set_id", "code_hash", "consumed_at", "created_at") FROM stdin;
+\.
+
+
+--
 -- Data for Name: oauth_authorizations; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
@@ -2297,12 +2313,12 @@ COPY "auth"."oauth_consents" ("id", "user_id", "client_id", "scopes", "granted_a
 -- Data for Name: one_time_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
-COPY "auth"."one_time_tokens" ("id", "user_id", "token_type", "token_hash", "relates_to", "created_at", "updated_at") FROM stdin;
-29786a51-ceeb-4fdd-a82a-749a48932eb3	167c2ee3-4bea-4f9f-a128-e5313b87f9a1	confirmation_token	28492a67ef1533f4538c07c146e12b9a6622ae18a698bc177224a103	trepabelouweu-8256@yopmail.com	2025-08-01 19:46:14.24659	2025-08-01 19:46:14.24659
-a0ea6ee6-fb7d-4696-aaee-95f002f39543	a37ae595-5ee2-43ae-90bb-fa08a900fa74	confirmation_token	6460254af351153789c9e90dde6654d232b5f5362c45afd8c74dede5	joleullouttuffe-7455@yopmail.com	2025-08-05 15:42:08.892152	2025-08-05 15:42:08.892152
-8b7e3126-cd52-4b34-92be-860d9ab72699	a4c9052d-f3ad-4156-922e-6d151c859d34	confirmation_token	d2797fb7017dccf81b63699fb2d41ffe88bdbe2cda4f51f554541203	weilequahonne-6942@yopmail.com	2025-11-13 05:34:03.613421	2025-11-13 05:34:03.613421
-fcd31b93-1775-4775-b8b7-2be147b9285a	772481f3-d92e-40b6-b461-d00bb47dff9e	confirmation_token	9c4b5bb93e547af248250f3803e496d37fd5f7c38c8ffc78616f2cc0	a232@gob.mx	2026-02-03 20:03:07.733666	2026-02-03 20:03:07.733666
-7d7e5592-97ba-4e05-b59e-3733ba3145a7	b19046a3-20cc-4fc9-a6e7-98448810b4b8	confirmation_token	4753e3946064d4e4af623682a28c4d1c8f6edd9181e910b136bf2272	hsanchez@maver.com.mx	2026-06-10 13:09:48.788996	2026-06-10 13:09:48.788996
+COPY "auth"."one_time_tokens" ("id", "user_id", "token_type", "token_hash", "relates_to", "created_at", "updated_at", "expires_at") FROM stdin;
+29786a51-ceeb-4fdd-a82a-749a48932eb3	167c2ee3-4bea-4f9f-a128-e5313b87f9a1	confirmation_token	28492a67ef1533f4538c07c146e12b9a6622ae18a698bc177224a103	trepabelouweu-8256@yopmail.com	2025-08-01 19:46:14.24659	2025-08-01 19:46:14.24659	\N
+a0ea6ee6-fb7d-4696-aaee-95f002f39543	a37ae595-5ee2-43ae-90bb-fa08a900fa74	confirmation_token	6460254af351153789c9e90dde6654d232b5f5362c45afd8c74dede5	joleullouttuffe-7455@yopmail.com	2025-08-05 15:42:08.892152	2025-08-05 15:42:08.892152	\N
+8b7e3126-cd52-4b34-92be-860d9ab72699	a4c9052d-f3ad-4156-922e-6d151c859d34	confirmation_token	d2797fb7017dccf81b63699fb2d41ffe88bdbe2cda4f51f554541203	weilequahonne-6942@yopmail.com	2025-11-13 05:34:03.613421	2025-11-13 05:34:03.613421	\N
+fcd31b93-1775-4775-b8b7-2be147b9285a	772481f3-d92e-40b6-b461-d00bb47dff9e	confirmation_token	9c4b5bb93e547af248250f3803e496d37fd5f7c38c8ffc78616f2cc0	a232@gob.mx	2026-02-03 20:03:07.733666	2026-02-03 20:03:07.733666	\N
+7d7e5592-97ba-4e05-b59e-3733ba3145a7	b19046a3-20cc-4fc9-a6e7-98448810b4b8	confirmation_token	4753e3946064d4e4af623682a28c4d1c8f6edd9181e910b136bf2272	hsanchez@maver.com.mx	2026-06-10 13:09:48.788996	2026-06-10 13:09:48.788996	\N
 \.
 
 
@@ -2438,6 +2454,22 @@ COPY "auth"."saml_providers" ("id", "sso_provider_id", "entity_id", "metadata_xm
 --
 
 COPY "auth"."saml_relay_states" ("id", "sso_provider_id", "request_id", "for_email", "redirect_to", "created_at", "updated_at", "flow_state_id") FROM stdin;
+\.
+
+
+--
+-- Data for Name: scim_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+COPY "auth"."scim_tokens" ("id", "sso_provider_id", "token_hash", "prefix", "created_at", "expires_at", "revoked_at", "last_used_at") FROM stdin;
+\.
+
+
+--
+-- Data for Name: scim_users; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+COPY "auth"."scim_users" ("id", "sso_provider_id", "user_id", "resource", "created_at", "updated_at", "deleted_at") FROM stdin;
 \.
 
 
@@ -5511,6 +5543,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 70, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict T8KNrbsTaFKojHN2XJ1eRwhhZE6G8jaUZRRRnwuLKuS5guVubV5oGIOvHAbN1c4
+-- \unrestrict A9wSdggj0fIBXb4FlVzbeP1VQ2UvV4mrmeIhuMTQeghgZk6kyZir6sUWvqJ7TFM
 
 RESET ALL;
