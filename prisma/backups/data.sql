@@ -4,10 +4,10 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict feOylZXzRNfSkBqZzHISxwxlveh8A48vT15AsqcT87PjYyXGzIBKkD5CHQvZOXo
+-- \restrict Mym0ArYJeQeqBQVzuDcT77RARROq0TM70p3sFF4FCpNSm4Dw7GThMSp3PWuJkFm
 
 -- Dumped from database version 17.4
--- Dumped by pg_dump version 17.6
+-- Dumped by pg_dump version 17.11
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -5543,6 +5543,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 70, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict feOylZXzRNfSkBqZzHISxwxlveh8A48vT15AsqcT87PjYyXGzIBKkD5CHQvZOXo
+-- \unrestrict Mym0ArYJeQeqBQVzuDcT77RARROq0TM70p3sFF4FCpNSm4Dw7GThMSp3PWuJkFm
 
 RESET ALL;
