@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict 8bMRp7E0XwUhiarcZ5vz0WOZCOloBq9FXeKw2pBrMTS0OtPyP88DKMJsYifKXQ9
+-- \restrict 7R6WPCwu8ELdw5ZRhsINvD5A5i2WUHmZTPYQJLwNmLqroFRg7TR65eMtJ0yHOk8
 
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.12
@@ -5545,6 +5545,6 @@ SELECT pg_catalog.setval('"public"."usuarios_id_usuario_seq"', 70, true);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict 8bMRp7E0XwUhiarcZ5vz0WOZCOloBq9FXeKw2pBrMTS0OtPyP88DKMJsYifKXQ9
+-- \unrestrict 7R6WPCwu8ELdw5ZRhsINvD5A5i2WUHmZTPYQJLwNmLqroFRg7TR65eMtJ0yHOk8
 
 RESET ALL;
